@@ -1,3 +1,11 @@
-print("Hello World")
 
-# HAHA
+
+#Bingo Klasse:
+class Bingo:
+
+
+    def __init__(self):
+        
+        
+
+    
