@@ -25,3 +25,6 @@ Impulse für die Lösungsskizze:
       
 Fragen an Baun:                                        
   - Wie viele Roundfiles?
+
+Meilensteine 1 - 3:
+3 feste Datume für Meilensteine ? 
