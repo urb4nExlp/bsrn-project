@@ -25,6 +25,10 @@ Impulse für die Lösungsskizze:
       
 Fragen an Baun:                                        
   - Wie viele Roundfiles?
+  - Wie genau werden greifen mehrere Prozesse(Spieler) auf einen Computer zu?
+  - Welche POSIX IPC nutzen wir (Tendenz: Message Queues(Ist es ein Problem, dass die Nachrivhtenreihenfolge nicht festgelegt ist?))
+  - Warum müssen Spieler miteinander kommunizeren? Spieler müssen doch eig nur mit Hauptprozess kommunizieren.
+  - Anm. Marvin: Wir müssen genau das Spiel durchgehen; Welcher Text wird vorgelesen, wie genau kreuzen Spieler parallel in einer Shell       die Bingokarten an?
 
 Meilensteine 1 - 3:
 3 feste Datume für Meilensteine ? 
