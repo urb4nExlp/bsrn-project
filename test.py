@@ -1,6 +1,6 @@
 import posix_ipc
 
-print("Test ahaha")
+print("Test ")
 # Name der Message Queue
 MESSAGE_QUEUE_NAME = "/my_message_queue"
 
