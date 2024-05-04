@@ -8,3 +8,5 @@ Denkt dran in der Ubuntu VM (WSL) python3 und pip zu installieren (und lt. Anlei
 https://www.cherryservers.com/blog/how-to-install-pip-ubuntu
 
 Wenn ihr das alles habt, könnt ihr unten bei pycharm unter Packages pip und posix-ipc / posix_ipc installieren
+
+-
