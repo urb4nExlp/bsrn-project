@@ -9,4 +9,4 @@ https://www.cherryservers.com/blog/how-to-install-pip-ubuntu
 
 Wenn ihr das alles habt, könnt ihr unten bei pycharm unter Packages pip und posix-ipc / posix_ipc installieren
 
--
+--
