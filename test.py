@@ -1,36 +1,20 @@
-import os
-import subprocess
+import posix_ipc
 
-def host_process(pipe):
-    print("Host-Prozess gestartet.")
-    message = "Hallo, dies ist eine Nachricht vom Host-Prozess."
-    pipe.stdin.write(message.encode())  # Nachricht an den Benutzerprozess senden
-    pipe.stdin.close()  # Eingabe der Pipe schließen
-    print("Nachricht an Benutzer gesendet.")
-    pipe.wait()  # Warten, bis der Benutzerprozess beendet ist
+# Name der Message Queue
+MESSAGE_QUEUE_NAME = "/my_message_queue"
 
-def user_process():
-    print("Benutzer-Prozess gestartet.")
-    message = input("Warte auf Nachricht vom Host-Prozess: ")
-    print("Nachricht vom Host erhalten:", message)
+# Erstelle eine Message Queue
+mq = posix_ipc.MessageQueue(MESSAGE_QUEUE_NAME, posix_ipc.O_CREAT)
 
-def main():
-    parent_pipe, child_pipe = os.pipe()  # Anonyme Pipe erstellen
+# Sende eine Nachricht über die Message Queue
+message_to_send = "Hallo, dies ist eine Testnachricht."
+mq.send(message_to_send)
 
-    pid = os.fork()  # Neuen Prozess erstellen
+# Empfange eine Nachricht über die Message Queue
+message_received, _ = mq.receive()
 
-    if pid == 0:  # Kindprozess
-        os.close(parent_pipe)  # Kindprozess schließt die nicht verwendete Endung der Pipe
-        subprocess.Popen(['python', __file__, '--user'], stdin=child_pipe)  # Benutzerprozess starten
-    else:  # Elternprozess
-        os.close(child_pipe)  # Elternprozess schließt die nicht verwendete Endung der Pipe
-        host_process(subprocess.Popen(['python', __file__, '--host'], stdin=parent_pipe))  # Hostprozess starten
+print("Empfangene Nachricht:", message_received)
 
-if __name__ == "__main__":
-    import sys
-    if '--host' in sys.argv:
-        host_process(sys.stdin)
-    elif '--user' in sys.argv:
-        user_process()
-    else:
-        main()
+# Schließe und lösche die Message Queue
+mq.close()
+posix_ipc.unlink_message_queue(MESSAGE_QUEUE_NAME)
