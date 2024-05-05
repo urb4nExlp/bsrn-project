@@ -1,21 +1,45 @@
+import sys
 import posix_ipc
 
-print("Test ")
-# Name der Message Queue
-MESSAGE_QUEUE_NAME = "/my_message_queue"
+def host_start():
+    # Erstellen der Message Queue
+    mq_name = "/my_message_queue"
+    mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
-# Erstelle eine Message Queue
-mq = posix_ipc.MessageQueue(MESSAGE_QUEUE_NAME, posix_ipc.O_CREAT)
+    print("Host gestartet. Warte auf Client...")
 
-# Sende eine Nachricht über die Message Queue
-message_to_send = "Hallo, dies ist eine Testnachricht."
-mq.send(message_to_send)
+    # Warten auf Nachricht vom Client
+    message, _ = mq.receive()
+    print(f"Nachricht vom Client erhalten: {message.decode()}")
 
-# Empfange eine Nachricht über die Message Queue
-message_received, _ = mq.receive()
+    # Nachricht "Hallo Welt" ausgeben
+    print("Hallo Welt")
 
-print("Empfangene Nachricht:", message_received)
+    # Message Queue schließen
+    mq.close()
+    posix_ipc.unlink_shared_memory(mq_name)
 
-# Schließe und lösche die Message Queue
-mq.close()
-posix_ipc.unlink_message_queue(MESSAGE_QUEUE_NAME)
+def client_start():
+    # Öffnen der existierenden Message Queue
+    mq_name = "/my_message_queue"
+    mq = posix_ipc.MessageQueue(mq_name)
+
+    # Nachricht an den Host senden
+    message = "Client gestartet"
+    mq.send(message.encode())
+
+    # Message Queue schließen
+    mq.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: meinskript.py -hoststart | -clientstart")
+        sys.exit(1)
+
+    if sys.argv[1] == "-hoststart":
+        host_start()
+    elif sys.argv[1] == "-clientstart":
+        client_start()
+    else:
+        print("Unbekannter Befehl")
+        sys.exit(1)
