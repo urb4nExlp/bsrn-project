@@ -1,5 +1,6 @@
 import sys
 import posix_ipc
+import random
 
 def host_start():
     # Erstellen der Message Queue
@@ -31,6 +32,21 @@ def client_start():
     # Message Queue schließen
     mq.close()
 
+def ratespiel():
+    zahl = 5
+    print("Versuche Zahl 1-10 zu erraten:")
+
+    while True:
+        eingabe = input("Tipp:")
+        zahl2 = int(eingabe)
+        if  zahl ==  zahl2:
+            print("Erraten!")
+            client_start()
+            break
+        else:
+            print("Versuche es nochmal!")
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: meinskript.py -hoststart | -clientstart")
@@ -39,7 +55,7 @@ if __name__ == "__main__":
     if sys.argv[1] == "-hoststart":
         host_start()
     elif sys.argv[1] == "-clientstart":
-        client_start()
+        ratespiel()
     else:
         print("Unbekannter Befehl")
         sys.exit(1)
