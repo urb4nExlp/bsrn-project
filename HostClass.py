@@ -30,3 +30,4 @@ print(f"\nSpielrunde '{round_name}' wird erstellt ...")
 print(f"Erstelle eine {width}x{height} Bingo-Karte für Spieler {player_name} mit der Wortliste aus '{text_file_name}'.")
 
 #Continue code .....
+
