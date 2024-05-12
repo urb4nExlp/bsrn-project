@@ -1,13 +1,13 @@
 import sys
 import posix_ipc
+import random
 
-
-def start_host():
+def host_start():
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
-    print("Host gestartet. Warte auf mind. 1 anderen Spieler...")
+    print("Host gestartet. Warte auf Client...")
 
     # Warten auf Nachricht vom Client
     message, _ = mq.receive()
@@ -18,22 +18,19 @@ def start_host():
 
     # Message Queue schließen
     mq.close()
-    posix_ipc.unlink_shared_memory(mq_name)
 
 
-def win_client():
+def client_start():
     # Öffnen der existierenden Message Queue
     mq_name = "/my_message_queue"
+    mq = posix_ipc.MessageQueue(mq_name)
 
-
-    name = input("Spielernamen eingeben: ")
     # Nachricht an den Host senden
-    message = "Spieler beigetreten: " + name
+    message = "Client gestartet"
     mq.send(message.encode())
 
     # Message Queue schließen
     mq.close()
-
 
 def ratespiel():
     zahl = 5
@@ -42,33 +39,23 @@ def ratespiel():
     while True:
         eingabe = input("Tipp:")
         zahl2 = int(eingabe)
-        if zahl == zahl2:
+        if  zahl ==  zahl2:
             print("Erraten!")
-            win_client()
+            client_start()
             break
         else:
             print("Versuche es nochmal!")
 
 
-def create_round_file(filename):
-    # open öffnet die Datei im 'w' Schreibmodus, ist keine Datei vorhanden wird sie erstellt
-    with open(filename, 'w') as file:
-        pass
-
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: meinskript.py -newround | -joinround")
+        print("Usage: meinskript.py -hoststart | -clientstart")
         sys.exit(1)
 
-    if sys.argv[1] == "-newround":
-        start_host()
-    elif sys.argv[1] == "-joinround":
-        win_client()
-    elif sys.argv[1] == "-roundfile":
-        create_round_file(sys.argv[2])
-        print("Rundendatei wurde erfolgreich erstellt:", sys.argv[2])
-
+    if sys.argv[1] == "-hoststart":
+        host_start()
+    elif sys.argv[1] == "-clientstart":
+        ratespiel()
     else:
         print("Unbekannter Befehl")
         sys.exit(1)
