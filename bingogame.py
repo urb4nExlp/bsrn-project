@@ -24,7 +24,7 @@ def start_host():
 def win_client():
     # Öffnen der existierenden Message Queue
     mq_name = "/my_message_queue"
-    mq = posix_ipc.MessageQueue(mq_name)
+
 
     name = input("Spielernamen eingeben: ")
     # Nachricht an den Host senden
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     if sys.argv[1] == "-newround":
         start_host()
     elif sys.argv[1] == "-joinround":
-        ratespiel()
+        win_client()
     elif sys.argv[1] == "-roundfile":
         create_round_file(sys.argv[2])
         print("Rundendatei wurde erfolgreich erstellt:", sys.argv[2])
