@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="Update">
-      <change afterPath="$PROJECT_DIR$/bingogame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,6 +118,8 @@
       <workItem from="1715004430624" duration="1108000" />
       <workItem from="1715181874147" duration="37000" />
       <workItem from="1715423975860" duration="3307000" />
+      <workItem from="1715517223311" duration="110000" />
+      <workItem from="1715522573224" duration="512000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
