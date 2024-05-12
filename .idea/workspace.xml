@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="Update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HOST/MQ/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HOST/MQ/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,8 +59,14 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz" />
+      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\HOST\MQ" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="MQTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="spielplatz" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -74,7 +80,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\Beni\Documents\GitHub\spielplatz\HOST\MQ\test.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Beni\Documents\GitHub\spielplatz\MQTest.py" />
       <option name="PARAMETERS" value="-hoststart" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -85,7 +91,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
+        <item itemvalue="Python.MQTest" />
       </list>
     </recent_temporary>
   </component>
@@ -121,7 +127,7 @@
       <workItem from="1715423975860" duration="3307000" />
       <workItem from="1715517223311" duration="110000" />
       <workItem from="1715522573224" duration="1248000" />
-      <workItem from="1715532961319" duration="1005000" />
+      <workItem from="1715532961319" duration="1395000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -179,7 +185,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715523813882</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Update">
+      <option name="closed" value="true" />
+      <created>1715534133317</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715534133317</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Update">
+      <option name="closed" value="true" />
+      <created>1715534228684</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715534228684</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
