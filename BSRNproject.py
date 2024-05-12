@@ -1,5 +1,18 @@
-print("endlich geschafft!!!!!!!!")
-print("sieht das jemand, klapppt da, wenn ja schreibt mal n unsere Gruppe ein Hai111")
-print("Es funktiniert docjh")
-print("Ich werde noch verzweifeln weil ich nicht vertshee woher die fehlermeldung kommt bzw was icjh dagegen tun kann,"
-      "aber ich lassse mich nicht unterkiregenprint("HAAAAAAAAAAAAALlllo")
+import time
+import os
+import sys
+
+
+
+#cooles Spiel Designs
+
+
+print("loading")
+animation = ["[#"        "]10%","[##"       "]20%","[###"      "]30%","[####"     "]40%","[#####"    "]50%",
+             "[######"    "]60%","[#######"  "]70%","[########"  "]80%","[#########" "]90%","[##########]100%"]
+for i in range(len(animation)):
+    time.sleep(0.6)
+    sys.stdout.write("\r" +animation[i % len(animation)])
+    sys.stdout.flush()
+
+print("\n")
