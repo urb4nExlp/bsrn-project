@@ -64,17 +64,25 @@ def ratespiel(is_host, mq):
         else:
             eingabe = input("Tipp:")
             zahl2 = int(eingabe)
-            if zahl == zahl2:
-                print("Erraten!")
-                if is_host:
-                    mq.send("Host gewonnen".encode())
-                
 
-                else:
-                    mq.send("Client gewonnen".encode())
+            message2 = check_for_message(mq)
+
+            if message2:
+                print(message2 + " hat gewonnen, Spiel ist vorbei!")
                 break
             else:
-                print("Versuche es nochmal!")
+                if zahl == zahl2:
+                    print("Erraten!")
+                    if is_host:
+                        mq.send("Host gewonnen".encode())
+                        break
+
+                    else:
+                        mq.send("Client gewonnen".encode())
+                        break
+                else:
+                    print("Versuche es nochmal!")
+
 
 
 if __name__ == "__main__":
