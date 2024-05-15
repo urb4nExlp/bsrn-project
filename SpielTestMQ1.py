@@ -2,6 +2,7 @@ import sys
 import posix_ipc
 import random
 
+
 def host_start():
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
@@ -14,10 +15,16 @@ def host_start():
     print(f"Nachricht vom Client erhalten: {message.decode()}")
 
     # Nachricht "Hallo Welt" ausgeben
-    print("Hallo Welt")
+
+
+    # Überprüfen, ob eine Nachricht vom anderen Spieler empfangen wurde
+    if message:
+        # Starte das Rätselspiel, nachdem eine Nachricht empfangen wurde
+        ratespiel(True, mq)
 
     # Message Queue schließen
     mq.close()
+
 
 
 def client_start():
@@ -29,22 +36,45 @@ def client_start():
     message = "Client gestartet"
     mq.send(message.encode())
 
+    # Starte das Rätselspiel
+    ratespiel(False, mq)
+
     # Message Queue schließen
     mq.close()
 
-def ratespiel():
+
+def check_for_message(mq):
+    try:
+        message, _ = mq.receive(timeout=0)  # Versuche, eine Nachricht zu empfangen
+        return message.decode()  # Nachricht vorhanden, gebe sie zurück
+    except posix_ipc.BusyError:
+        return None  # Keine Nachricht vorhanden
+
+
+def ratespiel(is_host, mq):
     zahl = 5
     print("Versuche Zahl 1-10 zu erraten:")
 
     while True:
-        eingabe = input("Tipp:")
-        zahl2 = int(eingabe)
-        if  zahl ==  zahl2:
-            print("Erraten!")
-            client_start()
+        message = check_for_message(mq)
+
+        if message:
+            print(message + " hat gewonnen, Spiel ist vorbei!")
             break
         else:
-            print("Versuche es nochmal!")
+            eingabe = input("Tipp:")
+            zahl2 = int(eingabe)
+            if zahl == zahl2:
+                print("Erraten!")
+                if is_host:
+                    mq.send("Host gewonnen".encode())
+                
+
+                else:
+                    mq.send("Client gewonnen".encode())
+                break
+            else:
+                print("Versuche es nochmal!")
 
 
 if __name__ == "__main__":
