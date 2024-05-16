@@ -1,6 +1,8 @@
 import random
 from docx import Document
 import os
+#Hinweis: man braucht das package python-docx
+#Hinweis: die worddatei muss in gleichen Ordner sein wie die Pythondatei soweit ich weiß
 
 class BingoCard:
     def __init__(self, rows, cols, word_file):
