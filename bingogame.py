@@ -20,14 +20,26 @@ def host_start():
 
 
     # Überprüfen, ob eine Nachricht vom anderen Spieler empfangen wurde
-    if message:
+    #if message:
         # Starte das Rätselspiel, nachdem eine Nachricht empfangen wurde
-        ratespiel(True, mq)
+        #ratespiel(True, mq)
 
     # Message Queue schließen
     mq.close()
 
-def client_start():
+
+
+def player_start(second, playernumber, roundfile):
+    # Öffnen der existierenden Message Queue
+    if second:
+        mq_name = "/my_message_queue"
+        mq = posix_ipc.MessageQueue(mq_name)
+        # Nachricht an den Host senden
+        playername = getplayername(roundfile, playernumber)
+        message = "Spieler2 ist beigetreten: " + playername
+        mq.send(message.encode())
+        mq.close()
+def client_start2():
     # Öffnen der existierenden Message Queue
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name)
@@ -37,7 +49,7 @@ def client_start():
     mq.send(message.encode())
 
     # Starte das Rätselspiel
-    ratespiel(False, mq)
+    #ratespiel(False, mq)
 
     # Message Queue schließen
     mq.close()
@@ -122,6 +134,17 @@ def getmaxplayer(rundendatei):
         print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
+def getplayername(rundendatei, player_count):
+    """Return STRING player"""
+    try:
+        with open(rundendatei, 'r') as f:
+            playerstring = "playername" + str(player_count)
+            for line in f:
+                if line.startswith(playerstring):
+                    return str(line.split(":")[1].strip())
+    except Exception as e:
+        print(f"Error reading  playername from {rundendatei}: {e}")
+        return None
 def getplayer(rundendatei):
     """Return INT player"""
     try:
@@ -155,7 +178,7 @@ def incplayer(rundendatei, spielername):
         # Schreibe den neuen Inhalt zurück in die Datei
         with open(rundendatei, 'w') as f:
             f.writelines(lines)
-
+        return player_count
     except Exception as e:
         print(f"Error updating players in {rundendatei}: {e}")
 def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname): #Upload.
@@ -216,7 +239,12 @@ if __name__ == "__main__":
 
         if (os.path.exists(sys.argv[3])):
             if (getplayer(sys.argv[3]) < getmaxplayer(sys.argv[3])):
-                incplayer(sys.argv[3], sys.argv[5])
+                playernumber = incplayer(sys.argv[3], sys.argv[5])
+                print("Ich bin Spieler Nummer: " + str(playernumber))
+                if playernumber != 2:
+                    player_start(False,playernumber, sys.argv[3])
+                else:
+                    player_start(True, playernumber, sys.argv[3])
             else:
                 print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
         else:
