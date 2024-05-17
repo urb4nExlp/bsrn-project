@@ -1,0 +1,12 @@
+Installation Pycharm Professional for Students + Microsoft WSL
+https://www.jetbrains.com/help/pycharm/using-wsl-as-a-remote-interpreter.html
+
+Windows WSL in Firewall deaktivieren (public)
+https://superuser.com/questions/1714002/wsl2-connect-to-host-without-disabling-the-windows-firewall
+
+Denkt dran in der Ubuntu VM (WSL) python3 und pip zu installieren (und lt. Anleitung rsync)
+https://www.cherryservers.com/blog/how-to-install-pip-ubuntu
+
+Wenn ihr das alles habt, könnt ihr unten bei pycharm unter Packages pip und posix-ipc / posix_ipc installieren
+
+--
