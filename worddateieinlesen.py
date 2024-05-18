@@ -1,56 +1,59 @@
 import random
-from docx import Document
 import os
-#Hinweis: man braucht das package python-docx
-#Hinweis: die worddatei muss in gleichen Ordner sein wie die Pythondatei soweit ich weiß
 
+# Klasse für die Bingo-Karte
 class BingoCard:
+    # Initialisierung der Bingo-Karte mit Reihen, Spalten und der Wortdatei
     def __init__(self, rows, cols, word_file):
         self.rows = rows
         self.cols = cols
         self.card = self.create_card(word_file)
 
+    # Methode zum Erstellen der Bingo-Karte
     def create_card(self, word_file):
-        # Lese Wörter aus der Word-Datei
+        # Wörter aus der Datei lesen
         words = self.read_words_from_file(word_file)
-
-        # Erstelle eine leere Bingo-Karte
         card = []
+        used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden
 
-        # Fülle die Karte mit zufälligen Wörtern
+        # Zufällige Wörter in die Karte einfügen
         for _ in range(self.rows):
-            column = random.sample(words, self.cols)
-            card.append(column)
+            row = []
+            while len(row) < self.cols:
+                word = random.choice(words)
+                if word not in used_words:
+                    row.append(word)
+                    used_words.add(word)
+            card.append(row)
         return card
 
+    # Methode zum Lesen von Wörtern aus einer Textdatei
     def read_words_from_file(self, word_file):
-        doc = Document(word_file)
-        words = []
-        for paragraph in doc.paragraphs:
-            words.extend(paragraph.text.split())
+        with open(word_file, 'r', encoding='utf-8') as file:
+            words = file.read().split()  # Wörter durch Leerzeichen getrennt einlesen
         return words
 
-    # Markiere das angegebene Feld als korrekt
+    # Methode zum Markieren eines korrekten Feldes
     def mark_correct(self, row, col):
-        self.card[row - 1][col - 1] = '✔️'
+        self.card[row - 1][col - 1] = '✔️'  # Markieren mit einem Häkchen
 
-    # Überprüfe, ob der Benutzer gewonnen hat
+    # Methode zum Überprüfen, ob der Benutzer gewonnen hat
     def check_win(self):
-        # Horizontal überprüfen
+        # Horizontale Überprüfung
         for row in self.card:
             if all(cell == '✔️' for cell in row):
                 return True
 
-        # Vertikal überprüfen
+        # Vertikale Überprüfung
         for col in range(self.cols):
             if all(self.card[row][col] == '✔️' for row in range(self.rows)):
                 return True
 
-        # Diagonal überprüfen (von links oben nach rechts unten)
+        # Diagonale Überprüfung (von links oben nach rechts unten)
         if all(self.card[i][i] == '✔️' for i in range(min(self.rows, self.cols))):
             return True
 
-        # Diagonal überprüfen (von rechts oben nach links unten)
+        # Diagonale Überprüfung (von rechts oben nach links unten)
         if all(self.card[i][self.cols - i - 1] == '✔️' for i in range(min(self.rows, self.cols))):
             return True
 
@@ -63,18 +66,19 @@ class BingoCard:
             card_str += " | ".join(f"{cell:15}" for cell in row) + "\n"
         return card_str
 
+# Hauptfunktion des Programms
 def main():
     try:
-        # Benutzereingabe für die Anzahl der Zeilen und Spalten der Bingo-Karte
+        # Eingabe der Anzahl der Zeilen und Spalten für die Bingo-Karte
         rows = int(input("Geben Sie die Anzahl der Zeilen der Bingo-Karte ein: "))
         cols = int(input("Geben Sie die Anzahl der Spalten der Bingo-Karte ein: "))
         if rows <= 0 or cols <= 0:
             raise ValueError("Die Anzahl der Zeilen und Spalten muss größer als Null sein.")
 
-        # Öffne die Word-Datei im Programmverzeichnis
-        word_file = os.path.join(os.path.dirname(__file__), "buzzwörter.docx")
+        # Pfad zur Textdatei mit den Wörtern
+        word_file = os.path.join(os.path.dirname(__file__), "buzzwoeter.txt")
 
-        # Erstelle eine Bingo-Karte
+        # Erstellung der Bingo-Karte
         bingo_card = BingoCard(rows, cols, word_file)
         print("Hier ist Ihre Bingo-Karte:")
         print(bingo_card)
@@ -83,20 +87,22 @@ def main():
         while True:
             row = int(input("Geben Sie die Zeilennummer des korrekten Elements ein (1 bis {}), oder geben Sie 0 ein, um zu beenden: ".format(rows)))
             if row == 0:
+                print("Spiel beendet.")
                 break
 
             col = int(input("Geben Sie die Spaltennummer des korrekten Elements ein (1 bis {}): ".format(cols)))
 
-            # Überprüfen, ob die eingegebenen Werte innerhalb des gültigen Bereichs liegen
+            # Überprüfung, ob die Eingaben innerhalb des gültigen Bereichs liegen
             if row < 1 or row > rows or col < 1 or col > cols:
-                raise ValueError("Ungültige Zeilen- oder Spaltennummer.")
+                print("Ungültige Zeilen- oder Spaltennummer. Bitte erneut eingeben.")
+                continue
 
-            # Das Element auf der Bingo-Karte als korrekt markieren
+            # Markierung des ausgewählten Elements
             bingo_card.mark_correct(row, col)
             print("Element ({}, {}) wurde als korrekt markiert.".format(row, col))
             print(bingo_card)
 
-            # Überprüfen, ob der Benutzer gewonnen hat
+            # Überprüfung, ob der Benutzer gewonnen hat
             if bingo_card.check_win():
                 print("Herzlichen Glückwunsch, Sie haben gewonnen!")
                 break
@@ -105,5 +111,6 @@ def main():
         # Fehlerbehandlung für ungültige Eingaben
         print("Fehler:", e)
 
+# Überprüfung, ob das Skript direkt ausgeführt wird
 if __name__ == "__main__":
     main()
