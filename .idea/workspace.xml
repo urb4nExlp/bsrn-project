@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
@@ -286,3 +287,5 @@
     <SUITE FILE_PATH="coverage/spielplatz$PythonTraining.coverage" NAME="PythonTraining Coverage Results" MODIFIED="1714905757918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
+=======
+>>>>>>> 5dd0fd8d9871e25f971c7942e26cbb8768478efa
