@@ -51,3 +51,30 @@ class Bingo:
 players = ["Robal", "Bemie"]
 bingo_game = Bingo(players)
 bingo_game.play()
+
+
+
+def createlog (spielername):
+    ############
+    #erstelle log mit spielername und dem aktuellen datum + zeit
+    ############
+
+def addlog (bezeichnung)
+    ############
+    #Füge eine Zeile mit Datum Zeit tag etc + bezeichnung zur logfile hinzu
+    ############
+
+def create_roundfile(rundendatei, xachse, yachse, maxspieler):
+    #hier soll eine datei erzeugt werden (Schema der Datei hab ich dir geschickt)
+
+def getrundendatei():
+    #return STRING der rundendatei
+
+def getxachse(rundendatei):
+    #return INT DER X ACHSE
+
+def getyachse(rundendatei):
+    #return INT DER Y ACHSE
+
+def getspielerzahl(rundendatei):
+    #return INT MAXPALYER
