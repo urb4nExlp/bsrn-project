@@ -1,6 +1,8 @@
 import random
 import os
 
+#Hinweis: Die worddatei mit den Buzzwörtern muss im gleichen Ordner liegen wie das Scrpit!
+
 # Klasse für die Bingo-Karte
 class BingoCard:
     # Initialisierung der Bingo-Karte mit Reihen, Spalten und der Wortdatei
@@ -35,26 +37,26 @@ class BingoCard:
 
     # Methode zum Markieren eines korrekten Feldes
     def mark_correct(self, row, col):
-        self.card[row - 1][col - 1] = '✔️'  # Markieren mit einem Häkchen
+        self.card[row - 1][col - 1] = '❎'  # Markieren mit einem grünen Kreuz
 
     # Methode zum Überprüfen, ob der Benutzer gewonnen hat
     def check_win(self):
         # Horizontale Überprüfung
         for row in self.card:
-            if all(cell == '✔️' for cell in row):
+            if all(cell == '❎' for cell in row):
                 return True
 
         # Vertikale Überprüfung
         for col in range(self.cols):
-            if all(self.card[row][col] == '✔️' for row in range(self.rows)):
+            if all(self.card[row][col] == '❎' for row in range(self.rows)):
                 return True
 
         # Diagonale Überprüfung (von links oben nach rechts unten)
-        if all(self.card[i][i] == '✔️' for i in range(min(self.rows, self.cols))):
+        if all(self.card[i][i] == '❎' for i in range(min(self.rows, self.cols))):
             return True
 
         # Diagonale Überprüfung (von rechts oben nach links unten)
-        if all(self.card[i][self.cols - i - 1] == '✔️' for i in range(min(self.rows, self.cols))):
+        if all(self.card[i][self.cols - i - 1] == '❎' for i in range(min(self.rows, self.cols))):
             return True
 
         return False
@@ -65,6 +67,21 @@ class BingoCard:
         for row in self.card:
             card_str += " | ".join(f"{cell:15}" for cell in row) + "\n"
         return card_str
+
+
+# Funktion zur Anzeige eines Gewinner-Designs
+def display_winner_design():
+    design = """
+__     ______  _    _   __          _______ _   _ 
+\ \   / / __ \| |  | |  \ \        / /_   _| \ | |
+ \ \_/ / |  | | |  | |   \ \  /\  / /  | | |  \| |
+  \   /| |  | | |  | |    \ \/  \/ /   | | | . ` |
+   | | | |__| | |__| |     \  /\  /   _| |_| |\  |
+   |_|  \____/ \____/       \/  \/   |_____|_| \_|
+
+"""
+    print(design)
+
 
 # Hauptfunktion des Programms
 def main():
@@ -85,7 +102,9 @@ def main():
 
         # Spielschleife
         while True:
-            row = int(input("Geben Sie die Zeilennummer des korrekten Elements ein (1 bis {}), oder geben Sie 0 ein, um zu beenden: ".format(rows)))
+            row = int(input(
+                "Geben Sie die Zeilennummer des korrekten Elements ein (1 bis {}), oder geben Sie 0 ein, um zu beenden: ".format(
+                    rows)))
             if row == 0:
                 print("Spiel beendet.")
                 break
@@ -105,11 +124,13 @@ def main():
             # Überprüfung, ob der Benutzer gewonnen hat
             if bingo_card.check_win():
                 print("Herzlichen Glückwunsch, Sie haben gewonnen!")
+                display_winner_design()  # Gewinner-Design anzeigen
                 break
 
     except ValueError as e:
         # Fehlerbehandlung für ungültige Eingaben
         print("Fehler:", e)
+
 
 # Überprüfung, ob das Skript direkt ausgeführt wird
 if __name__ == "__main__":
