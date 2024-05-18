@@ -39,6 +39,9 @@ def player_start(second, playernumber, roundfile):
         message = "Spieler2 ist beigetreten: " + playername
         mq.send(message.encode())
         mq.close()
+
+        
+
 def client_start2():
     # Öffnen der existierenden Message Queue
     mq_name = "/my_message_queue"
