@@ -6,13 +6,13 @@ import os
 
 
 def host_start():
-    # Erstellen der Message Queue
+    # Erstellen der Message Queuet
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
     print("\nHost gestartet. Warte auf Client...")
 
-    # Warten auf Nachricht vom Client
+    # Warten auf Nachricht vom Clients
     message, _ = mq.receive()
     print(f"Nachricht vom Client erhalten: {message.decode()}")
 
