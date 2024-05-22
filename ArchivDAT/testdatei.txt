@@ -1,0 +1,4 @@
+MaxPlayer: 3
+Height: 5
+Width: 5
+Players: 1
