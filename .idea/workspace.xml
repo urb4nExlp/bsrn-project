@@ -2,7 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cfff2a82-6b98-48dd-a9d7-56a2219aa0fd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Archiv/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/Archiv/HostClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CardGraphics/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardGraphics/binTyper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CardGraphics/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardGraphics/bintextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CardGraphics/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CardGraphics/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CardKlick/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardKlick/WithCurses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CardKlick/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardKlick/cardAnklicken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CardKlick/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CardKlick/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQ/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQ/MQBasicsFINISHED.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQ/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQ/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQ/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQ/test_message_queue.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MergeGraphicsKlick/KlickAndTextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/MergeGraphicsKlick/KlickAndTextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainingAndInstallation/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrainingAndInstallation/PythonTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainingAndInstallation/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TrainingAndInstallation/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wordfile.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +64,8 @@
       <workItem from="1716379201112" duration="74000" />
       <workItem from="1716379363089" duration="26000" />
       <workItem from="1716379457253" duration="26000" />
+      <workItem from="1716402131577" duration="228000" />
+      <workItem from="1716402469374" duration="73000" />
     </task>
     <servers />
   </component>
