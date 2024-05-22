@@ -14,6 +14,7 @@ class BingoCard:
         try:
             # Wörter aus der Datei lesen
             words = self.read_words_from_file(word_file)
+            #Exception falls der Dateipfad nicht gefunden wird
         except FileNotFoundError:
             print("Es gab einen Fehler mit dem Dateipfad. Das Spiel kann nicht gestartet werden. Bitte prüfen Sie ob der angegebene Dateipfad richtig ist.")
             return None
