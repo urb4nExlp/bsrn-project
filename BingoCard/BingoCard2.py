@@ -3,7 +3,7 @@ import os
 
 # Klasse für die Bingo-Karte
 class BingoCard:
-    # Initialisierung der Bingo-Karte mit Reihen, Spalten und der Wortdatei
+    # Initialisierung der Bingo-Karte mit Reihen, Spalten und der Wortdatei!!!!
     def __init__(self, rows, cols, word_file):
         self.rows = rows
         self.cols = cols
