@@ -5,7 +5,7 @@ import os
 
 
 
-def host_start():
+def host_start(maxplayer, roundfile):
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
@@ -20,27 +20,38 @@ def host_start():
 
 
     # Überprüfen, ob eine Nachricht vom anderen Spieler empfangen wurde
-    #if message:
+    if message:
         # Starte das Rätselspiel, nachdem eine Nachricht empfangen wurde
-        #ratespiel(True, mq)
+        ratespiel(mq, maxplayer, 1, roundfile)
 
     # Message Queue schließen
     mq.close()
 
+def player_start(second, playernumber, roundfile, maxplayer):
+    # Initialisiere den Namen der Message Queue
+    mq_name = "/my_message_queue"
 
+    # Öffne die existierende Message Queue
+    mq = posix_ipc.MessageQueue(mq_name)
 
-def player_start(second, playernumber, roundfile):
-    # Öffnen der existierenden Message Queue
     if second:
-        mq_name = "/my_message_queue"
-        mq = posix_ipc.MessageQueue(mq_name)
         # Nachricht an den Host senden
         playername = getplayername(roundfile, playernumber)
         message = "Spieler2 ist beigetreten: " + playername
         mq.send(message.encode())
-        mq.close()
 
-        
+        # Starte das Rätselspiel
+        ratespiel(mq, maxplayer, playernumber, roundfile)
+
+
+
+    else:
+        # Starte das Rätselspiel
+        ratespiel(mq, maxplayer, playernumber, roundfile)
+
+
+
+
 
 def client_start2():
     # Öffnen der existierenden Message Queue
@@ -64,7 +75,7 @@ def check_for_message(mq):
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
 
-def ratespiel(is_host, mq):
+def ratespiel(mq, maxplayer, playernumber, roundfile):
     zahl = 5
     print("Versuche Zahl 1-10 zu erraten:")
 
@@ -88,12 +99,12 @@ def ratespiel(is_host, mq):
                     zahl2 = int(eingabe)
                     if zahl == zahl2:
                         print("Erraten!")
-                        if is_host:
-                             mq.send("Hostgewonnen".encode())
-                             break
-                        else:
-                            mq.send("Clientgewonnen".encode())
-                            break
+                        for i in range(int(maxplayer) - 1):
+                            gewinner = getplayername(roundfile, playernumber)
+                            mq.send(gewinner.encode())
+
+                        break
+
                 except ValueError:
                     print("Eingabe fehlerhaft, versuche es erneut!")
 
@@ -229,7 +240,7 @@ if __name__ == "__main__":
                 is_integer(sys.argv[11])):
 
             create_roundfile(sys.argv[3], sys.argv[5], sys.argv[7], sys.argv[11], sys.argv[13])
-            host_start()
+            host_start(sys.argv[11], sys.argv[3])
         else:
             print("Falsche Argumente für -newround!")
 
@@ -245,9 +256,9 @@ if __name__ == "__main__":
                 playernumber = incplayer(sys.argv[3], sys.argv[5])
                 print("Ich bin Spieler Nummer: " + str(playernumber))
                 if playernumber != 2:
-                    player_start(False,playernumber, sys.argv[3])
+                    player_start(False,playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
                 else:
-                    player_start(True, playernumber, sys.argv[3])
+                    player_start(True, playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
             else:
                 print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
         else:
