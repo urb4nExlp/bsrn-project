@@ -1,0 +1,92 @@
+Index: test.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n\n#Bingo Klasse:\nclass Bingo:\n\n\n    def __init__(self):\n        \n        \n\n    
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/test.py b/test.py
+--- a/test.py	
++++ b/test.py	
+@@ -1,11 +1,20 @@
++import posix_ipc
+ 
++# Name der Message Queue
++MESSAGE_QUEUE_NAME = "/my_message_queue"
+ 
+-#Bingo Klasse:
+-class Bingo:
++# Erstelle eine Message Queue
++mq = posix_ipc.MessageQueue(MESSAGE_QUEUE_NAME, posix_ipc.O_CREAT)
+ 
++# Sende eine Nachricht über die Message Queue
++message_to_send = "Hallo, dies ist eine Testnachricht."
++mq.send(message_to_send)
+ 
+-    def __init__(self):
+-        
+-        
++# Empfange eine Nachricht über die Message Queue
++message_received, _ = mq.receive()
++
++print("Empfangene Nachricht:", message_received)
+ 
+-    
+\ No newline at end of file
++# Schließe und lösche die Message Queue
++mq.close()
++posix_ipc.unlink_message_queue(MESSAGE_QUEUE_NAME)
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"bc517264-9d1c-4583-bb6b-5cf791cc8d7b\" name=\"Changes\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/GroupInfos.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/GroupInfos.md\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/test.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/test.py\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2fzyeDUcBmQBa0VLfC4HfevTim3\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Python.test.executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"git-widget-placeholder\": \"main\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"settings.editor.selected.configurable\": \"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration name=\"test\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\n      <module name=\"bsrn-project\" />\n      <option name=\"ENV_FILES\" value=\"\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"SDK_NAME\" value=\"Python 3.10.12 WSL (Ubuntu): (/usr/bin/python3)\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/test.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PY-241.15989.155\" />\n        <option value=\"bundled-python-sdk-babbdf50b680-7c6932dee5e4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.15989.155\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"bc517264-9d1c-4583-bb6b-5cf791cc8d7b\" name=\"Changes\" comment=\"\" />\n      <created>1714818294191</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1714818294191</updated>\n      <workItem from=\"1714818295599\" duration=\"37000\" />\n      <workItem from=\"1714818425421\" duration=\"159000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/bsrn_project$test.coverage\" NAME=\"test Coverage Results\" MODIFIED=\"1714818552195\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\n  </component>\n</project>
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -2,7 +2,7 @@
+ <project version="4">
+   <component name="ChangeListManager">
+     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/GroupInfos.md" beforeDir="false" afterPath="$PROJECT_DIR$/GroupInfos.md" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -25,7 +25,7 @@
+   "keyToString": {
+     "Python.test.executor": "Run",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
++    "git-widget-placeholder": "urbanbenedikt",
+     "nodejs_package_manager_path": "npm",
+     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+     "vue.rearranger.settings.migration": "true"
+@@ -37,6 +37,9 @@
+       <option name="ENV_FILES" value="" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
+       <option name="SDK_HOME" value="" />
+       <option name="SDK_NAME" value="Python 3.10.12 WSL (Ubuntu): (/usr/bin/python3)" />
+       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+@@ -72,6 +75,7 @@
+       <updated>1714818294191</updated>
+       <workItem from="1714818295599" duration="37000" />
+       <workItem from="1714818425421" duration="159000" />
++      <workItem from="1714818627856" duration="30000" />
+     </task>
+     <servers />
+   </component>
+@@ -79,6 +83,6 @@
+     <option name="version" value="3" />
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/bsrn_project$test.coverage" NAME="test Coverage Results" MODIFIED="1714818552195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
++    <SUITE FILE_PATH="coverage/bsrn_project$test.coverage" NAME="test Coverage Results" MODIFIED="1714818656915" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+   </component>
+ </project>
+\ No newline at end of file
