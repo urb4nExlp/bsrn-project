@@ -39,7 +39,7 @@ class BingoCard:
             words = file.read().split()  # Wörter durch Leerzeichen getrennt einlesen
         return words
 
-    # Methode zum Markieren eines korrekten Feldes
+    # Methode zum Markieren eines korrekten Feldes mit einem grünen Kreuz(Symbolisiert dass es abgehakt ist)
     def mark_correct(self, row, col):
         self.card[row - 1][col - 1] = '❎'  # Markieren mit einem grünen Kreuz
 
@@ -87,12 +87,13 @@ __     ______  _    _   __          _______ _   _
     print(design)
 
 
-# Hauptfunktion des Programms
+# Hauptfunktion des Programms (Die Main-Funktion)
 def main():
     try:
         # Eingabe der Anzahl der Zeilen und Spalten für die Bingo-Karte
         rows = int(input("Geben Sie die Anzahl der Zeilen der Bingo-Karte ein: "))
         cols = int(input("Geben Sie die Anzahl der Spalten der Bingo-Karte ein: "))
+        #Überprüfen dass die Anzahl größer als Null ist
         if rows <= 0 or cols <= 0:
             raise ValueError("Die Anzahl der Zeilen und Spalten muss größer als Null sein.")
 
