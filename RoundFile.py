@@ -11,7 +11,7 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler): #Upload.
 
 
 def getrundendatei():
-    """Return STRING der rundendatei"""
+    """Return String der Rundendatei"""
     try:
         # Beispiel-Implementierung, um die Rundendatei zurückzugeben
         # Passen Sie dies entsprechend an, wie Sie die Rundendatei speichern/verwenden
