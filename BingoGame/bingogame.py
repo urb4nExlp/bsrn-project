@@ -53,21 +53,6 @@ def player_start(second, playernumber, roundfile, maxplayer):
 
 
 
-def client_start2():
-    # Öffnen der existierenden Message Queue
-    mq_name = "/my_message_queue"
-    mq = posix_ipc.MessageQueue(mq_name)
-
-    # Nachricht an den Host senden
-    message = "Client gestartet"
-    mq.send(message.encode())
-
-    # Starte das Rätselspiel
-    #ratespiel(False, mq)
-
-    # Message Queue schließen
-    mq.close()
-
 def check_for_message(mq):
     try:
         message, _ = mq.receive(timeout=0)  # Versuche, eine Nachricht zu empfangen
