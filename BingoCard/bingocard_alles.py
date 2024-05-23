@@ -105,7 +105,7 @@ __     ______  _    _   __          _______ _   _
 def main():
     try:
         # Pfad zur Textdatei mit den Wörtern eingeben
-        word_file = input("Geben Sie den Pfad zur Textdatei mit den Buzzwörtern ein: ").strip()
+        word_file = input("Geben Sie den Namen der Textdatei mit den Buzzwörtern ein: ").strip()
         if not os.path.isfile(word_file):
             raise FileNotFoundError(f"Die Datei {word_file} wurde nicht gefunden.")
 
