@@ -1,7 +1,8 @@
 import random
 import os
 
-#Hinweis: Die worddatei mit den Buzzwörtern muss im gleichen Ordner liegen wie das Scrpit!
+
+# Hinweis: Die worddatei mit den Buzzwörtern muss im gleichen Ordner liegen wie das Script!
 
 # Klasse für die Bingo-Karte
 class BingoCard:
@@ -10,20 +11,27 @@ class BingoCard:
         self.rows = rows
         self.cols = cols
         self.card = self.create_card(word_file)
+        self.original_card = [row[:] for row in self.card]  # Kopie der Originalkarte
 
     # Methode zum Erstellen der Bingo-Karte
     def create_card(self, word_file):
         # Wörter aus der Datei lesen
         words = self.read_words_from_file(word_file)
+        if len(words) < self.rows * self.cols - 1:  # Berücksichtigung des Jokerfelds
+            raise ValueError("Die Wortdatei enthält nicht genügend Wörter für die Bingo-Karte.")
+
         card = []
         used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden
 
-        # Zufällige Wörter in die Karte einfügen
-        for _ in range(self.rows):
+        for i in range(self.rows):
             row = []
-            while len(row) < self.cols:
-                word = random.choice(words)
-                if word not in used_words:
+            for j in range(self.cols):
+                if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2:
+                    row.append('JOKER')  # Mittleres Feld als Joker
+                else:
+                    word = random.choice(words)
+                    while word in used_words:
+                        word = random.choice(words)
                     row.append(word)
                     used_words.add(word)
             card.append(row)
@@ -31,32 +39,44 @@ class BingoCard:
 
     # Methode zum Lesen von Wörtern aus einer Textdatei
     def read_words_from_file(self, word_file):
-        with open(word_file, 'r', encoding='utf-8') as file:
-            words = file.read().split()  # Wörter durch Leerzeichen getrennt einlesen
-        return words
+        try:
+            with open(word_file, 'r', encoding='utf-8') as file:
+                words = file.read().split()  # Wörter durch Leerzeichen getrennt einlesen
+            return words
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Die Datei {word_file} wurde nicht gefunden.")
+        except Exception as e:
+            raise Exception(f"Fehler beim Lesen der Datei {word_file}: {e}")
 
     # Methode zum Markieren eines korrekten Feldes
     def mark_correct(self, row, col):
-        self.card[row - 1][col - 1] = '❎'  # Markieren mit einem grünen Kreuz
+        if self.card[row - 1][col - 1] != 'JOKER':
+            self.card[row - 1][col - 1] = '❎'  # Markieren mit einem grünen Kreuz
+
+    # Methode zum Entfernen der Markierung eines fehlerhaften Feldes
+    def unmark_correct(self, row, col):
+        if self.card[row - 1][col - 1] != 'JOKER':
+            self.card[row - 1][col - 1] = self.original_card[row - 1][col - 1]  # Rücksetzen auf das Originalwort
 
     # Methode zum Überprüfen, ob der Benutzer gewonnen hat
     def check_win(self):
         # Horizontale Überprüfung
         for row in self.card:
-            if all(cell == '❎' for cell in row):
+            if all(cell == '❎' or cell == 'JOKER' for cell in row):
                 return True
 
         # Vertikale Überprüfung
         for col in range(self.cols):
-            if all(self.card[row][col] == '❎' for row in range(self.rows)):
+            if all(self.card[row][col] == '❎' or self.card[row][col] == 'JOKER' for row in range(self.rows)):
                 return True
 
         # Diagonale Überprüfung (von links oben nach rechts unten)
-        if all(self.card[i][i] == '❎' for i in range(min(self.rows, self.cols))):
+        if all(self.card[i][i] == '❎' or self.card[i][i] == 'JOKER' for i in range(min(self.rows, self.cols))):
             return True
 
         # Diagonale Überprüfung (von rechts oben nach links unten)
-        if all(self.card[i][self.cols - i - 1] == '❎' for i in range(min(self.rows, self.cols))):
+        if all(self.card[i][self.cols - i - 1] == '❎' or self.card[i][self.cols - i - 1] == 'JOKER' for i in
+               range(min(self.rows, self.cols))):
             return True
 
         return False
@@ -102,23 +122,32 @@ def main():
 
         # Spielschleife
         while True:
-            row = int(input(
-                "Geben Sie die Zeilennummer des korrekten Elements ein (1 bis {}), oder geben Sie 0 ein, um zu beenden: ".format(
-                    rows)))
-            if row == 0:
+            action = input(
+                "Geben Sie 'mark' ein, um ein Feld zu markieren, 'unmark', um die Markierung eines Feldes zu entfernen, oder '0', um zu beenden: ").strip().lower()
+            if action == '0':
                 print("Spiel beendet.")
                 break
 
-            col = int(input("Geben Sie die Spaltennummer des korrekten Elements ein (1 bis {}): ".format(cols)))
+            if action not in ['mark', 'unmark']:
+                print("Ungültige Aktion. Bitte 'mark', 'unmark' oder '0' eingeben.")
+                continue
+
+            row = int(input("Geben Sie die Zeilennummer des Elements ein (1 bis {}): ".format(rows)))
+            col = int(input("Geben Sie die Spaltennummer des Elements ein (1 bis {}): ".format(cols)))
 
             # Überprüfung, ob die Eingaben innerhalb des gültigen Bereichs liegen
             if row < 1 or row > rows or col < 1 or col > cols:
                 print("Ungültige Zeilen- oder Spaltennummer. Bitte erneut eingeben.")
                 continue
 
-            # Markierung des ausgewählten Elements
-            bingo_card.mark_correct(row, col)
-            print("Element ({}, {}) wurde als korrekt markiert.".format(row, col))
+            # Markierung oder Rücksetzung des ausgewählten Elements
+            if action == 'mark':
+                bingo_card.mark_correct(row, col)
+                print("Element ({}, {}) wurde als korrekt markiert.".format(row, col))
+            elif action == 'unmark':
+                bingo_card.unmark_correct(row, col)
+                print("Markierung des Elements ({}, {}) wurde entfernt.".format(row, col))
+
             print(bingo_card)
 
             # Überprüfung, ob der Benutzer gewonnen hat
@@ -130,6 +159,12 @@ def main():
     except ValueError as e:
         # Fehlerbehandlung für ungültige Eingaben
         print("Fehler:", e)
+    except FileNotFoundError as e:
+        # Fehlerbehandlung für fehlende Datei
+        print("Fehler:", e)
+    except Exception as e:
+        # Allgemeine Fehlerbehandlung
+        print("Ein unerwarteter Fehler ist aufgetreten:", e)
 
 
 # Überprüfung, ob das Skript direkt ausgeführt wird
