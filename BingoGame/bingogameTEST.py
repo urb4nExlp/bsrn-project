@@ -171,7 +171,7 @@ def incplayer(rundendatei, spielername):
         playerstring = "playername" + str(player_count)
 
         # Füge den Spielername und den Spielername + Spielerzahl hinzu
-        lines.append(f"{playerstring}: {spielername}\n")
+        lines.append(f"{playerstring}: {spielername}: {os.getpid()}\n")
 
         # Schreibe den neuen Inhalt zurück in die Datei
         with open(rundendatei, 'w') as f:
@@ -181,31 +181,7 @@ def incplayer(rundendatei, spielername):
         print(f"Error updating players in {rundendatei}: {e}")
 
 
-def playerPID(rundendatei, playernumber):
-    """Find the player with the given player number in the file and append playerPID with the current process ID."""
-    try:
-        # Lese den aktuellen Inhalt der Datei
-        with open(rundendatei, 'r') as f:
-            lines = f.readlines()
 
-        playernumberstr = "player" + str(playernumber)
-
-
-        for line in enumerate(lines):
-            if line.startswith(playernumberstr):
-                # Füge die SpielerPID mit der aktuellen Prozess-ID hinzu
-                lines[i] = line.strip() + f" spielerPID: {os.getpid()}\n"
-
-                break
-
-
-
-        # Schreibe den neuen Inhalt zurück in die Datei
-        with open(rundendatei, 'w') as f:
-            f.writelines(lines)
-
-    except Exception as e:
-        print(f"Error updating players in {rundendatei}: {e}")
 
 def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname): #Upload.
     """Erstellt eine Datei mit Rundendetails."""
@@ -215,7 +191,7 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname): #Upload
             f.write(f"height: {yachse}\n")
             f.write(f"width: {xachse}\n")
             f.write(f"players: {1}\n")
-            f.write(f"playername1: {hostname}\n")
+            f.write(f"playername1: {hostname}: {os.getpid()}\n")
         print("Roundfile created, initializing game start...")
         ################ Animation #################
         print("loading")
@@ -250,7 +226,7 @@ if __name__ == "__main__":
                 is_integer(sys.argv[5]) and
                 is_integer(sys.argv[7]) and
                 is_integer(sys.argv[11])):
-            playerPID(sys.argv[3], 1)
+
             create_roundfile(sys.argv[3], sys.argv[5], sys.argv[7], sys.argv[11], sys.argv[13])
             host_start(sys.argv[11], sys.argv[3])
         else:
@@ -268,10 +244,10 @@ if __name__ == "__main__":
                 playernumber = incplayer(sys.argv[3], sys.argv[5])
                 print("Ich bin Spieler Nummer: " + str(playernumber))
                 if playernumber != 2:
-                    playerPID(sys.argv[3], playernumber)
+
                     player_start(False,playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
                 else:
-                    playerPID(sys.argv[3], playernumber)
+
                     player_start(True, playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
             else:
                 print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
