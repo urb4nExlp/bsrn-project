@@ -81,7 +81,7 @@ def ratespiel(mq, maxplayer, playernumber, roundfile):
 
     while True:
         message = check_for_message(mq)
-
+        #Gewinnüberprüfung vor Eingabe
         if message:
             print(message + " hat gewonnen, Spiel ist vorbei!")
             break
@@ -90,7 +90,7 @@ def ratespiel(mq, maxplayer, playernumber, roundfile):
 
 
             message2 = check_for_message(mq)
-
+            #Gewinnüberprüfung nach Eingabe
             if message2:
                 print(message2 + " hat gewonnen, Spiel ist vorbei!")
                 break
