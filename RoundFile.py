@@ -22,7 +22,7 @@ def getrundendatei():
 
 
 def getxachse(rundendatei):
-    """Return INT der X Achse"""
+    """Return INT der X-Achse"""
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -34,7 +34,7 @@ def getxachse(rundendatei):
 
 
 def getyachse(rundendatei):
-    """Return INT der Y Achse"""
+    """Return INT der Y-Achse"""
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
