@@ -1,9 +1,6 @@
 import random
 import os
 
-
-# Hinweis: Die worddatei mit den Buzzwörtern muss im gleichen Ordner liegen wie das Script!
-
 # Klasse für die Bingo-Karte
 class BingoCard:
     # Initialisierung der Bingo-Karte mit Reihen, Spalten und der Wortdatei
@@ -50,33 +47,34 @@ class BingoCard:
 
     # Methode zum Markieren eines korrekten Feldes
     def mark_correct(self, row, col):
-        if self.card[row - 1][col - 1] != 'JOKER':
-            self.card[row - 1][col - 1] = '❎'  # Markieren mit einem grünen Kreuz
+        self.card[row - 1][col - 1] = '❎'  # Markieren mit einem grünen Kreuz
 
     # Methode zum Entfernen der Markierung eines fehlerhaften Feldes
     def unmark_correct(self, row, col):
-        if self.card[row - 1][col - 1] != 'JOKER':
+        if self.card[row - 1][col - 1] != 'JOKER':  # Nur wenn es sich nicht um das Jokerfeld handelt
             self.card[row - 1][col - 1] = self.original_card[row - 1][col - 1]  # Rücksetzen auf das Originalwort
 
     # Methode zum Überprüfen, ob der Benutzer gewonnen hat
     def check_win(self):
         # Horizontale Überprüfung
         for row in self.card:
-            if all(cell == '❎' or cell == 'JOKER' for cell in row):
+            if all(cell == '❎' or cell == 'JOKER' for cell in row) and 'JOKER' not in row:
                 return True
 
         # Vertikale Überprüfung
         for col in range(self.cols):
-            if all(self.card[row][col] == '❎' or self.card[row][col] == 'JOKER' for row in range(self.rows)):
+            col_cells = [self.card[row][col] for row in range(self.rows)]
+            if all(cell == '❎' or cell == 'JOKER' for cell in col_cells) and 'JOKER' not in col_cells:
                 return True
 
         # Diagonale Überprüfung (von links oben nach rechts unten)
-        if all(self.card[i][i] == '❎' or self.card[i][i] == 'JOKER' for i in range(min(self.rows, self.cols))):
+        diagonal1 = [self.card[i][i] for i in range(min(self.rows, self.cols))]
+        if all(cell == '❎' or cell == 'JOKER' for cell in diagonal1) and 'JOKER' not in diagonal1:
             return True
 
         # Diagonale Überprüfung (von rechts oben nach links unten)
-        if all(self.card[i][self.cols - i - 1] == '❎' or self.card[i][self.cols - i - 1] == 'JOKER' for i in
-               range(min(self.rows, self.cols))):
+        diagonal2 = [self.card[i][self.cols - i - 1] for i in range(min(self.rows, self.cols))]
+        if all(cell == '❎' or cell == 'JOKER' for cell in diagonal2) and 'JOKER' not in diagonal2:
             return True
 
         return False
@@ -172,3 +170,4 @@ def main():
 # Überprüfung, ob das Skript direkt ausgeführt wird
 if __name__ == "__main__":
     main()
+
