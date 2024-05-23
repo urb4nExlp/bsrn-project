@@ -46,7 +46,7 @@ def getyachse(rundendatei):
 
 
 def getspielerzahl(rundendatei):
-    """Return INT Maxplayer"""
+    """Return INT Maxplayer anzahl """
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
