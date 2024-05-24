@@ -6,4 +6,4 @@ def createlogfile(spielername):
         logfile.write(f"{'-' * 30}\n")
     print(f"Die Logdatei '{logfile_name}' wurde erfolgreich erstellt.")
 
-    #....
+    #def addtolog(spielername, eintrag):
