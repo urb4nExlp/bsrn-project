@@ -16,11 +16,9 @@
       <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoVisual/KlickAndTextual.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/WithCurses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/binTyper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/bingogame.py" afterDir="false" />
@@ -90,6 +88,7 @@
       <workItem from="1716402469374" duration="73000" />
       <workItem from="1716633167939" duration="625000" />
       <workItem from="1716633863719" duration="2599000" />
+      <workItem from="1716636650308" duration="44000" />
     </task>
     <servers />
   </component>
