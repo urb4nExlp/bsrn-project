@@ -7,3 +7,4 @@ def createlogfile(spielername):
     print(f"Die Logdatei '{logfile_name}' wurde erfolgreich erstellt.")
 
 def addtolog(spielername, eintrag):
+    """Fügt einen neuen Eintrag zur Logdatei des angegebenen Spielers hinzu."""
