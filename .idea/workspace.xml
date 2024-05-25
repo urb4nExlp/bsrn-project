@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cfff2a82-6b98-48dd-a9d7-56a2219aa0fd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Archiv/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/Archiv/HostClass.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardGraphics/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardGraphics/binTyper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardGraphics/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardGraphics/bintextual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardGraphics/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CardGraphics/wordfile.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardKlick/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardKlick/WithCurses.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardKlick/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/CardKlick/cardAnklicken.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardKlick/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CardKlick/wordfile.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQ/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQ/MQBasicsFINISHED.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQ/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQ/bingogame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQ/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MQ/test_message_queue.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MergeGraphicsKlick/KlickAndTextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/MergeGraphicsKlick/KlickAndTextual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainingAndInstallation/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrainingAndInstallation/PythonTraining.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrainingAndInstallation/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TrainingAndInstallation/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/KlickAndTextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/KlickAndTextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/WithCurses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/binTyper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wordfile.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,14 +44,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;goennermarvin&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "goennermarvin",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Marvin\Documents\GitHub\spielplatz\ArchivPY" />
+      <recent name="C:\Users\Marvin\Documents\GitHub\spielplatz\CardKlick" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -66,6 +83,7 @@
       <workItem from="1716379457253" duration="26000" />
       <workItem from="1716402131577" duration="228000" />
       <workItem from="1716402469374" duration="73000" />
+      <workItem from="1716633167939" duration="625000" />
     </task>
     <servers />
   </component>
