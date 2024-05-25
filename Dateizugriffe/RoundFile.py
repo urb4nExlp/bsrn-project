@@ -1,5 +1,5 @@
 def create_roundfile(rundendatei, xachse, yachse, maxspieler): #Upload.
-    """Erstellt eine Datei mit Rundendetails."""
+     """Erstellt eine Datei mit Rundendetails"""
     try:
         with open(rundendatei, 'w') as f:
             f.write(f"Max: {maxspieler}\n")
@@ -11,7 +11,7 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler): #Upload.
 
 
 def getrundendatei():
-    """Return STRING der rundendatei"""
+    """Return String der Rundendatei"""
     try:
         # Beispiel-Implementierung, um die Rundendatei zurückzugeben
         # Passen Sie dies entsprechend an, wie Sie die Rundendatei speichern/verwenden
@@ -22,7 +22,7 @@ def getrundendatei():
 
 
 def getxachse(rundendatei):
-    """Return INT der X Achse"""
+    """Return INT der X-Achse"""
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -34,7 +34,7 @@ def getxachse(rundendatei):
 
 
 def getyachse(rundendatei):
-    """Return INT der Y Achse"""
+    """Return INT der Y-Achse"""
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -46,7 +46,7 @@ def getyachse(rundendatei):
 
 
 def getspielerzahl(rundendatei):
-    """Return INT Maxplayer"""
+    """Return INT Maxplayer anzahl """
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
