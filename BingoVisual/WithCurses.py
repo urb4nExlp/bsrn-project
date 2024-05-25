@@ -2,85 +2,97 @@ import random
 import curses
 from curses import textpad
 
-#random um Wörter auszusuchen, curses um textbasierte Benutzeroberfläche in der Kommandozeile zu erzeugen
+# random um Wörter auszusuchen, curses um textbasierte Benutzeroberfläche in der Kommandozeile zu erzeugen
 
-
-#Einlesen der Wörter aus der Wordfile, Dateipfad muss als Parameter übergeben werden
-#Wörter als liste gespeichert
+# Einlesen der Wörter aus der Wordfile, Dateipfad muss als Parameter übergeben werden
+# Wörter als Liste gespeichert
 def load_words(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         words = [line.strip() for line in file]
     return words
 
-#basierend auf den übergebenen Dimensionen wird Bingokarte als listen in einer liste erstellt
-#Wörter werden gemischelt und in die Listen befüllt
+# Basierend auf den übergebenen Dimensionen wird die Bingokarte als Liste in einer Liste erstellt
+# Wörter werden gemischelt und in die Listen befüllt
 def create_bingo_card(words, xaxis, yaxis):
     random.shuffle(words)
     return [words[i*yaxis:(i+1)*yaxis] for i in range(xaxis)]
 
-#Karte wird auf Bildschirm gezeichnet.
-#Bedingung, wenn markiert dann 'X'
-def draw_card(stdscr, card, marked, xaxis, yaxis):
+# Karte wird auf dem Bildschirm gezeichnet.
+# Bedingung: Wenn markiert, dann 'X'
+def draw_card(stdscr, card, marked, xaxis, yaxis, field_width, field_height):
     stdscr.clear()
     for i, row in enumerate(card):
         for j, word in enumerate(row):
-            x, y = 2 + j * 12, 2 + i * 2
+            x1, y1 = 2 + j * (field_width + 1), 2 + i * (field_height + 1)
+            x2, y2 = x1 + field_width, y1 + field_height
+            textpad.rectangle(stdscr, y1, x1, y2, x2)  # Zeichnet eine Umrandung um jedes Feld
             if (i, j) in marked:
-                stdscr.addstr(y, x, "X".center(12), curses.A_REVERSE)
+                stdscr.addstr(y1 + field_height // 2, x1 + 1, "X".center(field_width - 1), curses.A_REVERSE)  # Wenn markiert, dann 'X'
             else:
-                stdscr.addstr(y, x, word.center(12))
+                stdscr.addstr(y1 + field_height // 2, x1 + 1, word.center(field_width - 1))  # Andernfalls das Wort
     stdscr.refresh()
 
-#Schleifen, um zu checken, ob Bingo-Bedingung erfüllt ist
+# Schleifen, um zu checken, ob die Bingo-Bedingung erfüllt ist
 def check_bingo(marked, xaxis, yaxis):
-    # Check rows
+    # Überprüft Reihen
     for i in range(xaxis):
         if all((i, j) in marked for j in range(yaxis)):
             return True
-    # Check columns
+    # Überprüft Spalten
     for j in range(yaxis):
         if all((i, j) in marked for i in range(xaxis)):
             return True
-    # Check diagonals
+    # Überprüft Diagonalen
     if all((i, i) in marked for i in range(xaxis)):
         return True
     if all((i, yaxis - 1 - i) in marked for i in range(xaxis)):
         return True
     return False
 
-#Main-Methode, Bingo Karte wird erstellt, und gezeichnet
-#Regelt das Klicken mit der Maus
+# Main-Methode, Bingo-Karte wird erstellt und gezeichnet
+# Regelt das Klicken mit der Maus
 def main(stdscr, xaxis, yaxis, words):
     card = create_bingo_card(words, xaxis, yaxis)
     marked = set()
-    #Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
+
+    # Automatisches Markieren des mittleren Feldes, wenn xaxis und yaxis gleich und ungerade sind
+    if xaxis == yaxis and xaxis % 2 == 1:
+        middle = xaxis // 2
+        marked.add((middle, middle))
+
+    # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
+    longest_word_length = max(len(word) for word in words)
+    field_width = longest_word_length + 2  # Platz für das Wort und die Ränder
+    field_height = 3  # Höhe des Feldes
+
+    # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
     curses.curs_set(0)
 
-    draw_card(stdscr, card, marked, xaxis, yaxis)
+    draw_card(stdscr, card, marked, xaxis, yaxis, field_width, field_height)
 
     while True:
         key = stdscr.getch()
         if key == ord('x'):
             break
-        #Klick ist ein Mausereignis
-        if key == curses.KEY_MOUSE: #Überprüft, ob Ereignis key ein Mausereignis ist
-            _, mx, my, _, _ = curses.getmouse() #Mausposition wird abgerufen
-            col = (mx - 2) // 12
-            row = (my - 2) // 2
+        # Klick ist ein Mausereignis
+        if key == curses.KEY_MOUSE:  # Überprüft, ob das Ereignis key ein Mausereignis ist
+            _, mx, my, _, _ = curses.getmouse()  # Mausposition wird abgerufen
+            col = (mx - 2) // (field_width + 1)
+            row = (my - 2) // (field_height + 1)
             if 0 <= row < xaxis and 0 <= col < yaxis:
                 if (row, col) in marked:
                     marked.remove((row, col))
                 else:
                     marked.add((row, col))
-                draw_card(stdscr, card, marked, xaxis, yaxis)
+                draw_card(stdscr, card, marked, xaxis, yaxis, field_width, field_height)
                 if check_bingo(marked, xaxis, yaxis):
-                    stdscr.addstr(2 + xaxis * 2, 2, "BINGO! Du hast gewonnen!".center(12 * yaxis))
+                    stdscr.addstr(2 + xaxis * (field_height + 1), 2, "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis))
                     stdscr.refresh()
                     stdscr.getch()
                     break
 
-#startet Hauptprogramm in Curses Umgebung, lädt Wörter aus der Datei
+# Startet das Hauptprogramm in der Curses-Umgebung, lädt Wörter aus der Datei
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Bingo-Spiel")

@@ -16,11 +16,11 @@
       <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoVisual/KlickAndTextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/KlickAndTextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/KlickAndTextual.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/WithCurses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/binTyper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/bingogame.py" afterDir="false" />
@@ -33,6 +33,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="goennermarvin" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -44,18 +49,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "goennermarvin",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;goennermarvin&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Marvin\Documents\GitHub\spielplatz\ArchivPY" />
@@ -84,6 +89,7 @@
       <workItem from="1716402131577" duration="228000" />
       <workItem from="1716402469374" duration="73000" />
       <workItem from="1716633167939" duration="625000" />
+      <workItem from="1716633863719" duration="2599000" />
     </task>
     <servers />
   </component>
