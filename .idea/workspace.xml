@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfff2a82-6b98-48dd-a9d7-56a2219aa0fd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BingoCard/BingoCard2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BingoCard/WithCurses.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BingoCard/finalCard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BingoGame/wordfile.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
@@ -20,6 +18,10 @@
       <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCard2.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCard2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/WithCurses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/finalCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/finalCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/WithCurses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/binTyper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
@@ -65,7 +67,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "goennermarvin",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Marvin/Documents/GitHub/spielplatz/BingoCard",
+    "last_opened_file_path": "C:/Users/Marvin/Documents/GitHub/spielplatz/Dateizugriffe",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,6 +78,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Marvin\Documents\GitHub\spielplatz\Dateizugriffe" />
+      <recent name="C:\Users\Marvin\Documents\GitHub\spielplatz\BingoGame" />
       <recent name="C:\Users\Marvin\Documents\GitHub\spielplatz\BingoCard" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -107,7 +111,7 @@
       <workItem from="1716633167939" duration="625000" />
       <workItem from="1716633863719" duration="2599000" />
       <workItem from="1716636650308" duration="44000" />
-      <workItem from="1716637678435" duration="7562000" />
+      <workItem from="1716637678435" duration="7860000" />
     </task>
     <servers />
   </component>
