@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> fb1f0f3bcd3d328c8374e281fb812ce66dced97d
 import sys
 import posix_ipc
 import random
@@ -98,6 +101,7 @@ if __name__ == "__main__":
     else:
         print("Unbekannter Befehl")
         sys.exit(1)
+<<<<<<< HEAD
 =======
 import sys
 import posix_ipc
@@ -199,3 +203,5 @@ if __name__ == "__main__":
         print("Unbekannter Befehl")
         sys.exit(1)
 
+=======
+>>>>>>> fb1f0f3bcd3d328c8374e281fb812ce66dced97d

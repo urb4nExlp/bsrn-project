@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
   <component name="NewModuleRootManager">
@@ -5,3 +6,5 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
+=======
+>>>>>>> fb1f0f3bcd3d328c8374e281fb812ce66dced97d
