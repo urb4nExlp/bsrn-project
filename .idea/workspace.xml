@@ -5,16 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfff2a82-6b98-48dd-a9d7-56a2219aa0fd" name="Changes" comment="">
+<<<<<<< Updated upstream
       <change afterPath="$PROJECT_DIR$/BingoGame/wordfile.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
@@ -30,6 +35,29 @@
       <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/bingogame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wordfile.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BSRNproject.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BSRNproject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCard2.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCard2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/GewinnÜberprüfung.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/GewinnÜberprüfung.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/bingodesign.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/bingodesign.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/dateien.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/dateien.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,9 +91,15 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.BingoCard2.executor": "Run",
+<<<<<<< Updated upstream
     "Python.finalCard.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "goennermarvin",
+=======
+    "Python.finalCard.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+>>>>>>> Stashed changes
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/Marvin/Documents/GitHub/spielplatz/Dateizugriffe",
     "node.js.detected.package.eslint": "true",
@@ -111,7 +145,11 @@
       <workItem from="1716633167939" duration="625000" />
       <workItem from="1716633863719" duration="2599000" />
       <workItem from="1716636650308" duration="44000" />
+<<<<<<< Updated upstream
       <workItem from="1716637678435" duration="7860000" />
+=======
+      <workItem from="1716637678435" duration="9031000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
@@ -120,6 +158,10 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/binvisual_py$BingoCard2.coverage" NAME="BingoCard2 Coverage Results" MODIFIED="1716640526741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
+<<<<<<< Updated upstream
     <SUITE FILE_PATH="coverage/binvisual_py$finalCard.coverage" NAME="finalCard Coverage Results" MODIFIED="1716644491265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
+=======
+    <SUITE FILE_PATH="coverage/binvisual_py$finalCard.coverage" NAME="finalCard Coverage Results" MODIFIED="1716646935594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
+>>>>>>> Stashed changes
   </component>
 </project>
