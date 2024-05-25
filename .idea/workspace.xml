@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8963da10-6a78-4241-8801-411e91455055" name="Changes" comment="Logfile">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1716473518568</updated>
       <workItem from="1716473561927" duration="610000" />
-      <workItem from="1716564743003" duration="822000" />
+      <workItem from="1716564743003" duration="2715000" />
     </task>
     <task id="LOCAL-00001" summary="Logfile">
       <option name="closed" value="true" />
@@ -82,7 +83,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716564957395</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Logfile /">
+      <option name="closed" value="true" />
+      <created>1716565831624</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1716565831624</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Logfile">
+      <option name="closed" value="true" />
+      <created>1716636156189</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1716636156189</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Logfile">
+      <option name="closed" value="true" />
+      <created>1716636177764</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716636177764</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,6 +125,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Logfile /" />
     <MESSAGE value="Logfile" />
     <option name="LAST_COMMIT_MESSAGE" value="Logfile" />
   </component>
