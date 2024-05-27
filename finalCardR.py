@@ -187,6 +187,8 @@ class BingoCard:
         if self.card[row - 1][col - 1] != '❎':  # Nur wenn es sich nicht um das Jokerfeld handelt
             self.card[row - 1][col - 1] = self.original_card[row - 1][col - 1]  # Rücksetzen auf das Originalwort
 
+
+    @staticmethod #methode kann nun ohne instanz aufgerufen werden
     def display_winner_design(self):
         design = """
     __     ______  _    _   __          _______ _   _ 
@@ -270,6 +272,14 @@ class BingoCard:
 
 if __name__ == "__main__":
     import argparse
+
+
+def load_words(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return [line.strip() for line in file]
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bingo-Spiel")
     parser.add_argument('-xaxis', type=int, default=5, help='Anzahl der Felder in der Breite')
     parser.add_argument('-yaxis', type=int, default=5, help='Anzahl der Felder in der Höhe')
