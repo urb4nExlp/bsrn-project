@@ -14,7 +14,7 @@ class BingoCard:
     def create_card(self, word_file):
         # Wörter aus der Datei lesen
         words = self.read_words_from_file(word_file)
-        if len(words) < self.rows * self.cols - 1:  # Berücksichtigung des Jokerfelds
+        if len(words) < self.rows * self.cols - 1:  # Berücksichtigung des Jokerfeldstt
             raise ValueError("Die Wortdatei enthält nicht genügend Wörter für die Bingo-Karte.")
 
         card = []
