@@ -3,7 +3,7 @@ import curses
 from curses import textpad
 import os
 import argparse
-
+#testestest
 class BingoCard:
     def __init__(self, rows, cols, words):
         self.rows = rows
@@ -139,8 +139,11 @@ def main(stdscr, xaxis, yaxis, words):
 
 #file wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return [line.strip() for line in file]
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return [line.strip() for line in file]
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.") #filenotfoundexception
 
 #Argumentparsing und anschließendes Aufrufen des curses.wrapper
 if __name__ == "__main__":
@@ -150,8 +153,15 @@ if __name__ == "__main__":
     parser.add_argument('-wordfile', type=str, default='wordfile.txt', help='Pfad zur Datei mit den Wörtern')
     args = parser.parse_args()
 
-    words = load_words(args.wordfile)
-    if len(words) < args.xaxis * args.yaxis:
-        raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+    try:
+        words = load_words(args.wordfile)
+        if len(words) < args.xaxis * args.yaxis:
+            raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
-    curses.wrapper(main, args.xaxis, args.yaxis, words)
+        curses.wrapper(main, args.xaxis, args.yaxis, words)
+    except FileNotFoundError as e:
+        print(e)
+        exit(1)
+    except ValueError as e:
+        print(e)
+        exit(1)
