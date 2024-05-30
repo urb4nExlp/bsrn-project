@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3459eb39-99b7-4fa6-b4cc-836984273106" name="Changes" comment="Update finalCard.py">
       <changelist_data name="RobinGitHub24" email="robin.schaefer1@outlook.de" />
-      <change beforePath="$PROJECT_DIR$/BingoCard/finalCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/finalCard.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +117,7 @@
       <updated>1717099000176</updated>
       <workItem from="1717099003233" duration="1592000" />
       <workItem from="1717101456767" duration="327000" />
-      <workItem from="1717101830031" duration="4345000" />
+      <workItem from="1717101830031" duration="4431000" />
     </task>
     <servers />
   </component>
