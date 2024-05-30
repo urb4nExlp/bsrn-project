@@ -96,6 +96,7 @@ def main(stdscr, xaxis, yaxis, words):
     card = bingo_card.card
     marked = set()
 
+
     # Automatisches Markieren des mittleren Feldes, wenn xaxis und yaxis gleich und ungerade sind
     if xaxis == yaxis and xaxis % 2 == 1:
         middle = xaxis // 2
