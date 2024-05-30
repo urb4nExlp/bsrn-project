@@ -19,7 +19,7 @@ class BingoCard:
             row = []
             for j in range(self.cols):
                 if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2:
-                    row.append('X')  # Mittleres Feld als Joker
+                    row.append('X')  # Mittleres Feld als Joker, Symbol 'X' verwendet
                 else:
                     word = random.choice(words)
                     while word in used_words:
@@ -65,7 +65,6 @@ class BingoCard:
         # Rückgabe sind alle Wörter als String. Jedes Wort ist eine Zelle, 15 Zeichen breit, und Zellen werden mit "|" getrennt
         return card_str
 
-# Funktion zur Darstellung der Bingo-Karte im Curses-Fenster
 def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
@@ -81,12 +80,13 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
                 stdscr.addstr(y1 + field_height // 2, x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + field_height // 2, x1 + 1, word.center(field_width - 1), color_pair)  # Andernfalls das Wort
+    stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
     stdscr.refresh()
 
 def main(stdscr, xaxis, yaxis, words):
     # Hinweis von Marvin: Die Variablen werde ich noch umschreiben
     curses.start_color()
-    # Farbpaare für die Darstellung der Bingo-Karte
+    # Farbpaar als Attribut in Curses für färben der Wörter
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLUE)
     color_pair = curses.color_pair(1)
@@ -96,7 +96,6 @@ def main(stdscr, xaxis, yaxis, words):
     card = bingo_card.card
     marked = set()
 
-
     # Automatisches Markieren des mittleren Feldes, wenn xaxis und yaxis gleich und ungerade sind
     if xaxis == yaxis and xaxis % 2 == 1:
         middle = xaxis // 2
@@ -105,20 +104,19 @@ def main(stdscr, xaxis, yaxis, words):
     # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
     longest_word_length = max(len(word) for word in words)
     field_width = longest_word_length + 4  # Zusätzlicher Platz für das Wort und die Ränder
-    field_height = 4  # Höhe des Feldes
+    field_height = 4  # Erhöhte Höhe des Feldes
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
 
     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
-    # Programm wird abgebrochen, wenn x gedrückt wird.
+
     while True:
         key = stdscr.getch()
         if key == ord('x'):
             break
-        # Klick ist ein Mausereignis
-        if key == curses.KEY_MOUSE: #Überprüft, ob das Ereignis key ein Mausereignis ist
-            _, mx, my, _, _ = curses.getmouse() # Mausposition wird abgerufen
+        if key == curses.KEY_MOUSE:
+            _, mx, my, _, _ = curses.getmouse()
             col = (mx - 2) // (field_width + 1)
             row = (my - 2) // (field_height + 1)
             if 0 <= row < xaxis and 0 <= col < yaxis:
