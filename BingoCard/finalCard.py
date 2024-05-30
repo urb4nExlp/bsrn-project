@@ -14,7 +14,7 @@ class BingoCard:
         card = []
         used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden
 
-        # Zufällige Wörter in die Karte einfügen
+        # Zufällige Wörter in die Karte einfügen,
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
@@ -24,10 +24,17 @@ class BingoCard:
                     word = random.choice(words)
                     while word in used_words:
                         word = random.choice(words)
-                    row.append(word)
+                    row.append(self.split_word(word))
                     used_words.add(word)
             card.append(row)
         return card
+
+    def split_word(self, word):
+        if len(word) <= 10:
+            return word
+        else:
+            # Füge Bindestriche ein, um das Wort zu trennen
+            return '-\n'.join(word[i:i+10] for i in range(0, len(word), 10))
 
     def check_bingo(self):
         # Horizontale Überprüfung
@@ -77,14 +84,17 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
                 continue
             textpad.rectangle(stdscr, y1, x1, y2, x2)  # Zeichnet eine Umrandung um jedes Feld
             if (i, j) in marked:
-                stdscr.addstr(y1 + field_height // 2, x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
+                stdscr.addstr(y1 + 1, x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
-                stdscr.addstr(y1 + field_height // 2, x1 + 1, word.center(field_width - 1), color_pair)  # Andernfalls das Wort
+                # Bei mehreren Zeilen im Wort, jede Zeile getrennt darstellen
+                words_in_cell = word.split('\n')
+                for k, single_word in enumerate(words_in_cell):
+                    if y1 + k < y2:
+                        stdscr.addstr(y1 + k + 1, x1 + 1, single_word.center(field_width - 1), color_pair)
     stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
     stdscr.refresh()
 
 def main(stdscr, xaxis, yaxis, words):
-    # Hinweis von Marvin: Die Variablen werde ich noch umschreiben
     curses.start_color()
     # Farbpaar als Attribut in Curses für färben der Wörter
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -101,10 +111,10 @@ def main(stdscr, xaxis, yaxis, words):
         middle = xaxis // 2
         marked.add((middle, middle))
 
-    # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
+    # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes (alt)
     longest_word_length = max(len(word) for word in words)
-    field_width = longest_word_length + 4  # Zusätzlicher Platz für das Wort und die Ränder
-    field_height = 4  # Erhöhte Höhe des Feldes
+    field_width = 20 # Zusätzlicher Platz für das Wort und die Ränder
+    field_height = 4 # Erhöhte Höhe des Feldes
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
