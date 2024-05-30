@@ -3,7 +3,7 @@ import curses
 from curses import textpad
 import os
 import argparse
-#testestest
+#testestesttestdertest, mich macht das alles kirre
 class BingoCard:
     def __init__(self, rows, cols, words):
         self.rows = rows
