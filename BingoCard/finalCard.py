@@ -115,8 +115,9 @@ def main(stdscr, xaxis, yaxis, words):
         key = stdscr.getch()
         if key == ord('x'):
             break
-        if key == curses.KEY_MOUSE:
-            _, mx, my, _, _ = curses.getmouse()
+            # Klick ist ein Mausereignis
+        if key == curses.KEY_MOUSE:  # Überprüft, ob das Ereignis key ein Mausereignis ist
+            _, mx, my, _, _ = curses.getmouse()  # Mausposition wird abgerufen
             col = (mx - 2) // (field_width + 1)
             row = (my - 2) // (field_height + 1)
             if 0 <= row < xaxis and 0 <= col < yaxis:
