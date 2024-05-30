@@ -1,9 +1,8 @@
 import random
 import curses
 from curses import textpad
-import os
 import argparse
-#testestesttestdertest, mich macht das alles kirre
+
 class BingoCard:
     def __init__(self, rows, cols, words):
         self.rows = rows
@@ -20,7 +19,7 @@ class BingoCard:
             row = []
             for j in range(self.cols):
                 if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2:
-                    row.append('X')  # Mittleres Feld als Joker
+                    row.append('X')  # Mittleres Feld als Joker, Symbol 'X' verwendet
                 else:
                     word = random.choice(words)
                     while word in used_words:
@@ -61,9 +60,9 @@ class BingoCard:
     def __str__(self):
         card_str = ""
         for row in self.card:
-            #für jede zeile in der BingoCard wird Zeichenkette erstellt. Zellen der Zeile sind durch "|" getrennt.
+            # Für jede Zeile in der BingoCard wird eine Zeichenkette erstellt. Zellen der Zeile sind durch "|" getrennt.
             card_str += " | ".join(f"{cell:15}" for cell in row) + "\n"
-        #return sind alle Wörter als String. Jedes Wort ist eine Zelle, 15 Zeichen breit, und Zellen werden mit "|" getrennt
+        # Rückgabe sind alle Wörter als String. Jedes Wort ist eine Zelle, 15 Zeichen breit, und Zellen werden mit "|" getrennt
         return card_str
 
 def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
@@ -81,16 +80,17 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
                 stdscr.addstr(y1 + field_height // 2, x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + field_height // 2, x1 + 1, word.center(field_width - 1), color_pair)  # Andernfalls das Wort
+    stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
     stdscr.refresh()
 
 def main(stdscr, xaxis, yaxis, words):
-    #Hinweis von Marvin: Die Variablen werde ich noch umschreiben
+    # Hinweis von Marvin: Die Variablen werde ich noch umschreiben
     curses.start_color()
-    #Farbpaar als Attribut in Curses für färben der Wörter
-    curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_YELLOW)  # Blau auf Gelb
-    curses.init_pair(2, curses.COLOR_RED, curses.COLOR_WHITE)
+    # Farbpaar als Attribut in Curses für färben der Wörter
+    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLUE)
     color_pair = curses.color_pair(1)
-    red_white = curses.color_pair(2)
+    yellow_blue = curses.color_pair(2)
 
     bingo_card = BingoCard(xaxis, yaxis, words)
     card = bingo_card.card
@@ -103,22 +103,19 @@ def main(stdscr, xaxis, yaxis, words):
 
     # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
     longest_word_length = max(len(word) for word in words)
-    field_width = longest_word_length + 2  # Platz für das Wort und die Ränder
-    field_height = 3  # Höhe des Feldes
+    field_width = longest_word_length + 4  # Zusätzlicher Platz für das Wort und die Ränder
+    field_height = 4  # Erhöhte Höhe des Feldes
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
-    curses.curs_set(0)
 
-    #Karte kann besonders noch farblich deutlich schöner gemacht werden
     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
 
-    #Programm wird abgebrochen, wenn x gedrückt wird. Das muss noch auf der Karte schön vermerkt werden.
     while True:
         key = stdscr.getch()
         if key == ord('x'):
             break
-        # Klick ist ein Mausereignis
+            # Klick ist ein Mausereignis
         if key == curses.KEY_MOUSE:  # Überprüft, ob das Ereignis key ein Mausereignis ist
             _, mx, my, _, _ = curses.getmouse()  # Mausposition wird abgerufen
             col = (mx - 2) // (field_width + 1)
@@ -132,15 +129,18 @@ def main(stdscr, xaxis, yaxis, words):
                     bingo_card.mark(row, col)
                 draw_card(stdscr, card, marked, field_width, field_height, color_pair)
                 if bingo_card.check_bingo():
-                    stdscr.addstr(2 + xaxis * (field_height + 1), 2, "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), red_white)
+                    stdscr.addstr(2 + xaxis * (field_height + 1), 2, "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
                     stdscr.getch()
                     break
 
 #file wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return [line.strip() for line in file]
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return [line.strip() for line in file]
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.") #filenotfoundexception
 
 #Argumentparsing und anschließendes Aufrufen des curses.wrapper
 if __name__ == "__main__":
@@ -150,8 +150,15 @@ if __name__ == "__main__":
     parser.add_argument('-wordfile', type=str, default='wordfile.txt', help='Pfad zur Datei mit den Wörtern')
     args = parser.parse_args()
 
-    words = load_words(args.wordfile)
-    if len(words) < args.xaxis * args.yaxis:
-        raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+    try:
+        words = load_words(args.wordfile)
+        if len(words) < args.xaxis * args.yaxis:
+            raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
-    curses.wrapper(main, args.xaxis, args.yaxis, words)
+        curses.wrapper(main, args.xaxis, args.yaxis, words)
+    except FileNotFoundError as e:
+        print(e)
+        exit(1)
+    except ValueError as e:
+        print(e)
+        exit(1)
