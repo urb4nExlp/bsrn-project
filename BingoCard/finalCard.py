@@ -82,17 +82,32 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
             # Überprüfen, ob die Koordinaten innerhalb der Fenstergrenzen liegen
             if y2 >= max_y or x2 >= max_x:
                 continue
-            textpad.rectangle(stdscr, y1, x1, y2, x2)  # Zeichnet eine Umrandung um jedes Feld
+            textpad.rectangle(stdscr, y1, x1, y2, x2)   # Zeichnet eine Umrandung um jedes Feld
             if (i, j) in marked:
-                stdscr.addstr(y1 + 1, x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
+                stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),    # Wenn markiert, dann 'X'
+                              curses.A_REVERSE | color_pair)
             else:
-                # Bei mehreren Zeilen im Wort, jede Zeile getrennt darstellen
-                words_in_cell = word.split('\n')
+                words_in_cell = word.split('\n') # Bei mehreren Zeilen im Wort, jede Zeile getrennt darstellen
                 for k, single_word in enumerate(words_in_cell):
+                    line_y = y1 + 1 + (field_height - len(words_in_cell)) // 2 + k
                     if y1 + k < y2:
-                        stdscr.addstr(y1 + k + 1, x1 + 1, single_word.center(field_width - 1), color_pair)
-    stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
-    stdscr.refresh()
+                        stdscr.addstr(line_y, x1 + 1, single_word.center(field_width - 1), color_pair)
+        stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
+        stdscr.refresh()
+
+
+#in folgende methode muss noch verbessert werden, wenn die Felder nicht größer gemacht werden, da die wörter sonst komisch getrennt werden!
+def split_word(self, word):
+    max_length = 10  # Maximale Zeichenlänge pro Zeile
+    if len(word) <= max_length:
+        return word
+    else:
+        split_words = []
+        while len(word) > max_length:
+            split_words.append(word[:max_length])
+            word = word[max_length:]
+        split_words.append(word)
+        return '-\n'.join(split_words)
 
 def main(stdscr, xaxis, yaxis, words):
     curses.start_color()
