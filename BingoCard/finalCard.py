@@ -14,7 +14,7 @@ class BingoCard:
         card = []
         used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden
 
-        # Zufällige Wörter in die Karte einfügen,
+        # Zufällige Wörter in die Karte einfügen
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
@@ -30,11 +30,8 @@ class BingoCard:
         return card
 
     def split_word(self, word):
-        if len(word) <= 10:
-            return word
-        else:
-            # Füge Bindestriche ein, um das Wort zu trennen
-            return '-\n'.join(word[i:i+10] for i in range(0, len(word), 10))
+        # Keine Zeilentrennung, das Wort bleibt in einer Zeile
+        return word
 
     def check_bingo(self):
         # Horizontale Überprüfung
@@ -61,7 +58,7 @@ class BingoCard:
         self.card[row][col] = 'X'  # Markieren mit einem Kreuz
 
     def unmark(self, row, col):
-        if self.card[row][col] != 'X':  # Nur wenn es sich nicht um das Jokerfeld handelt
+        if self.card[row][col] == 'X':  # Nur wenn es sich nicht um das Jokerfeld handelt
             self.card[row][col] = self.original_card[row][col]  # Rücksetzen auf das Originalwort
 
     def __str__(self):
@@ -87,27 +84,9 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
                 stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),    # Wenn markiert, dann 'X'
                               curses.A_REVERSE | color_pair)
             else:
-                words_in_cell = word.split('\n') # Bei mehreren Zeilen im Wort, jede Zeile getrennt darstellen
-                for k, single_word in enumerate(words_in_cell):
-                    line_y = y1 + 1 + (field_height - len(words_in_cell)) // 2 + k
-                    if y1 + k < y2:
-                        stdscr.addstr(line_y, x1 + 1, single_word.center(field_width - 1), color_pair)
+                stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), color_pair)
         stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
         stdscr.refresh()
-
-
-#in folgende methode muss noch verbessert werden, wenn die Felder nicht größer gemacht werden, da die wörter sonst komisch getrennt werden!
-def split_word(self, word):
-    max_length = 10  # Maximale Zeichenlänge pro Zeile
-    if len(word) <= max_length:
-        return word
-    else:
-        split_words = []
-        while len(word) > max_length:
-            split_words.append(word[:max_length])
-            word = word[max_length:]
-        split_words.append(word)
-        return '-\n'.join(split_words)
 
 def main(stdscr, xaxis, yaxis, words):
     curses.start_color()
@@ -126,10 +105,10 @@ def main(stdscr, xaxis, yaxis, words):
         middle = xaxis // 2
         marked.add((middle, middle))
 
-    # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes (alt)
+    # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
     longest_word_length = max(len(word) for word in words)
-    field_width = 20 # Zusätzlicher Platz für das Wort und die Ränder
-    field_height = 4 # Erhöhte Höhe des Feldes
+    field_width = longest_word_length  # Zusätzlicher Platz für das Wort und die Ränder
+    field_height = 3  # Feste Höhe des Feldes
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
@@ -140,7 +119,7 @@ def main(stdscr, xaxis, yaxis, words):
         key = stdscr.getch()
         if key == ord('x'):
             break
-            # Klick ist ein Mausereignis
+        # Klick ist ein Mausereignis
         if key == curses.KEY_MOUSE:  # Überprüft, ob das Ereignis key ein Mausereignis ist
             _, mx, my, _, _ = curses.getmouse()  # Mausposition wird abgerufen
             col = (mx - 2) // (field_width + 1)
@@ -159,15 +138,15 @@ def main(stdscr, xaxis, yaxis, words):
                     stdscr.getch()
                     break
 
-#file wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
+# Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             return [line.strip() for line in file]
     except FileNotFoundError:
-        raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.") #filenotfoundexception
+        raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.")  # FileNotFoundException
 
-#Argumentparsing und anschließendes Aufrufen des curses.wrapper
+# Argumentparsing und anschließendes Aufrufen des curses.wrapper
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bingo-Spiel")
     parser.add_argument('-xaxis', type=int, default=5, help='Anzahl der Felder in der Breite')
