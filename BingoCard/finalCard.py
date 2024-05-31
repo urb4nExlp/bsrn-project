@@ -118,8 +118,10 @@ def main(stdscr, xaxis, yaxis, words):
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
-
+    #Zeichnen der BingoCard
     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
+
+    max_y, max_x = stdscr.getmaxyx()
 
     while True:
         key = stdscr.getch()
@@ -138,14 +140,38 @@ def main(stdscr, xaxis, yaxis, words):
                     marked.add((row, col))
                     bingo_card.mark(row, col)
                 draw_card(stdscr, card, marked, field_width, field_height, color_pair)
-                if bingo_card.check_bingo():
-                    stdscr.addstr(2 + xaxis * (field_height + 1), 2, "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
+        if bingo_card.check_bingo():  # Überprüfen, ob BINGO erreicht wurde
+            # Vor dem Gewinn eine Bestätigungsabfrage anzeigen
+            stdscr.addstr(max_y - 4, 2, "Letzter Klick richtig? Drücke '1' für Ja, '2' für Nein.",
+                          curses.A_BOLD | yellow_blue)
+            stdscr.refresh()
+            while True:
+                key = stdscr.getkey()
+                if key == "1":  # Wenn der Spieler den letzten Klick bestätigt
+                    # Gewinnnachricht anzeigen
+                    stdscr.addstr(2 + xaxis * (field_height + 1), 2,
+                                  "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
                     while True:
                         key = stdscr.getkey()
-                        if key == "x":
+                        if key == "x":  # Spiel beenden, wenn 'x' gedrückt wird
                             break
                     break
+                elif key == "2":  # Wenn der Spieler den letzten Klick rückgängig machen möchte
+                    if marked:  # Prüfen, ob überhaupt ein Feld markiert ist
+                        # Das zuletzt markierte Feld abrufen
+                        last_marked_row, last_marked_col = marked.pop()
+                        # Markierung des zuletzt markierten Feldes rückgängig machen
+                        bingo_card.unmark(last_marked_row, last_marked_col)
+                        # Bingo-Karte neu zeichnen, um die Änderung anzuzeigen
+                        draw_card(stdscr, card, marked, field_width, field_height, color_pair)
+                    # Fortfahren mit der Hauptschleife, ohne sie zu beenden
+                    continue  # Verwenden Sie 'continue', um zur nächsten Iteration der Schleife zu springen
+
+                # Prüfen, ob der Spieler "x" gedrückt hat, um das Spiel zu beenden
+                if key == "x":
+                    break  # Beenden der Hauptschleife und des Spiels
+
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path):
@@ -153,7 +179,37 @@ def load_words(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             return [line.strip() for line in file]
     except FileNotFoundError:
-        raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.")  # FileNotFoundException
+        print(f"Fehler: Datei '{file_path}' nicht gefunden.")
+        while True:
+            user_choice = input("Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)?")
+
+            if user_choice == '1':
+                print("Standardwörter werden verwendet.")
+                default_words = [
+                    "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
+                    "Hut aufhaben",
+                    "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
+                    "Corporate Identitiy",
+                    "Fokussieren", "Impact", "Target", "Benchmark", "Herausforderung(en)/Challenges", "Gadget", "Value",
+                    "Smart",
+                    "Web 2.0 oder 3.0", "Qualität", "Big Picture", "Revolution", "Pro-aktiv", "Game-changing", "Blog",
+                    "Community",
+                    "Social Media", "SOA", "Skalierbar", "Return on Invest (ROI)", "Wissenstransfer", "Best Practice",
+                    "Positionierung/Positionieren", "Committen", "Geforwarded", "Transparent", "Open Innovation",
+                    "Out-of-the-box",
+                    "Dissemination", "Blockchain", "Skills", "Gap", "Follower", "Win-Win", "Kernkomp"
+                ]
+                return random.sample(default_words, len(default_words))
+            elif user_choice == '2':
+                file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as file:
+                        return [line.strip() for line in file]
+                except FileNotFoundError:
+                    print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
+            else:
+                print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
+
 
 # Argumentparsing und anschließendes Aufrufen des curses.wrapper
 #wird immer als erstes ausgeführt
