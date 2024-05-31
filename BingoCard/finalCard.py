@@ -4,20 +4,25 @@ from curses import textpad
 import argparse
 
 class BingoCard:
+    #Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
     def __init__(self, rows, cols, words):
         self.rows = rows
         self.cols = cols
+        #Attribut Karte wird mit Methode create_card erstellt
         self.card = self.create_card(words)
         self.original_card = [row[:] for row in self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
 
+    #gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
+        #leere Liste
         card = []
-        used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden
+        used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden, jedes Element im Set kann nur einmal vorkommen
 
         # Zufällige Wörter in die Karte einfügen
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
+                #von der Logik durchgehen
                 if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2:
                     row.append('X')  # Mittleres Feld als Joker, Symbol 'X' verwendet
                 else:
@@ -81,8 +86,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
                 continue
             textpad.rectangle(stdscr, y1, x1, y2, x2)   # Zeichnet eine Umrandung um jedes Feld
             if (i, j) in marked:
-                stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),    # Wenn markiert, dann 'X'
-                              curses.A_REVERSE | color_pair)
+                stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),curses.A_REVERSE | color_pair) # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), color_pair)
         stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
@@ -96,6 +100,7 @@ def main(stdscr, xaxis, yaxis, words):
     color_pair = curses.color_pair(1)
     yellow_blue = curses.color_pair(2)
 
+    #Erstellen einer Bingo-Instanz
     bingo_card = BingoCard(xaxis, yaxis, words)
     card = bingo_card.card
     marked = set()
@@ -106,9 +111,10 @@ def main(stdscr, xaxis, yaxis, words):
         marked.add((middle, middle))
 
     # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
+    #To-Do: umschreiben auf Wörter, die in der BingoCard sind -> noch dynamischer
     longest_word_length = max(len(word) for word in words)
-    field_width = longest_word_length  # Zusätzlicher Platz für das Wort und die Ränder
-    field_height = 3  # Feste Höhe des Feldes
+    field_width = longest_word_length + 2 # Zusätzlicher Platz für das Wort und die Ränder
+    field_height = 4  # Feste Höhe des Feldes
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
@@ -135,7 +141,10 @@ def main(stdscr, xaxis, yaxis, words):
                 if bingo_card.check_bingo():
                     stdscr.addstr(2 + xaxis * (field_height + 1), 2, "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
-                    stdscr.getch()
+                    while True:
+                        key = stdscr.getkey()
+                        if key == "x":
+                            break
                     break
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
@@ -147,6 +156,7 @@ def load_words(file_path):
         raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.")  # FileNotFoundException
 
 # Argumentparsing und anschließendes Aufrufen des curses.wrapper
+#wird immer als erstes ausgeführt
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bingo-Spiel")
     parser.add_argument('-xaxis', type=int, default=5, help='Anzahl der Felder in der Breite')
@@ -155,10 +165,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     try:
+        #wörter aus angegebener Datei werden geladen
         words = load_words(args.wordfile)
         if len(words) < args.xaxis * args.yaxis:
             raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
+        #Die Main-Methode wird als Curses Umgebung gestartet
         curses.wrapper(main, args.xaxis, args.yaxis, words)
     except FileNotFoundError as e:
         print(e)
