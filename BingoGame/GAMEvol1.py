@@ -422,27 +422,28 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                         bingo_card.mark(row, col)
                     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
                     if bingo_card.check_bingo():
-                    #TIMESTAMP ERSTELLEN
+                        # TIMESTAMP ERSTELLEN
 
-                    #Checken ob Eingabe korrekt war
-                    if True:
-
-                        #Checken ob der TIMESTAMP der erste ist
+                        # Checken ob Eingabe korrekt war
                         if True:
-                            # GEWINN ÜBERMITTLUNG
-                            for i in range(int(maxplayer)):
-                                gewinner = getplayername(roundfile, playernumber)
-                                mq.send(gewinner.encode())
 
-                            stdscr.addstr(2 + xaxis * (field_height + 1), 2,
-                                          "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
-                            stdscr.refresh()
+                            # Checken ob der TIMESTAMP der erste ist
+                            if True:
+                                # GEWINN ÜBERMITTLUNG
+                                for i in range(int(maxplayer)):
+                                    gewinner = getplayername(roundfile, playernumber)
+                                    mq.send(gewinner.encode())
 
-                            while True:
-                                key = stdscr.getkey()
-                                if key == "x":
-                                    break
-                            break
+                                stdscr.addstr(2 + xaxis * (field_height + 1), 2,
+                                              "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
+                                stdscr.refresh()
+
+                                while True:
+                                    key = stdscr.getkey()
+                                    if key == "x":
+                                        break
+                                break
+
 
 
             if message:
