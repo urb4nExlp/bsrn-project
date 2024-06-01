@@ -1,11 +1,61 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="Update" />
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/BSRNproject.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/BSRNproject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/BingoCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/BingoCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GewinnÜberprüfung.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/GewinnÜberprüfung.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/bingodesign.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/bingodesign.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/WithCurses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/bingogameTEST.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogameTEST.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesColor.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesColor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesPads.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesPads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesPlayground.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesPlayground.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesStart.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesStart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesTextbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesTextbox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesUserInput.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesUserInput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/binTyper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/dateien.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/dateien.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,77 +74,50 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;urbanbenedikt00&quot;
+    &quot;assignee&quot;: &quot;urb4nExlp&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/urbanbenedikt00/spielplatz.git&quot;,
-    &quot;accountId&quot;: &quot;c9904577-1562-43d1-ae6b-801b14955092&quot;
+    &quot;accountId&quot;: &quot;c138730b-0127-4586-b465-be525f75e57d&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2fzyeDUcBmQBa0VLfC4HfevTim3" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.MQTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.PythonTraining.executor&quot;: &quot;Run&quot;,
-    &quot;Python.dateien.executor&quot;: &quot;Run&quot;,
-    &quot;Python.karteTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;urbanbenedikt&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.BingoCard2.executor": "Run",
+    "Python.finalCard.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Beni/Documents/GitHub/spielplatz/MessageQueues",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz" />
-      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\HOST\MQ" />
+      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\MessageQueues" />
+      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\ArchivDAT" />
+      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\Dateizugriffe" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="MQTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="spielplatz" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\Beni\Documents\GitHub\spielplatz\MQTest.py" />
-      <option name="PARAMETERS" value="-hoststart" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.MQTest" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -116,25 +139,17 @@
       <workItem from="1714818425421" duration="159000" />
       <workItem from="1714819216163" duration="177000" />
       <workItem from="1714819669241" duration="28000" />
-      <workItem from="1714840087455" duration="225000" />
-      <workItem from="1714905425841" duration="283000" />
-      <workItem from="1714905719667" duration="41000" />
-      <workItem from="1714906002943" duration="644000" />
-      <workItem from="1714917923120" duration="121000" />
-      <workItem from="1714922271288" duration="58000" />
-      <workItem from="1714924124490" duration="713000" />
-      <workItem from="1715004430624" duration="1108000" />
-      <workItem from="1715181874147" duration="37000" />
-      <workItem from="1715423975860" duration="3307000" />
-      <workItem from="1715517223311" duration="110000" />
-      <workItem from="1715522573224" duration="1248000" />
-      <workItem from="1715532961319" duration="1711000" />
-      <workItem from="1715790432431" duration="4771000" />
-      <workItem from="1715796385854" duration="1489000" />
-      <workItem from="1715799639291" duration="1213000" />
-      <workItem from="1715958445541" duration="231000" />
-      <workItem from="1715962759254" duration="7196000" />
-      <workItem from="1715972236938" duration="3000" />
+      <workItem from="1714820001414" duration="357000" />
+      <workItem from="1714820453297" duration="413000" />
+      <workItem from="1715959528249" duration="128000" />
+      <workItem from="1715959673623" duration="87000" />
+      <workItem from="1715960360084" duration="15000" />
+      <workItem from="1715960424430" duration="1475000" />
+      <workItem from="1716383265387" duration="315000" />
+      <workItem from="1717090595723" duration="1013000" />
+      <workItem from="1717164278885" duration="3978000" />
+      <workItem from="1717235676160" duration="616000" />
+      <workItem from="1717236433588" duration="43000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -146,146 +161,130 @@
     </task>
     <task id="LOCAL-00002" summary="Update">
       <option name="closed" value="true" />
-      <created>1714840225990</created>
+      <created>1714820208097</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1714840225990</updated>
+      <updated>1714820208097</updated>
     </task>
     <task id="LOCAL-00003" summary="Update">
       <option name="closed" value="true" />
-      <created>1714840274243</created>
+      <created>1714820567044</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1714840274243</updated>
+      <updated>1714820567044</updated>
     </task>
     <task id="LOCAL-00004" summary="Update">
       <option name="closed" value="true" />
-      <created>1714911059341</created>
+      <created>1714820569444</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1714911059341</updated>
+      <updated>1714820569444</updated>
     </task>
-    <task id="LOCAL-00005" summary="Update">
+    <task id="LOCAL-00005" summary="update">
       <option name="closed" value="true" />
-      <created>1715523211786</created>
+      <created>1714820765774</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1715523211786</updated>
+      <updated>1714820765774</updated>
     </task>
-    <task id="LOCAL-00006" summary="Update">
+    <task id="LOCAL-00006" summary="update Bilal">
       <option name="closed" value="true" />
-      <created>1715523622885</created>
+      <created>1715960486356</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1715523622885</updated>
+      <updated>1715960486356</updated>
     </task>
-    <task id="LOCAL-00007" summary="Update">
+    <task id="LOCAL-00007" summary="10x Versuch">
       <option name="closed" value="true" />
-      <created>1715523813882</created>
+      <created>1715961581163</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1715523813882</updated>
+      <updated>1715961581163</updated>
     </task>
-    <task id="LOCAL-00008" summary="Update">
+    <task id="LOCAL-00008" summary=".">
       <option name="closed" value="true" />
-      <created>1715534133317</created>
+      <created>1715961910105</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1715534133317</updated>
+      <updated>1715961910105</updated>
     </task>
-    <task id="LOCAL-00009" summary="Update">
+    <task id="LOCAL-00009" summary="Update Ordner Struktur">
       <option name="closed" value="true" />
-      <created>1715534228684</created>
+      <created>1716383411071</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1715534228684</updated>
+      <updated>1716383411071</updated>
     </task>
-    <task id="LOCAL-00010" summary="Update">
+    <task id="LOCAL-00010" summary="Update Ordner Struktur">
       <option name="closed" value="true" />
-      <created>1715534373845</created>
+      <created>1716384447037</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1715534373845</updated>
+      <updated>1716384447037</updated>
     </task>
-    <task id="LOCAL-00011" summary="Update">
+    <task id="LOCAL-00011" summary="Update Ordner Struktur">
       <option name="closed" value="true" />
-      <created>1715792902763</created>
+      <created>1716384554109</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1715792902763</updated>
+      <updated>1716384554109</updated>
     </task>
-    <task id="LOCAL-00012" summary="Update">
+    <task id="LOCAL-00012" summary="update">
       <option name="closed" value="true" />
-      <created>1715794726080</created>
+      <created>1716568722762</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1715794726080</updated>
+      <updated>1716568722762</updated>
     </task>
-    <task id="LOCAL-00013" summary="Update">
+    <task id="LOCAL-00013" summary="update">
       <option name="closed" value="true" />
-      <created>1715800197624</created>
+      <created>1717171066890</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1715800197624</updated>
+      <updated>1717171066890</updated>
     </task>
-    <task id="LOCAL-00014" summary="Update">
-      <option name="closed" value="true" />
-      <created>1715970860405</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1715970860405</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Update">
-      <option name="closed" value="true" />
-      <created>1715972146912</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1715972146912</updated>
-    </task>
-    <option name="localTasksCounter" value="16" />
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="update" />
-    <MESSAGE value="Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/PythonTraining.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Update" />
+    <MESSAGE value="update Bilal" />
+    <MESSAGE value="10x Versuch" />
+    <MESSAGE value="." />
+    <MESSAGE value="Update Ordner Struktur" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/spielplatz$test.coverage" NAME="test Coverage Results" MODIFIED="1715533607230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/spielplatz$MQTest.coverage" NAME="MQTest Coverage Results" MODIFIED="1715792636196" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/spielplatz$karteTest.coverage" NAME="karteTest Coverage Results" MODIFIED="1715792643821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/spielplatz$dateien.coverage" NAME="dateien Coverage Results" MODIFIED="1715963131536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/bsrn_project$test.coverage" NAME="test Coverage Results" MODIFIED="1714819338372" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/spielplatz$PythonTraining.coverage" NAME="PythonTraining Coverage Results" MODIFIED="1714905757918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BingoCard2_py$BingoCard2.coverage" NAME="BingoCard2 Coverage Results" MODIFIED="1716570179849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
+    <SUITE FILE_PATH="coverage/bsrn_project$test.coverage" NAME="test Coverage Results" MODIFIED="1715546572270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HEAD$finalCard.coverage" NAME="finalCard Coverage Results" MODIFIED="1717170883984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
   </component>
 </project>
-=======
->>>>>>> 5dd0fd8d9871e25f971c7942e26cbb8768478efa
