@@ -195,12 +195,12 @@ if __name__ == "__main__":
 
     try:
         #wörter aus angegebener Datei werden geladen
-        words = load_words(args.wordfile)
-        if len(words) < args.xaxis * args.yaxis:
+        words = load_words(wordfile)
+        if len(words) < xaxis * yaxis:
             raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
         #Die Main-Methode wird als Curses Umgebung gestartet
-        curses.wrapper(main, args.xaxis, args.yaxis, words)
+        curses.wrapper(main, xaxis, yaxis, words)
     except FileNotFoundError as e:
         print(e)
         exit(1)
