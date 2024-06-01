@@ -153,7 +153,36 @@ def load_words(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             return [line.strip() for line in file]
     except FileNotFoundError:
-        raise FileNotFoundError(f"Fehler: Datei '{file_path}' nicht gefunden.")  # FileNotFoundException
+        print(f"Fehler: Datei '{file_path}' nicht gefunden.")
+        while True:
+            user_choice = input("Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)?")
+
+            if user_choice == '1':
+                print("Standardwörter werden verwendet.")
+                default_words = [
+                    "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
+                    "Hut aufhaben",
+                    "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
+                    "Corporate Identitiy",
+                    "Fokussieren", "Impact", "Target", "Benchmark", "Herausforderung(en)/Challenges", "Gadget", "Value",
+                    "Smart",
+                    "Web 2.0 oder 3.0", "Qualität", "Big Picture", "Revolution", "Pro-aktiv", "Game-changing", "Blog",
+                    "Community",
+                    "Social Media", "SOA", "Skalierbar", "Return on Invest (ROI)", "Wissenstransfer", "Best Practice",
+                    "Positionierung/Positionieren", "Committen", "Geforwarded", "Transparent", "Open Innovation",
+                    "Out-of-the-box",
+                    "Dissemination", "Blockchain", "Skills", "Gap", "Follower", "Win-Win", "Kernkomp"
+                ]
+                return random.sample(default_words, len(default_words))
+            elif user_choice == '2':
+                file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as file:
+                        return [line.strip() for line in file]
+                except FileNotFoundError:
+                    print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
+            else:
+                print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
 
 # Argumentparsing und anschließendes Aufrufen des curses.wrapper
 #wird immer als erstes ausgeführt
