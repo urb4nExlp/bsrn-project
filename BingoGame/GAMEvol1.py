@@ -4,22 +4,21 @@ import time
 import os
 
 
-
 def host_start(maxplayer, roundfile):
+    #HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
+
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
-    print("\nHost gestartet. Warte auf Client...")
+    print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
     # Warten auf Nachricht vom Client
     message, _ = mq.receive()
-    print(f"Nachricht vom Client erhalten: {message.decode()}")
-
-    # Nachricht "Hallo Welt" ausgeben
+    print(f": {message.decode()}")
 
 
-    # Überprüfen, ob eine Nachricht vom anderen Spieler empfangen wurde
+    # Sobald Spieler 2 beigetreten ist startet das Spiel
     if message:
         # Starte das Rätselspiel, nachdem eine Nachricht empfangen wurde
         ratespiel(mq, maxplayer, 1, roundfile)
@@ -27,38 +26,41 @@ def host_start(maxplayer, roundfile):
     # Message Queue schließen
     mq.close()
 
+
 def player_start(second, playernumber, roundfile, maxplayer):
+    #SPIELER Methode, tritt dem Spiel bei
+
     # Initialisiere den Namen der Message Queue
     mq_name = "/my_message_queue"
 
     # Öffne die existierende Message Queue
     mq = posix_ipc.MessageQueue(mq_name)
 
+    #Falls es sich um Spieler 2 handelt, wird die Nachricht an den Host gesendet
     if second:
-        # Nachricht an den Host senden
+        # Nachricht an Spieler 1 senden
         playername = getplayername(roundfile, playernumber)
         message = "Spieler2 ist beigetreten: " + playername
         mq.send(message.encode())
 
-        # Starte das Rätselspiel
+        # Starte Bingo
         ratespiel(mq, maxplayer, playernumber, roundfile)
 
 
-
+    #Falls es sich um Spieler != 2 handelt wird das Spiel gestartet
     else:
-        # Starte das Rätselspiel
+        # Starte Bingo
         ratespiel(mq, maxplayer, playernumber, roundfile)
-
-
-
 
 
 def check_for_message(mq):
+    #Methode die prüft ob eine Nachricht in der MQ vorliegt
     try:
         message, _ = mq.receive(timeout=0)  # Versuche, eine Nachricht zu empfangen
         return message.decode()  # Nachricht vorhanden, gebe sie zurück
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
+
 
 def ratespiel(mq, maxplayer, playernumber, roundfile):
     zahl = 5
@@ -66,16 +68,15 @@ def ratespiel(mq, maxplayer, playernumber, roundfile):
 
     while True:
         message = check_for_message(mq)
-        #Gewinnüberprüfung vor Eingabe
+
         if message:
             print(message + " hat gewonnen, Spiel ist vorbei!")
             break
         else:
             eingabe = input("Tipp:")
 
-
             message2 = check_for_message(mq)
-            #Gewinnüberprüfung nach Eingabe
+
             if message2:
                 print(message2 + " hat gewonnen, Spiel ist vorbei!")
                 break
@@ -93,15 +94,18 @@ def ratespiel(mq, maxplayer, playernumber, roundfile):
                 except ValueError:
                     print("Eingabe fehlerhaft, versuche es erneut!")
 
+
 def is_integer(value):
+    #Methode die prüft ob ein Wert ein Integer ist
     try:
         int(value)
         return True
     except ValueError:
         return False
 
+
 def getxachse(rundendatei):
-    """Return INT der X Achse"""
+    #Methode gibt anhand der roundfile die xachse zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -111,8 +115,9 @@ def getxachse(rundendatei):
         print(f"Error reading x-axis from {rundendatei}: {e}")
         return None
 
+
 def getyachse(rundendatei):
-    """Return INT der Y Achse"""
+    #Methode gibt anhand der roundfile die yachse zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -122,8 +127,9 @@ def getyachse(rundendatei):
         print(f"Error reading y-axis from {rundendatei}: {e}")
         return None
 
+
 def getmaxplayer(rundendatei):
-    """Return INT Maxplayer"""
+    #Methode gibt den maxplayer Wert aus der roundfile zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -133,8 +139,9 @@ def getmaxplayer(rundendatei):
         print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
+
 def getplayername(rundendatei, player_count):
-    """Return STRING player"""
+    #Methode gibt den Spielernamen anhand von roundfile, playernumber zurück
     try:
         with open(rundendatei, 'r') as f:
             playerstring = "playername" + str(player_count)
@@ -144,8 +151,10 @@ def getplayername(rundendatei, player_count):
     except Exception as e:
         print(f"Error reading  playername from {rundendatei}: {e}")
         return None
+
+
 def getplayer(rundendatei):
-    """Return INT player"""
+    #Methode gibt den Wert der bisher beigetretenen Spieler zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -157,7 +166,7 @@ def getplayer(rundendatei):
 
 
 def incplayer(rundendatei, spielername):
-    """Increment the player count in the given file and append player's name."""
+    #Methode zur Verwaltung der Spieler, Namens / Nummernzuweisung
     try:
         # Lese den aktuellen Spielerzähler
         with open(rundendatei, 'r') as f:
@@ -165,14 +174,20 @@ def incplayer(rundendatei, spielername):
 
         for i, line in enumerate(lines):
             if line.startswith("players:"):
+                #Extrahiert den int nach playercount anhand vom ":"
                 player_count = int(line.split(":")[1].strip())
+                #erhöht die Spieleranzahl um 1 (beigetreten)
                 player_count += 1
+                #Schreibt den neuen Wert zurück
                 lines[i] = f"players: {player_count}\n"
                 break
+        #String Variable die playernumber1/2/3/n einträgt
         playerstring = "playername" + str(player_count)
 
-        # Füge den Spielername und den Spielername + Spielerzahl hinzu
-        lines.append(f"{playerstring}: {spielername}\n")
+        # playernumber{n} wird mit dem Namen und der PID gespeichert
+        # Trennung erfolgt mit ":" für die .split Methode
+        # Wird als Line "drangehängt"
+        lines.append(f"{playerstring}: {spielername}: {os.getpid()}\n")
 
         # Schreibe den neuen Inhalt zurück in die Datei
         with open(rundendatei, 'w') as f:
@@ -180,25 +195,18 @@ def incplayer(rundendatei, spielername):
         return player_count
     except Exception as e:
         print(f"Error updating players in {rundendatei}: {e}")
-def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname): #Upload.
-    """Erstellt eine Datei mit Rundendetails."""
+
+
+def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname):  # Upload.
+    #Methode für die roundfile, integriert direkt die PID des Hosts
     try:
         with open(rundendatei, 'w') as f:
             f.write(f"maxplayer: {maxspieler}\n")
             f.write(f"height: {yachse}\n")
             f.write(f"width: {xachse}\n")
             f.write(f"players: {1}\n")
-            f.write(f"playername1: {hostname}\n")
+            f.write(f"playername1: {hostname}: {os.getpid()}\n")
         print("Roundfile created, initializing game start...")
-        ################ Animation #################
-        print("loading")
-        animation = ["[#"        "]10%", "[##"       "]20%", "[###"      "]30%", "[####"     "]40%", "[#####"    "]50%",
-                     "[######"    "]60%", "[#######"  "]70%", "[########"  "]80%", "[#########" "]90%",
-                     "[##########]100%"]
-        for i in range(len(animation)):
-            time.sleep(0.6)
-            sys.stdout.write("\r" + animation[i % len(animation)])
-        ################ Animation #################
     except Exception as e:
         print("Error creating round file:", e)
 
@@ -211,7 +219,8 @@ if __name__ == "__main__":
     if sys.argv[1] == "-newround":
         if len(sys.argv) != 14:
             print("Falsche Eingabe für die Argumente von -newround")
-            print("Nutzung: -newround -roundfile rundenDATEI.txt -xaxis INT -yaxis INT -wordfile wortDATEI.txt -maxplayers INT -playername NAME")
+            print(
+                "Nutzung: -newround -roundfile rundenDATEI.txt -xaxis INT -yaxis INT -wordfile wortDATEI.txt -maxplayers INT -playername NAME")
             sys.exit(1)
 
         if (sys.argv[2] == "-roundfile" and
@@ -235,14 +244,15 @@ if __name__ == "__main__":
             print("Nutzung: -joinround -roundfile DATA.txt -playername NAME")
             sys.exit(1)
 
-
         if (os.path.exists(sys.argv[3])):
             if (getplayer(sys.argv[3]) < getmaxplayer(sys.argv[3])):
                 playernumber = incplayer(sys.argv[3], sys.argv[5])
                 print("Ich bin Spieler Nummer: " + str(playernumber))
                 if playernumber != 2:
-                    player_start(False,playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
+
+                    player_start(False, playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
                 else:
+
                     player_start(True, playernumber, sys.argv[3], getmaxplayer(sys.argv[3]))
             else:
                 print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
@@ -252,7 +262,3 @@ if __name__ == "__main__":
     else:
         print("Unbekannter Befehl")
         sys.exit(1)
-
-
-
-
