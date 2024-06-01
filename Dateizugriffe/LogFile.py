@@ -7,7 +7,7 @@ def createlogfile(spielername):
     print(f"Die Logdatei '{logfile_name}' wurde erfolgreich erstellt.")
 
 def addtolog(spielername, eintrag):
-    #Fügt einen neuen Eintrag zur Logdatei des angegebenen Spielers hinzu.
+    #Fügt einen neuen Eintrag zur Logdatei des angegebenen Spielers hinzu .
  logfile_name = f"{spielername}_log.txt"
 if os.path.exists(logfile_name):
     with open(logfile_name, 'a') as logfile:
