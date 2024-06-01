@@ -11,7 +11,6 @@ class BingoCard:
         self.original_card = [row[:] for row in self.card]  # Kopie der Originalkarte um später die Klicks auch rückgänig machen zu können
 
     # Methode zum Erstellen der Bingo-Karte
-    import random
 
     def create_card(self, word_file):
         try:
