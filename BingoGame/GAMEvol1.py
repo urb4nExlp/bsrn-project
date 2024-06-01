@@ -9,10 +9,7 @@ import argparse
 
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
-
-    #HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
-
-
+    # HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
 
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
@@ -24,7 +21,6 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
     message, _ = mq.receive()
     print(f": {message.decode()}")
 
-
     # Sobald Spieler 2 beigetreten ist startet das Spiel
     if message:
         try:
@@ -34,7 +30,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
             # Die Main-Methode wird als Curses Umgebung gestartet
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq , maxplayer, 1, roundfile)
+            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile)
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -46,9 +42,8 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
     mq.close()
 
 
-def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile ):
-
-    #SPIELER Methode, tritt dem Spiel bei
+def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile):
+    # SPIELER Methode, tritt dem Spiel bei
 
     # Initialisiere den Namen der Message Queue
     mq_name = "/my_message_queue"
@@ -56,7 +51,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
     # Öffne die existierende Message Queue
     mq = posix_ipc.MessageQueue(mq_name)
 
-    #Falls es sich um Spieler 2 handelt, wird die Nachricht an den Host gesendet
+    # Falls es sich um Spieler 2 handelt, wird die Nachricht an den Host gesendet
     if second:
         # Nachricht an Spieler 1 senden
         playername = getplayername(roundfile, playernumber)
@@ -70,7 +65,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
             # Die Main-Methode wird als Curses Umgebung gestartet
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq , maxplayer, playernumber, roundfile)
+            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile)
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -83,7 +78,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
 
 
 
-    #Falls es sich um Spieler != 2 handelt wird das Spiel gestartet
+    # Falls es sich um Spieler != 2 handelt wird das Spiel gestartet
     else:
         # Starte Bingo
         try:
@@ -93,7 +88,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
             # Die Main-Methode wird als Curses Umgebung gestartet
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq , maxplayer, playernumber, roundfile)
+            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile)
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -103,7 +98,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
 
 
 def check_for_message(mq):
-    #Methode die prüft ob eine Nachricht in der MQ vorliegt
+    # Methode die prüft ob eine Nachricht in der MQ vorliegt
     try:
         message, _ = mq.receive(timeout=0)  # Versuche, eine Nachricht zu empfangen
         return message.decode()  # Nachricht vorhanden, gebe sie zurück
@@ -145,7 +140,7 @@ def ratespiel(mq, maxplayer, playernumber, roundfile):
 
 
 def is_integer(value):
-    #Methode die prüft ob ein Wert ein Integer ist
+    # Methode die prüft ob ein Wert ein Integer ist
     try:
         int(value)
         return True
@@ -154,7 +149,7 @@ def is_integer(value):
 
 
 def getxachse(rundendatei):
-    #Methode gibt anhand der roundfile die xachse zurück
+    # Methode gibt anhand der roundfile die xachse zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -166,7 +161,7 @@ def getxachse(rundendatei):
 
 
 def getyachse(rundendatei):
-    #Methode gibt anhand der roundfile die yachse zurück
+    # Methode gibt anhand der roundfile die yachse zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -178,7 +173,7 @@ def getyachse(rundendatei):
 
 
 def getmaxplayer(rundendatei):
-    #Methode gibt den maxplayer Wert aus der roundfile zurück
+    # Methode gibt den maxplayer Wert aus der roundfile zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -187,8 +182,10 @@ def getmaxplayer(rundendatei):
     except Exception as e:
         print(f"Error reading max players from {rundendatei}: {e}")
         return None
+
+
 def getwordfile(rundendatei):
-    #Methode gibt den maxplayer Wert aus der roundfile zurück
+    # Methode gibt den maxplayer Wert aus der roundfile zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -198,8 +195,9 @@ def getwordfile(rundendatei):
         print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
+
 def getplayername(rundendatei, player_count):
-    #Methode gibt den Spielernamen anhand von roundfile, playernumber zurück
+    # Methode gibt den Spielernamen anhand von roundfile, playernumber zurück
     try:
         with open(rundendatei, 'r') as f:
             playerstring = "playername" + str(player_count)
@@ -212,7 +210,7 @@ def getplayername(rundendatei, player_count):
 
 
 def getplayer(rundendatei):
-    #Methode gibt den Wert der bisher beigetretenen Spieler zurück
+    # Methode gibt den Wert der bisher beigetretenen Spieler zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -224,7 +222,7 @@ def getplayer(rundendatei):
 
 
 def incplayer(rundendatei, spielername):
-    #Methode zur Verwaltung der Spieler, Namens / Nummernzuweisung
+    # Methode zur Verwaltung der Spieler, Namens / Nummernzuweisung
     try:
         # Lese den aktuellen Spielerzähler
         with open(rundendatei, 'r') as f:
@@ -232,14 +230,14 @@ def incplayer(rundendatei, spielername):
 
         for i, line in enumerate(lines):
             if line.startswith("players:"):
-                #Extrahiert den int nach playercount anhand vom ":"
+                # Extrahiert den int nach playercount anhand vom ":"
                 player_count = int(line.split(":")[1].strip())
-                #erhöht die Spieleranzahl um 1 (beigetreten)
+                # erhöht die Spieleranzahl um 1 (beigetreten)
                 player_count += 1
-                #Schreibt den neuen Wert zurück
+                # Schreibt den neuen Wert zurück
                 lines[i] = f"players: {player_count}\n"
                 break
-        #String Variable die playernumber1/2/3/n einträgt
+        # String Variable die playernumber1/2/3/n einträgt
         playerstring = "playername" + str(player_count)
 
         # playernumber{n} wird mit dem Namen und der PID gespeichert
@@ -256,7 +254,7 @@ def incplayer(rundendatei, spielername):
 
 
 def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile):  # Upload.
-    #Methode für die roundfile, integriert direkt die PID des Hosts
+    # Methode für die roundfile, integriert direkt die PID des Hosts
     try:
         with open(rundendatei, 'w') as f:
             f.write(f"maxplayer: {maxspieler}\n")
@@ -271,17 +269,18 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
 
 
 class BingoCard:
-    #Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
+    # Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
     def __init__(self, rows, cols, words):
         self.rows = rows
         self.cols = cols
-        #Attribut Karte wird mit Methode create_card erstellt
+        # Attribut Karte wird mit Methode create_card erstellt
         self.card = self.create_card(words)
-        self.original_card = [row[:] for row in self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
+        self.original_card = [row[:] for row in
+                              self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
 
-    #gibt liste mit wörtern aus wordfile wieder
+    # gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
-        #leere Liste
+        # leere Liste
         card = []
         used_words = set()  # Verwendete Wörter speichern, um Duplikate zu vermeiden, jedes Element im Set kann nur einmal vorkommen
 
@@ -289,7 +288,7 @@ class BingoCard:
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
-                #von der Logik durchgehen
+                # von der Logik durchgehen
                 if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2:
                     row.append('X')  # Mittleres Feld als Joker, Symbol 'X' verwendet
                 else:
@@ -341,6 +340,7 @@ class BingoCard:
         # Rückgabe sind alle Wörter als String. Jedes Wort ist eine Zelle, 15 Zeichen breit, und Zellen werden mit "|" getrennt
         return card_str
 
+
 def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
@@ -351,15 +351,18 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
             # Überprüfen, ob die Koordinaten innerhalb der Fenstergrenzen liegen
             if y2 >= max_y or x2 >= max_x:
                 continue
-            textpad.rectangle(stdscr, y1, x1, y2, x2)   # Zeichnet eine Umrandung um jedes Feld
+            textpad.rectangle(stdscr, y1, x1, y2, x2)  # Zeichnet eine Umrandung um jedes Feld
             if (i, j) in marked:
-                stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),curses.A_REVERSE | color_pair) # Wenn markiert, dann 'X'
+                stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),
+                              curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), color_pair)
-        stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden", curses.A_BOLD | color_pair) # Programm wird abgebrochen, wenn x gedrückt wird.
+        stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
+                      curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
         stdscr.refresh()
 
-def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
+
+def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
     # Farbpaar als Attribut in Curses für färben der Wörter
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -367,7 +370,7 @@ def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
     color_pair = curses.color_pair(1)
     yellow_blue = curses.color_pair(2)
 
-    #Erstellen einer Bingo-Instanz
+    # Erstellen einer Bingo-Instanz
     bingo_card = BingoCard(xaxis, yaxis, words)
     card = bingo_card.card
     marked = set()
@@ -378,9 +381,9 @@ def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
         marked.add((middle, middle))
 
     # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
-    #To-Do: umschreiben auf Wörter, die in der BingoCard sind -> noch dynamischer
+    # To-Do: umschreiben auf Wörter, die in der BingoCard sind -> noch dynamischer
     longest_word_length = max(len(word) for word in words)
-    field_width = longest_word_length + 2 # Zusätzlicher Platz für das Wort und die Ränder
+    field_width = longest_word_length + 2  # Zusätzlicher Platz für das Wort und die Ränder
     field_height = 4  # Feste Höhe des Feldes
 
     # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
@@ -391,12 +394,12 @@ def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
     nichtverloren = True
 
     while True:
+
         key = stdscr.getch()
         if key == ord('x'):
             break
         # Klick ist ein Mausereignis
         message = check_for_message(mq)
-
 
         if message:
             nachricht = message + "hat gewonnen! Du hast verloren!"
@@ -404,8 +407,6 @@ def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
             nichtverloren = False
-
-
 
         if nichtverloren:
             if key == curses.KEY_MOUSE:  # Überprüft, ob das Ereignis key ein Mausereignis ist
@@ -421,20 +422,29 @@ def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
                         bingo_card.mark(row, col)
                     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
                     if bingo_card.check_bingo():
+                    #TIMESTAMP ERSTELLEN
 
-                        for i in range(int(maxplayer)):
-                            gewinner = getplayername(roundfile, playernumber)
-                            mq.send(gewinner.encode())
+                    #Checken ob Eingabe korrekt war
+                    if True:
 
-                        stdscr.addstr(2 + xaxis * (field_height + 1), 2,
-                                      "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
-                        stdscr.refresh()
+                        #Checken ob der TIMESTAMP der erste ist
+                        if True:
+                            # GEWINN ÜBERMITTLUNG
+                            for i in range(int(maxplayer)):
+                                gewinner = getplayername(roundfile, playernumber)
+                                mq.send(gewinner.encode())
 
-                        while True:
-                            key = stdscr.getkey()
-                            if key == "x":
-                                break
-                        break
+                            stdscr.addstr(2 + xaxis * (field_height + 1), 2,
+                                          "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
+                            stdscr.refresh()
+
+                            while True:
+                                key = stdscr.getkey()
+                                if key == "x":
+                                    break
+                            break
+
+
             if message:
                 nachricht = message + "hat gewonnen! Du hast verloren!"
                 stdscr.addstr(2 + xaxis * (field_height + 1), 2,
@@ -442,8 +452,6 @@ def main(stdscr, xaxis, yaxis, words, mq , maxplayer, playernumber, roundfile):
                 stdscr.refresh()
                 nichtverloren = False
                 break
-
-
 
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
@@ -454,7 +462,8 @@ def load_words(file_path):
     except FileNotFoundError:
         print(f"Fehler: Datei '{file_path}' nicht gefunden.")
         while True:
-            user_choice = input("Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)?")
+            user_choice = input(
+                "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)?")
 
             if user_choice == '1':
                 print("Standardwörter werden verwendet.")
@@ -524,10 +533,12 @@ if __name__ == "__main__":
                 print("Ich bin Spieler Nummer: " + str(playernumber))
                 if playernumber != 2:
 
-                    player_start(False, playernumber, sys.argv[3], mplayer, getyachse(sys.argv[3]), getxachse(sys.argv[3]), getwordfile(sys.argv[3]))
+                    player_start(False, playernumber, sys.argv[3], mplayer, getyachse(sys.argv[3]),
+                                 getxachse(sys.argv[3]), getwordfile(sys.argv[3]))
                 else:
 
-                    player_start(True, playernumber, sys.argv[3], mplayer, getxachse(sys.argv[3]), getyachse(sys.argv[3]), getwordfile(sys.argv[3]))
+                    player_start(True, playernumber, sys.argv[3], mplayer, getxachse(sys.argv[3]),
+                                 getyachse(sys.argv[3]), getwordfile(sys.argv[3]))
             else:
                 print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
         else:
@@ -536,4 +547,3 @@ if __name__ == "__main__":
     else:
         print("Unbekannter Befehl")
         sys.exit(1)
-
