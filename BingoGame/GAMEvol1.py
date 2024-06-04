@@ -27,7 +27,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
             # wörter aus angegebener Datei werden geladen
             words = load_words(wordfile)
             if len(words) < int(xaxis) * int(yaxis):
-                raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+                raise ValueError(f"Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile)
