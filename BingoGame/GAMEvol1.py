@@ -362,97 +362,82 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
         stdscr.refresh()
 
 
+
+
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
-    # Farbpaar als Attribut in Curses für färben der Wörter
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLUE)
     color_pair = curses.color_pair(1)
     yellow_blue = curses.color_pair(2)
 
-    # Erstellen einer Bingo-Instanz
     bingo_card = BingoCard(xaxis, yaxis, words)
     card = bingo_card.card
     marked = set()
 
-    # Automatisches Markieren des mittleren Feldes, wenn xaxis und yaxis gleich und ungerade sind
     if xaxis == yaxis and xaxis % 2 == 1:
         middle = xaxis // 2
         marked.add((middle, middle))
 
-    # Berechnen der Feldgröße basierend auf der Länge des längsten Wortes
-    # To-Do: umschreiben auf Wörter, die in der BingoCard sind -> noch dynamischer
     longest_word_length = max(len(word) for word in words)
-    field_width = longest_word_length + 2  # Zusätzlicher Platz für das Wort und die Ränder
-    field_height = 4  # Feste Höhe des Feldes
+    field_width = longest_word_length + 2
+    field_height = 4
 
-    # Folgende Zeilen stellen sicher, dass Mausereignisse von curses erkannt werden:
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
 
     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
 
     nichtverloren = True
 
+    stdscr.timeout(1000)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
+
     while True:
-
-        key = stdscr.getch()
-        if key == ord('x'):
-            break
-        # Klick ist ein Mausereignis
         message = check_for_message(mq)
-
         if message:
-            nachricht = message + "hat gewonnen! Du hast verloren!"
+            if message == getplayername(roundfile, playernumber):
+                nachricht = "BINGO! Du hast gewonnen!"
+            else:
+                nachricht = f"{message} hat gewonnen! Du hast verloren!"
             stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
             nichtverloren = False
 
-        if nichtverloren:
-            if key == curses.KEY_MOUSE:  # Überprüft, ob das Ereignis key ein Mausereignis ist
-                _, mx, my, _, _ = curses.getmouse()  # Mausposition wird abgerufen
-                col = (mx - 2) // (field_width + 1)
-                row = (my - 2) // (field_height + 1)
-                if 0 <= row < xaxis and 0 <= col < yaxis:
-                    if (row, col) in marked:
-                        marked.remove((row, col))
-                        bingo_card.unmark(row, col)
-                    else:
-                        marked.add((row, col))
-                        bingo_card.mark(row, col)
-                    draw_card(stdscr, card, marked, field_width, field_height, color_pair)
-                    if bingo_card.check_bingo():
-                        # TIMESTAMP ERSTELLEN
+        key = stdscr.getch()
 
-                        # Checken ob Eingabe korrekt war
-                        if True:
+        if key == ord('x'):
+            break
 
-                            # Checken ob der TIMESTAMP der erste ist
-                            if True:
-                                # GEWINN ÜBERMITTLUNG
-                                for i in range(int(maxplayer)):
-                                    gewinner = getplayername(roundfile, playernumber)
-                                    mq.send(gewinner.encode())
+        if nichtverloren and key == curses.KEY_MOUSE:
+            _, mx, my, _, _ = curses.getmouse()
+            col = (mx - 2) // (field_width + 1)
+            row = (my - 2) // (field_height + 1)
+            if 0 <= row < xaxis and 0 <= col < yaxis:
+                if (row, col) in marked:
+                    marked.remove((row, col))
+                    bingo_card.unmark(row, col)
+                else:
+                    marked.add((row, col))
+                    bingo_card.mark(row, col)
+                draw_card(stdscr, card, marked, field_width, field_height, color_pair)
+                if bingo_card.check_bingo():
+                    gewinner = getplayername(roundfile, playernumber)
+                    for i in range(int(maxplayer)):
+                        mq.send(gewinner.encode())
 
-                                stdscr.addstr(2 + xaxis * (field_height + 1), 2,
-                                              "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
-                                stdscr.refresh()
+                    stdscr.addstr(2 + xaxis * (field_height + 1), 2,
+                                  "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
+                    stdscr.refresh()
 
-                                while True:
-                                    key = stdscr.getkey()
-                                    if key == "x":
-                                        break
-                                break
+                    nichtverloren = False
+
+        if not nichtverloren:
+            stdscr.addstr(2 + xaxis * (field_height + 1) + 2, 2,
+                          "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
+            stdscr.refresh()
 
 
 
-            if message:
-                nachricht = message + "hat gewonnen! Du hast verloren!"
-                stdscr.addstr(2 + xaxis * (field_height + 1), 2,
-                              nachricht.center((field_width + 1) * yaxis), yellow_blue)
-                stdscr.refresh()
-                nichtverloren = False
-                break
 
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
