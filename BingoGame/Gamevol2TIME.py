@@ -30,7 +30,6 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
         try:
             # wörter aus angegebener Datei werden geladen
 
-
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile)
         except FileNotFoundError as e:
@@ -61,7 +60,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
         mq.send(message.encode())
         try:
             # wörter aus angegebener Datei werden geladen
-            #words = load_words(wordfile)
+            # words = load_words(wordfile)
 
             if check_wordfile_not_zero(roundfile):
                 words = get_words(wordfile)
@@ -115,9 +114,6 @@ def check_for_message(mq):
         return message.decode()  # Nachricht vorhanden, gebe sie zurück
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
-
-
-
 
 
 def is_integer(value):
@@ -343,8 +339,6 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
         stdscr.refresh()
 
 
-
-
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -419,6 +413,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                           "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
 
+
 def get_words(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -429,6 +424,8 @@ def get_words(file_path):
     except Exception as e:
         print(f"Ein Fehler ist aufgetreten: {e}")
         return []
+
+
 def set_wordfile_to_zero(filename):
     lines = []
     with open(filename, 'r') as file:
@@ -440,6 +437,8 @@ def set_wordfile_to_zero(filename):
                 file.write('wordfile: 0\n')
             else:
                 file.write(line)
+
+
 def check_wordfile_not_zero(filename):
     with open(filename, 'r') as file:
         for line in file:
@@ -451,6 +450,8 @@ def check_wordfile_not_zero(filename):
                 else:
                     return True
     return False  # Falls keine 'wordfile:' Zeile gefunden wurde
+
+
 def get_default_words():
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
@@ -486,6 +487,8 @@ def replace_wordfile_value(file_path, new_value):
         print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")
     except Exception as e:
         print(f"Ein Fehler ist aufgetreten: {e}")
+
+
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path, roundfile):
     try:

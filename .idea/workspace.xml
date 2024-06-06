@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update standard words host only">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +138,7 @@
       <workItem from="1717675510609" duration="145000" />
       <workItem from="1717675669367" duration="1790000" />
       <workItem from="1717683315862" duration="1604000" />
-      <workItem from="1717685121990" duration="747000" />
+      <workItem from="1717685121990" duration="848000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -284,7 +284,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717684909986</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="update standard words host only">
+      <option name="closed" value="true" />
+      <created>1717685880405</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1717685880405</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
