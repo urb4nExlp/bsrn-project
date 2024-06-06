@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
@@ -26,15 +25,15 @@
       <change beforePath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/bingogameTEST.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/bingogameTEST.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ArchivPY/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoCard/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/WithCurses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/bingogameTEST.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogameTEST.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesColor.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesColor.py" afterDir="false" />
@@ -94,24 +93,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.BingoCard2.executor": "Run",
-    "Python.finalCard.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "goennermarvin",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Beni/Documents/GitHub/spielplatz/MessageQueues",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.BingoCard2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.finalCard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;goennermarvin&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Beni/Documents/GitHub/spielplatz/MessageQueues&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\MessageQueues" />
@@ -151,6 +150,7 @@
       <workItem from="1717235676160" duration="616000" />
       <workItem from="1717236433588" duration="43000" />
       <workItem from="1717690514640" duration="102000" />
+      <workItem from="1717691336849" duration="4225000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />

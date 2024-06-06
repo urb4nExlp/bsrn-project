@@ -116,10 +116,6 @@ def check_for_message(mq):
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
 
-
-
-
-
 def is_integer(value):
     # Methode die prüft ob ein Wert ein Integer ist
     try:
@@ -248,6 +244,33 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
     except Exception as e:
         print("Error creating round file:", e)
 
+def read_roundfile(roundfile):
+    players_data = []
+
+    try:
+        with open(roundfile, 'r') as f:
+            for line in f:
+                if line.startswith("playername"):
+                    players_data.append(line.strip())
+    except Exception as e:
+        print(f"Error reading {roundfile}: {e}")
+
+    return players_data
+
+# Beispielaufruf der Funktion
+players = read_roundfile('rundendatei.txt')
+print(players)
+
+def draw_players_info(stdscr, players_data, color_pair):
+    max_y, max_x = stdscr.getmaxyx()
+    y_position = 1
+    stdscr.addstr(y_position, 2, "TEILNEHMER:", color_pair)  # Hinzufügen der Zeile "TEILNEHMER:"
+    y_position += 1
+    for player_info in players_data:
+        stdscr.addstr(y_position, 2, player_info, color_pair)
+        y_position += 1
+    stdscr.refresh()
+
 
 class BingoCard:
     # Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
@@ -343,8 +366,6 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
         stdscr.refresh()
 
 
-
-
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -366,6 +387,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
 
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
 
+    players_data = read_roundfile(roundfile)  # Spielerinformationen laden
+    draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen anzeigen
     draw_card(stdscr, card, marked, field_width, field_height, color_pair)
 
     nichtverloren = True
@@ -416,6 +439,10 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
             stdscr.addstr(2 + xaxis * (field_height + 1) + 2, 2,
                           "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
+
+        players_data = read_roundfile(roundfile)  # Spielerinformationen neu laden
+        draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen erneut anzeigen
+
 
 def get_words(file_path):
     try:
