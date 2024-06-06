@@ -15,6 +15,10 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
+    words = load_words(wordfile, roundfile)
+    if len(words) < int(xaxis) * int(yaxis):
+        raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+
     print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
     # Warten auf Nachricht vom Client
@@ -25,9 +29,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
     if message:
         try:
             # wörter aus angegebener Datei werden geladen
-            words = load_words(wordfile)
-            if len(words) < int(xaxis) * int(yaxis):
-                raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+
 
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile)
@@ -59,8 +61,13 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
         mq.send(message.encode())
         try:
             # wörter aus angegebener Datei werden geladen
-            words = load_words(wordfile)
-            print(words)
+            #words = load_words(wordfile)
+
+            if check_wordfile_not_zero(roundfile):
+                words = get_words(wordfile)
+            else:
+                words = get_default_words()
+
             if len(words) < int(xaxis) * int(yaxis):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
@@ -83,7 +90,11 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
         # Starte Bingo
         try:
             # wörter aus angegebener Datei werden geladen
-            words = load_words(wordfile)
+            if check_wordfile_not_zero(roundfile):
+                words = get_words(wordfile)
+            else:
+                words = get_default_words()
+
             if len(words) < int(xaxis) * int(yaxis):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
@@ -106,37 +117,7 @@ def check_for_message(mq):
         return None  # Keine Nachricht vorhanden
 
 
-def ratespiel(mq, maxplayer, playernumber, roundfile):
-    zahl = 5
-    print("Versuche Zahl 1-10 zu erraten:")
 
-    while True:
-        message = check_for_message(mq)
-
-        if message:
-            print(message + " hat gewonnen, Spiel ist vorbei!")
-            break
-        else:
-            eingabe = input("Tipp:")
-
-            message2 = check_for_message(mq)
-
-            if message2:
-                print(message2 + " hat gewonnen, Spiel ist vorbei!")
-                break
-            else:
-                try:
-                    zahl2 = int(eingabe)
-                    if zahl == zahl2:
-                        print("Erraten!")
-                        for i in range(int(maxplayer) - 1):
-                            gewinner = getplayername(roundfile, playernumber)
-                            mq.send(gewinner.encode())
-
-                        break
-
-                except ValueError:
-                    print("Eingabe fehlerhaft, versuche es erneut!")
 
 
 def is_integer(value):
@@ -363,6 +344,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
 
 
 
+
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -393,7 +375,10 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     while True:
         message = check_for_message(mq)
         if message:
-            nachricht = message + " hat gewonnen! Du hast verloren!"
+            if message == getplayername(roundfile, playernumber):
+                nachricht = "BINGO! Du hast gewonnen!"
+            else:
+                nachricht = f"{message} hat gewonnen! Du hast verloren!"
             stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
@@ -432,11 +417,58 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                           "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
 
+def get_words(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return [line.strip() for line in file]
+    except FileNotFoundError:
+        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")
+        return []
+    except Exception as e:
+        print(f"Ein Fehler ist aufgetreten: {e}")
+        return []
+def set_wordfile_to_zero(filename):
+    lines = []
+    with open(filename, 'r') as file:
+        lines = file.readlines()
 
+    with open(filename, 'w') as file:
+        for line in lines:
+            if line.startswith('wordfile:'):
+                file.write('wordfile: 0\n')
+            else:
+                file.write(line)
+def check_wordfile_not_zero(filename):
+    with open(filename, 'r') as file:
+        for line in file:
+            if line.startswith('wordfile:'):
+                # Extrahiere den Wert hinter 'wordfile:'
+                value = line.split(':')[1].strip()
+                if value == '0':
+                    return False
+                else:
+                    return True
+    return False  # Falls keine 'wordfile:' Zeile gefunden wurde
+def get_default_words():
+    default_words = [
+        "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
+        "Hut aufhaben",
+        "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
+        "Corporate Identitiy",
+        "Fokussieren", "Impact", "Target", "Benchmark", "Herausforderung(en)/Challenges", "Gadget", "Value",
+        "Smart",
+        "Web 2.0 oder 3.0", "Qualität", "Big Picture", "Revolution", "Pro-aktiv", "Game-changing", "Blog",
+        "Community",
+        "Social Media", "SOA", "Skalierbar", "Return on Invest (ROI)", "Wissenstransfer", "Best Practice",
+        "Positionierung/Positionieren", "Committen", "Geforwarded", "Transparent", "Open Innovation",
+        "Out-of-the-box",
+        "Dissemination", "Blockchain", "Skills", "Gap", "Follower", "Win-Win", "Kernkomp"
+    ]
+    return random.sample(default_words, len(default_words))
 
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
-def load_words(file_path):
+def load_words(file_path, roundfile):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             return [line.strip() for line in file]
@@ -448,21 +480,8 @@ def load_words(file_path):
 
             if user_choice == '1':
                 print("Standardwörter werden verwendet.")
-                default_words = [
-                    "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
-                    "Hut aufhaben",
-                    "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
-                    "Corporate Identitiy",
-                    "Fokussieren", "Impact", "Target", "Benchmark", "Herausforderung(en)/Challenges", "Gadget", "Value",
-                    "Smart",
-                    "Web 2.0 oder 3.0", "Qualität", "Big Picture", "Revolution", "Pro-aktiv", "Game-changing", "Blog",
-                    "Community",
-                    "Social Media", "SOA", "Skalierbar", "Return on Invest (ROI)", "Wissenstransfer", "Best Practice",
-                    "Positionierung/Positionieren", "Committen", "Geforwarded", "Transparent", "Open Innovation",
-                    "Out-of-the-box",
-                    "Dissemination", "Blockchain", "Skills", "Gap", "Follower", "Win-Win", "Kernkomp"
-                ]
-                return random.sample(default_words, len(default_words))
+                set_wordfile_to_zero(roundfile)
+                return get_default_words()
             elif user_choice == '2':
                 file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
                 try:
