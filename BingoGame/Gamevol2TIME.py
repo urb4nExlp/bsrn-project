@@ -370,7 +370,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
 
     nichtverloren = True
 
-    stdscr.timeout(1000)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
+    stdscr.timeout(100)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
 
     while True:
         message = check_for_message(mq)
@@ -403,7 +403,9 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                 draw_card(stdscr, card, marked, field_width, field_height, color_pair)
                 if bingo_card.check_bingo():
                     gewinner = getplayername(roundfile, playernumber)
-                    for i in range(int(maxplayer)):
+                    actualplayer = getplayer(roundfile)
+                    for i in range(int(actualplayer
+                                       )):
                         mq.send(gewinner.encode())
 
                     stdscr.addstr(2 + xaxis * (field_height + 1), 2,
@@ -467,6 +469,23 @@ def get_default_words():
     return random.sample(default_words, len(default_words))
 
 
+def replace_wordfile_value(file_path, new_value):
+    lines = []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        with open(file_path, 'w', encoding='utf-8') as file:
+            for line in lines:
+                if line.startswith('wordfile:'):
+                    file.write(f'wordfile: {new_value}\n')
+                else:
+                    file.write(line)
+        print(f"Der Wert hinter 'wordfile:' wurde auf {new_value} gesetzt.")
+    except FileNotFoundError:
+        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")
+    except Exception as e:
+        print(f"Ein Fehler ist aufgetreten: {e}")
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path, roundfile):
     try:
@@ -486,6 +505,7 @@ def load_words(file_path, roundfile):
                 file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
                 try:
                     with open(file_path, 'r', encoding='utf-8') as file:
+                        replace_wordfile_value(roundfile, file_path)
                         return [line.strip() for line in file]
                 except FileNotFoundError:
                     print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
