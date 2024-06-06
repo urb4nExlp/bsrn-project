@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" afterDir="false" />
-    </list>
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update standard words host only" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -138,7 +134,7 @@
       <workItem from="1717675453266" duration="20000" />
       <workItem from="1717675510609" duration="145000" />
       <workItem from="1717675669367" duration="1790000" />
-      <workItem from="1717683315862" duration="1564000" />
+      <workItem from="1717683315862" duration="1604000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -276,7 +272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717677225158</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update standard words host only">
+      <option name="closed" value="true" />
+      <created>1717684909986</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1717684909986</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,7 +305,8 @@
     <MESSAGE value="." />
     <MESSAGE value="Update Ordner Struktur" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="update standard words host only" />
+    <option name="LAST_COMMIT_MESSAGE" value="update standard words host only" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/BingoCard2_py$BingoCard2.coverage" NAME="BingoCard2 Coverage Results" MODIFIED="1716570179849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
