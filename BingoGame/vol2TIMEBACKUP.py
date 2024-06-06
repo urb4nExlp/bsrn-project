@@ -363,7 +363,6 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
 
 
 
-
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -394,10 +393,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     while True:
         message = check_for_message(mq)
         if message:
-            if message == getplayername(roundfile, playernumber):
-                nachricht = "BINGO! Du hast gewonnen!"
-            else:
-                nachricht = f"{message} hat gewonnen! Du hast verloren!"
+            nachricht = message + " hat gewonnen! Du hast verloren!"
             stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
@@ -435,7 +431,6 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
             stdscr.addstr(2 + xaxis * (field_height + 1) + 2, 2,
                           "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
-
 
 
 
