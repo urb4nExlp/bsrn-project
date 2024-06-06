@@ -12,8 +12,8 @@ def addtolog(spielername, eintrag):
 if os.path.exists(logfile_name):
     with open(logfile_name, 'a') as logfile:
         logfile.write(f"{eintrag}\n")
-    print(f"Der Eintrag '{eintrag}' wurde zur Logdatei '{logfile_name}' hinzugefügt.")
+    print(f"Der Eintrag '{eintrag}'  wurde zur Logdatei '{logfile_name}' hinzugefügt.")
 else:
     print(f"Die Logdatei '{logfile_name}' existiert nicht. Bitte erst die Logdatei mit createlogfile erstellen.")
 
-    #...........................................
+    # Ende 
