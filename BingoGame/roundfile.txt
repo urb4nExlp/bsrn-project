@@ -2,6 +2,7 @@ maxplayer: 3
 wordfile: 0
 height: 5
 width: 5
-players: 2
-playername1: marvinhost: 10096
-playername2: bene: 10133
+players: 3
+playername1: marvinhost: 12403
+playername2: bene: 12431
+playername3: robbob: 12484
