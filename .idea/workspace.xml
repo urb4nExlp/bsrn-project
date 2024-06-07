@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eb6fb5cf-3f14-4cf7-9a50-02a7c4b57a25" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_04_05_2024_12_31__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/BSRNproject.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/BingoCard.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GewinnÜberprüfung.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/Lösungsskizze BSRN Werkstück A.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/PythonBuch.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/Zeichnungen_Bene.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/bingodesign.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/buzzwörter.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/wordfile.txt.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/PythonBuch.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/RoundFile.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/bingogame.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/bingogameTEST.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/WithCurses.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/finalCard.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/roundfile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesColor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesPads.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesPlayground.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesStart.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesTextbox.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesUserInput.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesWindow.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/wordfile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/dateien.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "urbanbenedikt",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
+</project>
