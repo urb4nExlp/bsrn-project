@@ -345,12 +345,12 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
+def draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
     for i, row in enumerate(card):
         for j, word in enumerate(row):
-            x1, y1 = 2 + j * (field_width + 1), 2 + i * (field_height + 1)
+            x1, y1 = 2 + j * (field_width + 1), offset_y + 2 + i * (field_height + 1)  # Offset hinzugefügt
             x2, y2 = x1 + field_width, y1 + field_height
             # Überprüfen, ob die Koordinaten innerhalb der Fenstergrenzen liegen
             if y2 >= max_y or x2 >= max_x:
@@ -361,10 +361,9 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
                               curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), color_pair)
-        stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
-                      curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
-        stdscr.refresh()
-
+    stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
+                  curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
+    stdscr.refresh()
 
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
@@ -388,8 +387,9 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
 
     players_data = read_roundfile(roundfile)  # Spielerinformationen laden
+    offset_y = getmaxplayer(roundfile) + 1  # Verschiebung um maxplayers + 1 Zeilen nach unten
     draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen anzeigen
-    draw_card(stdscr, card, marked, field_width, field_height, color_pair)
+    draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y)
 
     nichtverloren = True
 
@@ -402,7 +402,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                 nachricht = "BINGO! Du hast gewonnen!"
             else:
                 nachricht = f"{message} hat gewonnen! Du hast verloren!"
-            stdscr.addstr(2 + xaxis * (field_height + 1), 2,
+            stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
             nichtverloren = False
@@ -415,7 +415,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
         if nichtverloren and key == curses.KEY_MOUSE:
             _, mx, my, _, _ = curses.getmouse()
             col = (mx - 2) // (field_width + 1)
-            row = (my - 2) // (field_height + 1)
+            row = (my - offset_y - 2) // (field_height + 1)  # Offset berücksichtigen
             if 0 <= row < xaxis and 0 <= col < yaxis:
                 if (row, col) in marked:
                     marked.remove((row, col))
@@ -423,25 +423,22 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                draw_card(stdscr, card, marked, field_width, field_height, color_pair)
+                draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y)
                 if bingo_card.check_bingo():
                     gewinner = getplayername(roundfile, playernumber)
                     for i in range(int(maxplayer)):
                         mq.send(gewinner.encode())
 
-                    stdscr.addstr(2 + xaxis * (field_height + 1), 2,
+                    stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
                                   "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
 
                     nichtverloren = False
 
-        if not nichtverloren:
-            stdscr.addstr(2 + xaxis * (field_height + 1) + 2, 2,
-                          "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
-            stdscr.refresh()
 
         players_data = read_roundfile(roundfile)  # Spielerinformationen neu laden
         draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen erneut anzeigen
+
 
 
 def get_words(file_path):
