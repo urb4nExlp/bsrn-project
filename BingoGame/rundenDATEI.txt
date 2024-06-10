@@ -1,0 +1,7 @@
+maxplayer: 5
+wordfile: wortDATEI.txt
+height: 5
+width: 5
+players: 2
+playername1: Bilal: 31705
+playername2: marvin: 31787
