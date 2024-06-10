@@ -72,6 +72,9 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             if len(words) < int(xaxis) * int(yaxis):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
+            log_filename = create_log_file(playernumber)
+            log_event(log_filename, "Spieler 2 beigetreten")
+
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile)
         except FileNotFoundError as e:
@@ -98,6 +101,9 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
 
             if len(words) < int(xaxis) * int(yaxis):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+
+            log_filename = create_log_file(playernumber)
+            log_event(log_filename, f"Spieler {playernumber} beigetreten")
 
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile)
@@ -282,6 +288,7 @@ class BingoCard:
         self.card = self.create_card(words)
         self.original_card = [row[:] for row in
                               self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
+        self.log_filename = log_filename
 
     # gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
@@ -332,11 +339,14 @@ class BingoCard:
 
     def mark(self, row, col):
         self.card[row][col] = 'X'  # Markieren mit einem Kreuz
+        log_event(self.log_filename, f"Marked {self.original_card[row][col]} ({row}/{col})")
+
 
 
     def unmark(self, row, col):
         if self.card[row][col] == 'X':  # Nur wenn es sich nicht um das Jokerfeld handelt
             self.card[row][col] = self.original_card[row][col]  # Rücksetzen auf das Originalwort
+            log_event(self.log_filename, f"Unmarked {self.card[row][col]} ({row}/{col})")
 
     def __str__(self):
         card_str = ""
@@ -368,13 +378,17 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair, offse
     stdscr.refresh()
 
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
+    log_filename = create_log_file(playernumber)
+    log_event(log_filename, "Start des Spiels")
+    log_event(log_filename, f"Größe des Spielfelds: {xaxis}/{yaxis}")
+
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLUE)
     color_pair = curses.color_pair(1)
     yellow_blue = curses.color_pair(2)
 
-    bingo_card = BingoCard(xaxis, yaxis, words)
+    bingo_card = BingoCard(xaxis, yaxis, words, log_filename)
     card = bingo_card.card
     marked = set()
 
@@ -402,8 +416,10 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
         if message:
             if message == getplayername(roundfile, playernumber):
                 nachricht = "BINGO! Du hast gewonnen!"
+                log_event(log_filename, "Sieg")
             else:
                 nachricht = f"{message} hat gewonnen! Du hast verloren!"
+                log_event(log_filename, "Abbruch")
             stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
@@ -412,6 +428,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
         key = stdscr.getch()
 
         if key == ord('x'):
+            log_event(log_filename, "Spiel abgebrochen")
             break
 
         if nichtverloren and key == curses.KEY_MOUSE:
@@ -435,6 +452,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                                   "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
 
+                    log_event(log_filename, "Sieg")
                     nichtverloren = False
 
 
