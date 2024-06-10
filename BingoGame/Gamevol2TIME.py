@@ -6,6 +6,7 @@ import random
 import curses
 from curses import textpad
 import argparse
+from logfile import create_log_file, log_event, BingoCard  # Importing from logfile.py
 
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
@@ -331,6 +332,7 @@ class BingoCard:
 
     def mark(self, row, col):
         self.card[row][col] = 'X'  # Markieren mit einem Kreuz
+
 
     def unmark(self, row, col):
         if self.card[row][col] == 'X':  # Nur wenn es sich nicht um das Jokerfeld handelt
