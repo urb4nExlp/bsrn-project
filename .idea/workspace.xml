@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46a1a777-8b5c-4e18-9307-6f6607b98e55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1BACKUP.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BingoGame/bingogameTEST.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCard2.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoCard/finalCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/finalCard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogame.py" afterDir="false" />
-    </list>
+    <list default="true" id="46a1a777-8b5c-4e18-9307-6f6607b98e55" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,11 +36,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging BilalBoukayoua",
+    "git-widget-placeholder": "weberjamie",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -76,6 +67,7 @@
       <workItem from="1717592766224" duration="251000" />
       <workItem from="1717668190060" duration="18000" />
       <workItem from="1717668241608" duration="426000" />
+      <workItem from="1718037129278" duration="135000" />
     </task>
     <servers />
   </component>
