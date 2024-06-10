@@ -6,8 +6,18 @@ import random
 import curses
 from curses import textpad
 import argparse
-from logfile import create_log_file, log_event, BingoCard  # Importing from logfile.py
+import datetime
 
+
+def create_log_file(player_number):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    filename = f"{timestamp}-bingo-Spieler{player_number}.txt"
+    return filename
+
+def log_event(filename, event):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    with open(filename, 'a') as file:
+        file.write(f"{timestamp} {event}\n")
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
     # HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
@@ -281,14 +291,14 @@ def draw_players_info(stdscr, players_data, color_pair):
 
 class BingoCard:
     # Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
-    def __init__(self, rows, cols, words):
+    def __init__(self, rows, cols, words, log_filename):
         self.rows = rows
         self.cols = cols
+        self.log_filename = log_filename
         # Attribut Karte wird mit Methode create_card erstellt
         self.card = self.create_card(words)
         self.original_card = [row[:] for row in
                               self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
-        self.log_filename = log_filename
 
     # gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
