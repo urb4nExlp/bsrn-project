@@ -6,11 +6,10 @@ import random
 import curses
 from curses import textpad
 import argparse
-from logfile import create_log_file, log_event, BingoCard  # Importing from logfile.py
 
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
-    # HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
+    # HOST Methode, erstellt erstmalig die MQ und wartet auf den  Spieler 2
 
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
