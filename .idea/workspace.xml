@@ -4,78 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="Update GAMEvol1.py">
-      <changelist_data name="RobinGitHub24" email="robin.schaefer1@outlook.de" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" afterDir="false" />
+    <list default="true" id="46a1a777-8b5c-4e18-9307-6f6607b98e55" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BingoGame/GAMEvol1BACKUP.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BingoGame/bingogameTEST.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCard2.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/finalCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/finalCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bingogame.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="PREVIOUS_COMMIT_AUTHORS">
-      <list>
-        <option value="RobinGitHub24 &lt;robin.schaefer1@outlook.de&gt;" />
-      </list>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;urb4nExlp&quot;
+    &quot;assignee&quot;: &quot;BilalBoukayoua&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/urbanbenedikt00/spielplatz.git&quot;,
-    &quot;accountId&quot;: &quot;c138730b-0127-4586-b465-be525f75e57d&quot;
+    &quot;accountId&quot;: &quot;21f2290d-bd70-4fd8-a46d-f00c1e9eda0c&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
+  &quot;associatedIndex&quot;: 8
 }</component>
-  <component name="ProjectId" id="2fzyeDUcBmQBa0VLfC4HfevTim3" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2hMxn9h9l15OXp6GPbY7C2Gg7QV" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.BingoCard2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.finalCard.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Beni/Documents/GitHub/spielplatz/MessageQueues&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging BilalBoukayoua",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\MessageQueues" />
-      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\ArchivDAT" />
-      <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\Dateizugriffe" />
-    </key>
-  </component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -87,10 +65,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="" />
-      <created>1714818294191</created>
+      <changelist id="46a1a777-8b5c-4e18-9307-6f6607b98e55" name="Changes" comment="" />
+      <created>1717417916832</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
+<<<<<<< HEAD
       <updated>1714818294191</updated>
       <workItem from="1714818295599" duration="37000" />
       <workItem from="1714818425421" duration="159000" />
@@ -109,142 +88,22 @@
       <workItem from="1717236433588" duration="43000" />
       <workItem from="1717236533589" duration="87000" />
       <workItem from="1717537517177" duration="297000" />
+=======
+      <updated>1717417916832</updated>
+      <workItem from="1717417924457" duration="29000" />
+      <workItem from="1717417963378" duration="23000" />
+      <workItem from="1717418174270" duration="12000" />
+      <workItem from="1717592766224" duration="251000" />
+      <workItem from="1717668190060" duration="18000" />
+      <workItem from="1717668241608" duration="426000" />
+>>>>>>> 7483b132c9b6be211f07277721277bee84d877a9
     </task>
-    <task id="LOCAL-00001" summary="Update">
-      <option name="closed" value="true" />
-      <created>1714819293242</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1714819293242</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Update">
-      <option name="closed" value="true" />
-      <created>1714820208097</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1714820208097</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Update">
-      <option name="closed" value="true" />
-      <created>1714820567044</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1714820567044</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Update">
-      <option name="closed" value="true" />
-      <created>1714820569444</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1714820569444</updated>
-    </task>
-    <task id="LOCAL-00005" summary="update">
-      <option name="closed" value="true" />
-      <created>1714820765774</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1714820765774</updated>
-    </task>
-    <task id="LOCAL-00006" summary="update Bilal">
-      <option name="closed" value="true" />
-      <created>1715960486356</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1715960486356</updated>
-    </task>
-    <task id="LOCAL-00007" summary="10x Versuch">
-      <option name="closed" value="true" />
-      <created>1715961581163</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1715961581163</updated>
-    </task>
-    <task id="LOCAL-00008" summary=".">
-      <option name="closed" value="true" />
-      <created>1715961910105</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1715961910105</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Update Ordner Struktur">
-      <option name="closed" value="true" />
-      <created>1716383411071</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1716383411071</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Update Ordner Struktur">
-      <option name="closed" value="true" />
-      <created>1716384447037</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1716384447037</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Update Ordner Struktur">
-      <option name="closed" value="true" />
-      <created>1716384554109</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1716384554109</updated>
-    </task>
-    <task id="LOCAL-00012" summary="update">
-      <option name="closed" value="true" />
-      <created>1716568722762</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1716568722762</updated>
-    </task>
-    <task id="LOCAL-00013" summary="update">
-      <option name="closed" value="true" />
-      <created>1717171066890</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1717171066890</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Update" />
-    <MESSAGE value="update Bilal" />
-    <MESSAGE value="10x Versuch" />
-    <MESSAGE value="." />
-    <MESSAGE value="Update Ordner Struktur" />
-    <MESSAGE value="update" />
-    <MESSAGE value="Update GAMEvol1.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update GAMEvol1.py" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/BingoCard2_py$BingoCard2.coverage" NAME="BingoCard2 Coverage Results" MODIFIED="1716570179849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
-    <SUITE FILE_PATH="coverage/bsrn_project$test.coverage" NAME="test Coverage Results" MODIFIED="1715546572270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HEAD$finalCard.coverage" NAME="finalCard Coverage Results" MODIFIED="1717170883984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoCard" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>
