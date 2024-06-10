@@ -1,19 +1,21 @@
-def createlogfile(spielername):
-   # Erstellt eine neue Logdatei für den angegebenen Spieler.
-    logfile_name = f"{spielername}_log.txt"
-    with open(logfile_name, 'w') as logfile:
-        logfile.write(f"Logdatei für Spieler: {spielername}\n")
-        logfile.write(f"{'-' * 30}\n")
-    print(f"Die Logdatei '{logfile_name}' wurde erfolgreich erstellt.")
+import os
+from datetime import datetime
 
-def addtolog(spielername, eintrag):
-    #Fügt einen neuen Eintrag zur Logdatei des angegebenen Spielers hinzu.
- logfile_name = f"{spielername}_log.txt"
-if os.path.exists(logfile_name):
-    with open(logfile_name, 'a') as logfile:
-        logfile.write(f"{eintrag}\n")
-    print(f"Der Eintrag '{eintrag}' wurde zur Logdatei '{logfile_name}' hinzugefügt.")
-else:
-    print(f"Die Logdatei '{logfile_name}' existiert nicht. Bitte erst die Logdatei mit createlogfile erstellen.")
+def erstelle_logdatei(spieler_nummer):
+    # Erstellt eine neue Logdatei für den angegebenen Spieler im erforderlichen Format
+    jetzt = datetime.now()
+    logdatei_name = jetzt.strftime("%Y-%m-%d-%H-%M-%S") + f"-bingo-{spieler_nummer}.txt"
+    with open(logdatei_name, 'w') as logdatei:
+        logdatei.write(f"Logdatei für Spieler: {spieler_nummer}\n")
+        logdatei.write(f"{'-' * 30}\n")
+    print(f"Die Logdatei '{logdatei_name}' wurde erfolgreich erstellt.")
+    return logdatei_name
 
-    #...........................................
+def hinzufuegen_zur_log(logdatei_name, eintrag):
+    # Fügt einen neuen Eintrag zur angegebenen Logdatei hinzu
+    if os.path.exists(logdatei_name):
+        with open(logdatei_name, 'a') as logdatei:
+            logdatei.write(f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')} {eintrag}\n")
+        print(f"Der Eintrag '{eintrag}' wurde zur Logdatei '{logdatei_name}' hinzugefügt.")
+    else:
+        print(f"Die Logdatei '{logdatei_name}' existiert nicht. Bitte erst die Logdatei mit erstelle_logdatei erstellen.")
