@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/BingoGame/bilalhaupt.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BingoGame/bilallog.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
@@ -35,7 +35,6 @@
       <change beforePath="$PROJECT_DIR$/BingoCard/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/WithCurses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/roundfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/roundfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" afterDir="false" />
@@ -155,7 +154,7 @@
       <workItem from="1717690514640" duration="102000" />
       <workItem from="1717691336849" duration="4247000" />
       <workItem from="1717747538836" duration="1759000" />
-      <workItem from="1718039636442" duration="5645000" />
+      <workItem from="1718039636442" duration="5990000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
