@@ -247,7 +247,7 @@ def incplayer(rundendatei, spielername):
         print(f"Error updating players in {rundendatei}: {e}")
 
 
-def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile):  # Upload.
+def create_roundfile( rundendatei, xachse, yachse, maxspieler, hostname, wordfile):  # Upload.
     # Methode für die roundfile, integriert direkt die PID des Hosts
     try:
         with open(rundendatei, 'w') as f:
