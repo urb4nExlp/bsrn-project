@@ -116,6 +116,10 @@ def check_for_message(mq):
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
 
+
+
+
+
 def is_integer(value):
     # Methode die prüft ob ein Wert ein Integer ist
     try:
@@ -244,30 +248,6 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
     except Exception as e:
         print("Error creating round file:", e)
 
-def read_roundfile(roundfile):
-    players_data = []
-
-    try:
-        with open(roundfile, 'r') as f:
-            for line in f:
-                if line.startswith("playername"):
-                    players_data.append(line.strip())
-    except Exception as e:
-        print(f"Error reading {roundfile}: {e}")
-
-    return players_data
-
-
-def draw_players_info(stdscr, players_data, color_pair):
-    max_y, max_x = stdscr.getmaxyx()
-    y_position = 1
-    stdscr.addstr(y_position, 2, "TEILNEHMER:", color_pair)  # Hinzufügen der Zeile "TEILNEHMER:"
-    y_position += 1
-    for player_info in players_data:
-        stdscr.addstr(y_position, 2, player_info, color_pair)
-        y_position += 1
-    stdscr.refresh()
-
 
 class BingoCard:
     # Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
@@ -342,12 +322,12 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y):
+def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
     for i, row in enumerate(card):
         for j, word in enumerate(row):
-            x1, y1 = 2 + j * (field_width + 1), offset_y + 2 + i * (field_height + 1)  # Offset hinzugefügt
+            x1, y1 = 2 + j * (field_width + 1), 2 + i * (field_height + 1)
             x2, y2 = x1 + field_width, y1 + field_height
             # Überprüfen, ob die Koordinaten innerhalb der Fenstergrenzen liegen
             if y2 >= max_y or x2 >= max_x:
@@ -358,9 +338,12 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair, offse
                               curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), color_pair)
-    stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
-                  curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
-    stdscr.refresh()
+        stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
+                      curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
+        stdscr.refresh()
+
+
+
 
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
     curses.start_color()
@@ -383,14 +366,11 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
 
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
 
-    players_data = read_roundfile(roundfile)  # Spielerinformationen laden
-    offset_y = getmaxplayer(roundfile) + 1  # Verschiebung um maxplayers + 1 Zeilen nach unten
-    draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen anzeigen
-    draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y)
+    draw_card(stdscr, card, marked, field_width, field_height, color_pair)
 
     nichtverloren = True
 
-    stdscr.timeout(1000)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
+    stdscr.timeout(100)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
 
     while True:
         message = check_for_message(mq)
@@ -399,7 +379,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                 nachricht = "BINGO! Du hast gewonnen!"
             else:
                 nachricht = f"{message} hat gewonnen! Du hast verloren!"
-            stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
+            stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
             nichtverloren = False
@@ -412,7 +392,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
         if nichtverloren and key == curses.KEY_MOUSE:
             _, mx, my, _, _ = curses.getmouse()
             col = (mx - 2) // (field_width + 1)
-            row = (my - offset_y - 2) // (field_height + 1)  # Offset berücksichtigen
+            row = (my - 2) // (field_height + 1)
             if 0 <= row < xaxis and 0 <= col < yaxis:
                 if (row, col) in marked:
                     marked.remove((row, col))
@@ -420,23 +400,24 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y)
+                draw_card(stdscr, card, marked, field_width, field_height, color_pair)
                 if bingo_card.check_bingo():
                     gewinner = getplayername(roundfile, playernumber)
-                    for i in range(int(maxplayer)):
+                    actualplayer = getplayer(roundfile)
+                    for i in range(int(actualplayer
+                                       )):
                         mq.send(gewinner.encode())
 
-                    stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
+                    stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                                   "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
 
                     nichtverloren = False
 
-
-        players_data = read_roundfile(roundfile)  # Spielerinformationen neu laden
-        draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen erneut anzeigen
-
-
+        if not nichtverloren:
+            stdscr.addstr(2 + xaxis * (field_height + 1) + 2, 2,
+                          "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
+            stdscr.refresh()
 
 def get_words(file_path):
     try:
@@ -488,6 +469,23 @@ def get_default_words():
     return random.sample(default_words, len(default_words))
 
 
+def replace_wordfile_value(file_path, new_value):
+    lines = []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        with open(file_path, 'w', encoding='utf-8') as file:
+            for line in lines:
+                if line.startswith('wordfile:'):
+                    file.write(f'wordfile: {new_value}\n')
+                else:
+                    file.write(line)
+        print(f"Der Wert hinter 'wordfile:' wurde auf {new_value} gesetzt.")
+    except FileNotFoundError:
+        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")
+    except Exception as e:
+        print(f"Ein Fehler ist aufgetreten: {e}")
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path, roundfile):
     try:
@@ -507,6 +505,7 @@ def load_words(file_path, roundfile):
                 file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
                 try:
                     with open(file_path, 'r', encoding='utf-8') as file:
+                        replace_wordfile_value(roundfile, file_path)
                         return [line.strip() for line in file]
                 except FileNotFoundError:
                     print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
