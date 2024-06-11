@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="befe2086-aeea-4d59-ae65-f96ad34aebe0" name="Changes" comment="">
+=======
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update">
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bsrn-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bsrn-project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
@@ -36,6 +40,10 @@
       <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/Gamevol2TIME.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoGame/bilallog.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/bilallog.py" afterDir="false" />
+<<<<<<< Updated upstream
+=======
+      <change beforePath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/vol2TIMEBACKUP.py" afterDir="false" />
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoVisual/CursesColor.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesColor.py" afterDir="false" />
@@ -101,10 +109,33 @@
       <created>1718054659095</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
+<<<<<<< Updated upstream
       <updated>1718054659095</updated>
       <workItem from="1718054662057" duration="1195000" />
       <workItem from="1718104221085" duration="147000" />
       <workItem from="1718104485258" duration="4578000" />
+=======
+      <updated>1714818294191</updated>
+      <workItem from="1714818295599" duration="37000" />
+      <workItem from="1714818425421" duration="159000" />
+      <workItem from="1714819216163" duration="177000" />
+      <workItem from="1714819669241" duration="28000" />
+      <workItem from="1714820001414" duration="357000" />
+      <workItem from="1714820453297" duration="413000" />
+      <workItem from="1715959528249" duration="128000" />
+      <workItem from="1715959673623" duration="87000" />
+      <workItem from="1715960360084" duration="15000" />
+      <workItem from="1715960424430" duration="1475000" />
+      <workItem from="1716383265387" duration="315000" />
+      <workItem from="1717090595723" duration="1013000" />
+      <workItem from="1717164278885" duration="3978000" />
+      <workItem from="1717235676160" duration="616000" />
+      <workItem from="1717236433588" duration="43000" />
+      <workItem from="1717690514640" duration="102000" />
+      <workItem from="1717691336849" duration="4247000" />
+      <workItem from="1717747538836" duration="1759000" />
+      <workItem from="1718039636442" duration="6344000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
