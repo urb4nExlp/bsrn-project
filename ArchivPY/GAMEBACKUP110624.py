@@ -6,7 +6,6 @@ import random
 import curses
 from curses import textpad
 import argparse
-from logfile import create_log_file, log_event, BingoCard  # Importing from logfile.py
 
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
@@ -72,9 +71,6 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             if len(words) < int(xaxis) * int(yaxis):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
-            log_filename = create_log_file(playernumber)
-            log_event(log_filename, "Spieler 2 beigetreten")
-
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile)
         except FileNotFoundError as e:
@@ -102,9 +98,6 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             if len(words) < int(xaxis) * int(yaxis):
                 raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
-            log_filename = create_log_file(playernumber)
-            log_event(log_filename, f"Spieler {playernumber} beigetreten")
-
             # Die Main-Methode wird als Curses Umgebung gestartet
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile)
         except FileNotFoundError as e:
@@ -122,6 +115,10 @@ def check_for_message(mq):
         return message.decode()  # Nachricht vorhanden, gebe sie zurück
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
+
+
+
+
 
 def is_integer(value):
     # Methode die prüft ob ein Wert ein Integer ist
@@ -251,33 +248,6 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
     except Exception as e:
         print("Error creating round file:", e)
 
-def read_roundfile(roundfile):
-    players_data = []
-
-    try:
-        with open(roundfile, 'r') as f:
-            for line in f:
-                if line.startswith("playername"):
-                    players_data.append(line.strip())
-    except Exception as e:
-        print(f"Error reading {roundfile}: {e}")
-
-    return players_data
-
-# Beispielaufruf der Funktion
-players = read_roundfile('rundendatei.txt')
-print(players)
-
-def draw_players_info(stdscr, players_data, color_pair):
-    max_y, max_x = stdscr.getmaxyx()
-    y_position = 1
-    stdscr.addstr(y_position, 2, "TEILNEHMER:", color_pair)  # Hinzufügen der Zeile "TEILNEHMER:"
-    y_position += 1
-    for player_info in players_data:
-        stdscr.addstr(y_position, 2, player_info, color_pair)
-        y_position += 1
-    stdscr.refresh()
-
 
 class BingoCard:
     # Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
@@ -288,7 +258,6 @@ class BingoCard:
         self.card = self.create_card(words)
         self.original_card = [row[:] for row in
                               self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
-        self.log_filename = log_filename
 
     # gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
@@ -339,14 +308,10 @@ class BingoCard:
 
     def mark(self, row, col):
         self.card[row][col] = 'X'  # Markieren mit einem Kreuz
-        log_event(self.log_filename, f"Marked {self.original_card[row][col]} ({row}/{col})")
-
-
 
     def unmark(self, row, col):
         if self.card[row][col] == 'X':  # Nur wenn es sich nicht um das Jokerfeld handelt
             self.card[row][col] = self.original_card[row][col]  # Rücksetzen auf das Originalwort
-            log_event(self.log_filename, f"Unmarked {self.card[row][col]} ({row}/{col})")
 
     def __str__(self):
         card_str = ""
@@ -357,12 +322,12 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y):
+def draw_card(stdscr, card, marked, field_width, field_height, color_pair):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
     for i, row in enumerate(card):
         for j, word in enumerate(row):
-            x1, y1 = 2 + j * (field_width + 1), offset_y + 2 + i * (field_height + 1)  # Offset hinzugefügt
+            x1, y1 = 2 + j * (field_width + 1), 2 + i * (field_height + 1)
             x2, y2 = x1 + field_width, y1 + field_height
             # Überprüfen, ob die Koordinaten innerhalb der Fenstergrenzen liegen
             if y2 >= max_y or x2 >= max_x:
@@ -373,22 +338,21 @@ def draw_card(stdscr, card, marked, field_width, field_height, color_pair, offse
                               curses.A_REVERSE | color_pair)  # Wenn markiert, dann 'X'
             else:
                 stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), color_pair)
-    stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
-                  curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
-    stdscr.refresh()
+        stdscr.addstr(max_y - 2, 2, "Drücke 'x', um das Spiel zu beenden",
+                      curses.A_BOLD | color_pair)  # Programm wird abgebrochen, wenn x gedrückt wird.
+        stdscr.refresh()
+
+
+
 
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
-    log_filename = create_log_file(playernumber)
-    log_event(log_filename, "Start des Spiels")
-    log_event(log_filename, f"Größe des Spielfelds: {xaxis}/{yaxis}")
-
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLUE)
     color_pair = curses.color_pair(1)
     yellow_blue = curses.color_pair(2)
 
-    bingo_card = BingoCard(xaxis, yaxis, words, log_filename)
+    bingo_card = BingoCard(xaxis, yaxis, words)
     card = bingo_card.card
     marked = set()
 
@@ -402,25 +366,20 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
 
     curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)
 
-    players_data = read_roundfile(roundfile)  # Spielerinformationen laden
-    offset_y = getmaxplayer(roundfile) + 1  # Verschiebung um maxplayers + 1 Zeilen nach unten
-    draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen anzeigen
-    draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y)
+    draw_card(stdscr, card, marked, field_width, field_height, color_pair)
 
     nichtverloren = True
 
-    stdscr.timeout(1000)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
+    stdscr.timeout(100)  # 1000 ms (1 Sekunde) Timeout für nicht blockierende Eingabe
 
     while True:
         message = check_for_message(mq)
         if message:
             if message == getplayername(roundfile, playernumber):
                 nachricht = "BINGO! Du hast gewonnen!"
-                log_event(log_filename, "Sieg")
             else:
                 nachricht = f"{message} hat gewonnen! Du hast verloren!"
-                log_event(log_filename, "Abbruch")
-            stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
+            stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                           nachricht.center((field_width + 1) * yaxis), yellow_blue)
             stdscr.refresh()
             nichtverloren = False
@@ -428,13 +387,12 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
         key = stdscr.getch()
 
         if key == ord('x'):
-            log_event(log_filename, "Spiel abgebrochen")
             break
 
         if nichtverloren and key == curses.KEY_MOUSE:
             _, mx, my, _, _ = curses.getmouse()
             col = (mx - 2) // (field_width + 1)
-            row = (my - offset_y - 2) // (field_height + 1)  # Offset berücksichtigen
+            row = (my - 2) // (field_height + 1)
             if 0 <= row < xaxis and 0 <= col < yaxis:
                 if (row, col) in marked:
                     marked.remove((row, col))
@@ -442,24 +400,24 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile):
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                draw_card(stdscr, card, marked, field_width, field_height, color_pair, offset_y)
+                draw_card(stdscr, card, marked, field_width, field_height, color_pair)
                 if bingo_card.check_bingo():
                     gewinner = getplayername(roundfile, playernumber)
-                    for i in range(int(maxplayer)):
+                    actualplayer = getplayer(roundfile)
+                    for i in range(int(actualplayer
+                                       )):
                         mq.send(gewinner.encode())
 
-                    stdscr.addstr(offset_y + 2 + xaxis * (field_height + 1), 2,
+                    stdscr.addstr(2 + xaxis * (field_height + 1), 2,
                                   "BINGO! Du hast gewonnen!".center((field_width + 1) * yaxis), yellow_blue)
                     stdscr.refresh()
 
-                    log_event(log_filename, "Sieg")
                     nichtverloren = False
 
-
-        players_data = read_roundfile(roundfile)  # Spielerinformationen neu laden
-        draw_players_info(stdscr, players_data, color_pair)  # Spielerinformationen erneut anzeigen
-
-
+        if not nichtverloren:
+            stdscr.addstr(2 + xaxis * (field_height + 1) + 2, 2,
+                          "Drücke 'x' um zu beenden.".center((field_width + 1) * yaxis), yellow_blue)
+            stdscr.refresh()
 
 def get_words(file_path):
     try:
@@ -511,6 +469,23 @@ def get_default_words():
     return random.sample(default_words, len(default_words))
 
 
+def replace_wordfile_value(file_path, new_value):
+    lines = []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        with open(file_path, 'w', encoding='utf-8') as file:
+            for line in lines:
+                if line.startswith('wordfile:'):
+                    file.write(f'wordfile: {new_value}\n')
+                else:
+                    file.write(line)
+        print(f"Der Wert hinter 'wordfile:' wurde auf {new_value} gesetzt.")
+    except FileNotFoundError:
+        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")
+    except Exception as e:
+        print(f"Ein Fehler ist aufgetreten: {e}")
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path, roundfile):
     try:
@@ -530,6 +505,7 @@ def load_words(file_path, roundfile):
                 file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
                 try:
                     with open(file_path, 'r', encoding='utf-8') as file:
+                        replace_wordfile_value(roundfile, file_path)
                         return [line.strip() for line in file]
                 except FileNotFoundError:
                     print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
@@ -537,57 +513,86 @@ def load_words(file_path, roundfile):
                 print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
 
 
+def parse_args(args):
+    config = {
+        "xaxis": 5,
+        "yaxis": 5,
+        "roundfile": "rundendatei.txt",
+        "maxplayers": 10,
+        "wordfile": None,
+        "playername": None,
+    }
+
+    i = 2
+    while i < len(args):
+        if args[i] == "-roundfile":
+            config["roundfile"] = args[i + 1]
+            i += 2
+        elif args[i] == "-xaxis":
+            if is_integer(args[i + 1]):
+                config["xaxis"] = int(args[i + 1])
+            i += 2
+        elif args[i] == "-yaxis":
+            if is_integer(args[i + 1]):
+                config["yaxis"] = int(args[i + 1])
+            i += 2
+        elif args[i] == "-wordfile":
+            config["wordfile"] = args[i + 1]
+            i += 2
+        elif args[i] == "-maxplayers":
+            if is_integer(args[i + 1]):
+                config["maxplayers"] = int(args[i + 1])
+            i += 2
+        elif args[i] == "-playername":
+            config["playername"] = args[i + 1]
+            i += 2
+        else:
+            i += 1
+
+    return config
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: meinskript.py -newround | -joinround")
         sys.exit(1)
 
     if sys.argv[1] == "-newround":
-        if len(sys.argv) != 14:
-            print("Falsche Eingabe für die Argumente von -newround")
-            print(
-                "Nutzung: -newround -roundfile rundenDATEI.txt -xaxis INT -yaxis INT -wordfile wortDATEI.txt -maxplayers INT -playername NAME")
-            sys.exit(1)
-
-        if (sys.argv[2] == "-roundfile" and
-                sys.argv[4] == "-xaxis" and
-                sys.argv[6] == "-yaxis" and
-                sys.argv[8] == "-wordfile" and
-                sys.argv[10] == "-maxplayers" and
-                sys.argv[12] == "-playername" and
-                is_integer(sys.argv[5]) and
-                is_integer(sys.argv[7]) and
-                is_integer(sys.argv[11])):
-
-            create_roundfile(sys.argv[3], sys.argv[5], sys.argv[7], sys.argv[11], sys.argv[13], sys.argv[9])
-            host_start(sys.argv[11], sys.argv[3], sys.argv[5], sys.argv[7], sys.argv[9])
+        config = parse_args(sys.argv)
+        if config["wordfile"] and config["playername"]:
+            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"], config["playername"], config["wordfile"])
+            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"])
         else:
-            print("Falsche Argumente für -newround!")
+            print("Fehlende Argumente für -newround! -wordfile und -playername sind erforderlich.")
 
     elif sys.argv[1] == "-joinround":
-        if len(sys.argv) != 6:
-            print("Falsche Eingabe für die Argumente von -joinround")
-            print("Nutzung: -joinround -roundfile DATA.txt -playername NAME")
-            sys.exit(1)
+        config = {
+            "roundfile": "rundendatei.txt",
+            "playername": None,
+        }
 
-        if (os.path.exists(sys.argv[3])):
-            mplayer = getmaxplayer(sys.argv[3])
-            if (getplayer(sys.argv[3]) < mplayer):
-                playernumber = incplayer(sys.argv[3], sys.argv[5])
-                print("Ich bin Spieler Nummer: " + str(playernumber))
-                if playernumber != 2:
+        if len(sys.argv) >= 4 and sys.argv[2] == "-roundfile":
+            config["roundfile"] = sys.argv[3]
+            if len(sys.argv) == 6 and sys.argv[4] == "-playername":
+                config["playername"] = sys.argv[5]
+        elif len(sys.argv) == 4 and sys.argv[2] == "-playername":
+            config["playername"] = sys.argv[3]
 
-                    player_start(False, playernumber, sys.argv[3], mplayer, getyachse(sys.argv[3]),
-                                 getxachse(sys.argv[3]), getwordfile(sys.argv[3]))
+        if config["playername"]:
+            if os.path.exists(config["roundfile"]):
+                mplayer = getmaxplayer(config["roundfile"])
+                if getplayer(config["roundfile"]) < mplayer:
+                    playernumber = incplayer(config["roundfile"], config["playername"])
+                    print("Ich bin Spieler Nummer: " + str(playernumber))
+                    if playernumber != 2:
+                        player_start(False, playernumber, config["roundfile"], mplayer, getyachse(config["roundfile"]), getxachse(config["roundfile"]), getwordfile(config["roundfile"]))
+                    else:
+                        player_start(True, playernumber, config["roundfile"], mplayer, getxachse(config["roundfile"]), getyachse(config["roundfile"]), getwordfile(config["roundfile"]))
                 else:
-
-                    player_start(True, playernumber, sys.argv[3], mplayer, getxachse(sys.argv[3]),
-                                 getyachse(sys.argv[3]), getwordfile(sys.argv[3]))
+                    print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
             else:
-                print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
+                print("Beitritt nicht möglich! Die angegebene Rundendatei existiert nicht")
         else:
-            print("Beitritt nicht möglich! Die angegebene Rundendatei existiert nicht")
-
+            print("Fehlende Argumente für -joinround! -playername ist erforderlich.")
     else:
         print("Unbekannter Befehl")
         sys.exit(1)

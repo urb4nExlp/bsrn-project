@@ -9,7 +9,7 @@ import argparse
 
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile):
-    # HOdST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
+    # HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
 
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
