@@ -308,7 +308,11 @@ class BingoCard:
         # Keine Zeilentrennung, das Wort bleibt in einer Zeile
         return word
 
-    def check_bingo(self):
+    def check_bingo(self,button_selected):
+
+        if  (button_selected==False):
+            return False
+
         # Horizontale Überprüfung
         for row in self.card:
             if all(cell == 'X' for cell in row):
@@ -459,6 +463,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         if key == ord('x'):
             break
 
+
         if nichtverloren and key == curses.KEY_MOUSE:
             _, mx, my, _, _ = curses.getmouse()
             if button_x is not None and button_y is not None:
@@ -477,7 +482,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                     marked.add((row, col))
                     bingo_card.mark(row, col)
                 draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, button_selected)
-                if bingo_card.check_bingo():
+                if bingo_card.check_bingo(button_selected):
                     gewinner = getplayername(roundfile, playernumber)
                     for i in range(int(maxplayer)):
                         mq.send(gewinner.encode())
