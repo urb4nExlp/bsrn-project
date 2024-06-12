@@ -281,6 +281,9 @@ class BingoCard:
         self.card = self.create_card(words)
         self.original_card = [row[:] for row in
                               self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
+        self.button_selected = False
+        self.bingo_finish = False
+
 
     # gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
@@ -308,30 +311,38 @@ class BingoCard:
         # Keine Zeilentrennung, das Wort bleibt in einer Zeile
         return word
 
-    def check_bingo(self,button_selected):
+    def check_bingo(self):
 
-        if  (button_selected==False):
-            return False
+
+
 
         # Horizontale Überprüfung
         for row in self.card:
             if all(cell == 'X' for cell in row):
+                self.bingo_finish = True
                 return True
 
         # Vertikale Überprüfung
         for col in range(self.cols):
             if all(self.card[row][col] == 'X' for row in range(self.rows)):
+                self.bingo_finish = True
                 return True
 
         # Diagonale Überprüfung (von links oben nach rechts unten)
         if all(self.card[i][i] == 'X' for i in range(min(self.rows, self.cols))):
+            self.bingo_finish = True
             return True
 
         # Diagonale Überprüfung (von rechts oben nach links unten)
         if all(self.card[i][self.cols - i - 1] == 'X' for i in range(min(self.rows, self.cols))):
+            self.bingo_finish = True
             return True
 
+
         return False
+
+
+
 
     def mark(self, row, col):
         self.card[row][col] = 'X'  # Markieren mit einem Kreuz
@@ -351,7 +362,7 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y,
               button_selected=False):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
@@ -442,7 +453,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
 
     button_selected = False
     button_x, button_y, button_width, button_height = draw_card(stdscr, card, marked, field_width, field_height,
-                                                                green_black, red_white, blue_yellow, offset_y, button_selected)
+                                                                green_black, red_white, offset_y, button_selected)
 
     nichtverloren = True
     gewonnen_nachricht = None  # Hinzufügen einer Variablen, um die Gewinnnachricht zu speichern
@@ -469,7 +480,14 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
             if button_x is not None and button_y is not None:
                 if button_x <= mx <= button_x + button_width and button_y <= my <= button_y + button_height:
                     button_selected = not button_selected
-                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, button_selected)
+                    bingo_card.button_selected = button_selected
+                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y, button_selected)
+                    if button_selected and bingo_card.bingo_finish:
+                        gewinner = getplayername(roundfile, playernumber)
+                        for i in range(int(maxplayer)):
+                            mq.send(gewinner.encode())
+                        gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                        nichtverloren = False
                     continue
 
             col = (mx - 2) // (field_width + 1)
@@ -481,15 +499,16 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, button_selected)
-                if bingo_card.check_bingo(button_selected):
-                    gewinner = getplayername(roundfile, playernumber)
-                    for i in range(int(maxplayer)):
-                        mq.send(gewinner.encode())
-                    gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
-                    nichtverloren = False
+                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y, button_selected)
+                if bingo_card.check_bingo():
+                    if button_selected:
+                        gewinner = getplayername(roundfile, playernumber)
+                        for i in range(int(maxplayer)):
+                            mq.send(gewinner.encode())
+                        gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                        nichtverloren = False
 
-        draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, button_selected)
+        draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y, button_selected)
         players_data = read_roundfile(roundfile)  # Spielerinformationen neu laden
         draw_players_info(stdscr, players_data, green_black)  # Spielerinformationen erneut anzeigen
 
