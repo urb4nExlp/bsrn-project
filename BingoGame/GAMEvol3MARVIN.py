@@ -202,7 +202,7 @@ def getplayer(rundendatei):
     except Exception as e:
         print(f"Error reading players from {rundendatei}: {e}")
         return None
-
+#test
 def incplayer(rundendatei, spielername):
     # Methode zur Verwaltung der Spieler, Namens / Nummernzuweisung
     try:
