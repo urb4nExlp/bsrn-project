@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update standardwerte argumente">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/GAMEvol3MARVIN.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/GAMEvol3MARVIN.py" afterDir="false" />
-    </list>
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update standardwerte argumente" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,7 +113,7 @@
       <workItem from="1718113532708" duration="148000" />
       <workItem from="1718113985659" duration="519000" />
       <workItem from="1718282143176" duration="19000" />
-      <workItem from="1718282185266" duration="1982000" />
+      <workItem from="1718282185266" duration="2205000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -278,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718113292425</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update standardwerte argumente">
+      <option name="closed" value="true" />
+      <created>1718284744265</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1718284744265</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
