@@ -25,6 +25,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
+    #Aufrufen der load_words Methode (enthält Exception und Option Standardwörter zu verwenden
     words = load_words(wordfile, roundfile)
     if len(words) < int(xaxis) * int(yaxis):
         raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
@@ -647,8 +648,10 @@ def parse_args(args):
     return config
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: meinskript.py -newround | -joinround")
+    if len(sys.argv) < 3 or len(sys.argv) > 13:
+        print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+        print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
+        print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt")
         sys.exit(1)
 
     if sys.argv[1] == "-newround":
