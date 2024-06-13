@@ -554,6 +554,17 @@ def check_wordfile_not_zero(filename):
                     return True
     return False  # Falls keine 'wordfile:' Zeile gefunden wurde
 
+
+def change_wordfile(filename, new_value):
+    lines = []
+    with open(filename, 'r') as file:
+        for line in file:
+            if line.startswith('wordfile:'):
+                line = f'wordfile: {new_value}\n'
+            lines.append(line)
+
+    with open(filename, 'w') as file:
+        file.writelines(lines)
 def get_default_words():
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
@@ -590,6 +601,7 @@ def load_words(file_path, roundfile):
                 file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
                 try:
                     with open(file_path, 'r', encoding='utf-8') as file:
+                        change_wordfile(roundfile, file_path)
                         return [line.strip() for line in file]
                 except FileNotFoundError:
                     print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
