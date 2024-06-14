@@ -8,27 +8,28 @@ from curses import textpad
 import argparse
 import datetime
 
+
 def create_log_file(player_name):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     filename = f"{timestamp}-bingo-{player_name}.txt"
     return filename
+
 
 def log_event(filename, event):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     with open(filename, 'a') as file:
         file.write(f"{timestamp} {event}\n")
 
-def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname, words):
+
+def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     # HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
 
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
-    #Aufrufen der load_words Methode (enthält Exception und Option Standardwörter zu verwenden
-    #words = load_words(wordfile, roundfile)
-    #if len(words) < int(xaxis) * int(yaxis):
-    #    raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+    # Aufrufen der load_words Methode (enthält Exception und Option Standardwörter zu verwenden
+    words = load_words(wordfile, roundfile, xaxis, yaxis)
 
     print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
@@ -39,7 +40,6 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname, words):
     # Sobald Spieler 2 beigetreten ist startet das Spiel
     if message:
         try:
-            # wörter aus angegebener Datei werden geladen
 
             # Log-Datei erstellen mit dem Spielernamen
             log_filename = create_log_file(hostname)  # Host ist der Name des ersten Spielers
@@ -55,6 +55,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname, words):
 
     # Message Queue schließen
     mq.close()
+
 
 def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile):
     # SPIELER Methode, tritt dem Spiel bei
@@ -73,15 +74,11 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
         mq.send(message.encode())
         try:
             # wörter aus angegebener Datei werden geladen
-            #words = load_words(wordfile)
 
             if check_wordfile_not_zero(roundfile):
                 words = get_words(wordfile)
             else:
                 words = get_default_words()
-
-            if len(words) < int(xaxis) * int(yaxis):
-                raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
             log_filename = create_log_file(playername)
             log_event(log_filename, "Spieler 2 beigetreten")
@@ -105,9 +102,6 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             else:
                 words = get_default_words()
 
-            if len(words) < int(xaxis) * int(yaxis):
-                raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
-
             playername = getplayername(roundfile, playernumber)
             log_filename = create_log_file(playername)
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
@@ -121,6 +115,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             print(e)
             exit(1)
 
+
 def check_for_message(mq):
     # Methode die prüft ob eine Nachricht in der MQ vorliegt
     try:
@@ -129,6 +124,7 @@ def check_for_message(mq):
     except posix_ipc.BusyError:
         return None  # Keine Nachricht vorhanden
 
+
 def is_integer(value):
     # Methode die prüft ob ein Wert ein Integer ist
     try:
@@ -136,6 +132,7 @@ def is_integer(value):
         return True
     except ValueError:
         return False
+
 
 def getxachse(rundendatei):
     # Methode gibt anhand der roundfile die xachse zurück
@@ -148,6 +145,7 @@ def getxachse(rundendatei):
         print(f"Error reading x-axis from {rundendatei}: {e}")
         return None
 
+
 def getyachse(rundendatei):
     # Methode gibt anhand der roundfile die yachse zurück
     try:
@@ -158,6 +156,7 @@ def getyachse(rundendatei):
     except Exception as e:
         print(f"Error reading y-axis from {rundendatei}: {e}")
         return None
+
 
 def getmaxplayer(rundendatei):
     # Methode gibt den maxplayer Wert aus der roundfile zurück
@@ -170,6 +169,7 @@ def getmaxplayer(rundendatei):
         print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
+
 def getwordfile(rundendatei):
     # Methode gibt den wordfile Wert aus der roundfile zurück
     try:
@@ -180,6 +180,7 @@ def getwordfile(rundendatei):
     except Exception as e:
         print(f"Error reading max players from {rundendatei}: {e}")
         return None
+
 
 def getplayername(rundendatei, player_count):
     # Methode gibt den Spielernamen anhand von roundfile, playernumber zurück
@@ -193,6 +194,7 @@ def getplayername(rundendatei, player_count):
         print(f"Error reading playername from {rundendatei}: {e}")
         return None
 
+
 def getplayer(rundendatei):
     # Methode gibt den Wert der bisher beigetretenen Spieler zurück
     try:
@@ -203,7 +205,9 @@ def getplayer(rundendatei):
     except Exception as e:
         print(f"Error reading players from {rundendatei}: {e}")
         return None
-#test
+
+
+# test
 def incplayer(rundendatei, spielername):
     # Methode zur Verwaltung der Spieler, Namens / Nummernzuweisung
     try:
@@ -235,6 +239,7 @@ def incplayer(rundendatei, spielername):
     except Exception as e:
         print(f"Error updating players in {rundendatei}: {e}")
 
+
 def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile):  # Upload.
     # Methode für die roundfile, integriert direkt die PID des Hosts
     try:
@@ -249,6 +254,7 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
     except Exception as e:
         print("Error creating round file:", e)
 
+
 def read_roundfile(roundfile):
     players_data = []
 
@@ -262,6 +268,7 @@ def read_roundfile(roundfile):
 
     return players_data
 
+
 def draw_players_info(stdscr, players_data, color_pair):
     max_y, max_x = stdscr.getmaxyx()
     y_position = 1
@@ -271,6 +278,7 @@ def draw_players_info(stdscr, players_data, color_pair):
         stdscr.addstr(y_position, 2, player_info, color_pair)
         y_position += 1
     stdscr.refresh()
+
 
 class BingoCard:
     # Konstruktor BingoCard, Originalkarte wird als Kopie gespeichert.
@@ -284,7 +292,6 @@ class BingoCard:
                               self.card]  # Kopie der Originalkarte, um später die Klicks auch rückgängig machen zu können
         self.button_selected = False
         self.bingo_finish = False
-
 
     # gibt liste mit wörtern aus wordfile wieder
     def create_card(self, words):
@@ -314,9 +321,6 @@ class BingoCard:
 
     def check_bingo(self):
 
-
-
-
         # Horizontale Überprüfung
         for row in self.card:
             if all(cell == 'X' for cell in row):
@@ -339,11 +343,7 @@ class BingoCard:
             self.bingo_finish = True
             return True
 
-
         return False
-
-
-
 
     def mark(self, row, col):
         self.card[row][col] = 'X'  # Markieren mit einem Kreuz
@@ -426,7 +426,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_RED)
-    curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_YELLOW) # Blau-gelbe Farbpaare für den Button
+    curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_YELLOW)  # Blau-gelbe Farbpaare für den Button
     green_black = curses.color_pair(1)
     red_white = curses.color_pair(2)
     blue_yellow = curses.color_pair(3)
@@ -475,14 +475,14 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         if key == ord('x'):
             break
 
-
         if nichtverloren and key == curses.KEY_MOUSE:
             _, mx, my, _, _ = curses.getmouse()
             if button_x is not None and button_y is not None:
                 if button_x <= mx <= button_x + button_width and button_y <= my <= button_y + button_height:
                     button_selected = not button_selected
                     bingo_card.button_selected = button_selected
-                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y, button_selected)
+                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y,
+                              button_selected)
                     if button_selected and bingo_card.bingo_finish:
                         gewinner = getplayername(roundfile, playernumber)
                         for i in range(int(maxplayer)):
@@ -500,7 +500,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y, button_selected)
+                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, offset_y,
+                          button_selected)
                 if bingo_card.check_bingo():
                     if button_selected:
                         gewinner = getplayername(roundfile, playernumber)
@@ -520,6 +521,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                           gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
             stdscr.refresh()
 
+
 def get_words(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -530,6 +532,7 @@ def get_words(file_path):
     except Exception as e:
         print(f"Ein Fehler ist aufgetreten: {e}")
         return []
+
 
 def set_wordfile_to_zero(filename):
     lines = []
@@ -542,6 +545,7 @@ def set_wordfile_to_zero(filename):
                 file.write('wordfile: 0\n')
             else:
                 file.write(line)
+
 
 def check_wordfile_not_zero(filename):
     with open(filename, 'r') as file:
@@ -566,6 +570,8 @@ def change_wordfile(filename, new_value):
 
     with open(filename, 'w') as file:
         file.writelines(lines)
+
+
 def get_default_words():
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
@@ -582,6 +588,7 @@ def get_default_words():
         "Dissemination", "Blockchain", "Skills", "Gap", "Follower", "Win-Win", "Kernkomp"
     ]
     return random.sample(default_words, len(default_words))
+
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
 def load_words(file_path, roundfile, xaxis, yaxis):
@@ -612,20 +619,21 @@ def load_words(file_path, roundfile, xaxis, yaxis):
         else:
             print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
 
+
 def parse_args(args):
-    #Methode zur Festlegung von Standardwerten
+    # Methode zur Festlegung von Standardwerten
     config = {
         "xaxis": 5,
         "yaxis": 5,
         "roundfile": "rundendatei.txt",
         "maxplayers": 10,
-        #Werte dürfen nicht null sein:
+        # Werte dürfen nicht null sein:
         "wordfile": None,
         "playername": None,
     }
 
-    #durchlaufen aller Argumente (Shell)
-    #Falls Argument vorhanden, wird der -Wert- (i+1) überschrieben
+    # durchlaufen aller Argumente (Shell)
+    # Falls Argument vorhanden, wird der -Wert- (i+1) überschrieben
     i = 2
     while i < len(args):
         if args[i] == "-roundfile":
@@ -636,7 +644,7 @@ def parse_args(args):
                 config["xaxis"] = int(args[i + 1])
             i += 2
         elif args[i] == "-yaxis":
-            #Werte werden nur überschrieben wenn Datentyp zulässig
+            # Werte werden nur überschrieben wenn Datentyp zulässig
             if is_integer(args[i + 1]):
                 config["yaxis"] = int(args[i + 1])
             i += 2
@@ -653,72 +661,77 @@ def parse_args(args):
             i += 2
         else:
             i += 1
-    #Gibt die aktualisierte Config zurück
+    # Gibt die aktualisierte Config zurück
     return config
 
+
 if __name__ == "__main__":
-    #Fehlerhafte Argumenteingaben behandeln:
+    # Fehlerhafte Argumenteingaben behandeln:
     if len(sys.argv) < 3 or len(sys.argv) > 14:
-        print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+        print(
+            "Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
         print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -spielername NAME")
         print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
         sys.exit(1)
-    #Spiel erstellen
+    # Spiel erstellen
     if sys.argv[1] == "-newround":
-        #Alle Argumente durchgehen und die Standardwerte austauschen
+        # Alle Argumente durchgehen und die Standardwerte austauschen
         config = parse_args(sys.argv)
-        #Wenn die Pflichtangaben vorhanden sind erstelle roundfile und initialisiere Start
+        # Wenn die Pflichtangaben vorhanden sind erstelle roundfile und initialisiere Start
         if config["wordfile"] and config["playername"]:
-            #config lädt die Werte der config (Pflichtangaben + optional überschriebene Standardwerte)
-            words = load_words(config["wordfile"], config["roundfile"], config["xaxis"], config["yaxis"])
+            # config lädt die Werte der config (Pflichtangaben + optional überschriebene Standardwerte)
 
+            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
+                             config["playername"], config["wordfile"])
 
-            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"], config["playername"], config["wordfile"])
-            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],config["playername"], words)
+            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
+                       config["playername"])
         else:
-            #Falls wordfile und playername (Pflichtfelder) ausgelassen wurden:
+            # Falls wordfile und playername (Pflichtfelder) ausgelassen wurden:
             print("Fehlende Argumente für -newround -wordfile und -playername sind erforderlich.")
-    #Spiel beitreten
+    # Spiel beitreten
     elif sys.argv[1] == "-joinround":
-        #Standardwert für roundfile, playername Pflichtangabe
+        # Standardwert für roundfile, playername Pflichtangabe
         config = {
             "roundfile": "rundendatei.txt",
             "playername": None,
         }
-        #Wenn vorhanden: extrahiere den roundfile Pfad
+        # Wenn vorhanden: extrahiere den roundfile Pfad
         if len(sys.argv) >= 4 and sys.argv[2] == "-roundfile":
-            #Standardwert überschreiben
+            # Standardwert überschreiben
             config["roundfile"] = sys.argv[3]
-            #Falls roundfile mit angegeben, extrahiere playername String
+            # Falls roundfile mit angegeben, extrahiere playername String
             if len(sys.argv) == 6 and sys.argv[4] == "-playername":
                 config["playername"] = sys.argv[5]
-        #Falls roundfile Standardwert extrahiere playername String
+        # Falls roundfile Standardwert extrahiere playername String
         elif len(sys.argv) == 4 and sys.argv[2] == "-playername":
             config["playername"] = sys.argv[3]
-        #Falls playername not null
+        # Falls playername not null
         if config["playername"]:
-            #überprüfe ob roundfile existiert
+            # überprüfe ob roundfile existiert
             if os.path.exists(config["roundfile"]):
-                #extrahiere den vom Host gesetzten Wert für maxplayer
+                # extrahiere den vom Host gesetzten Wert für maxplayer
                 mplayer = getmaxplayer(config["roundfile"])
-                #Überprüfung ob das Spiel voll ist
+                # Überprüfung ob das Spiel voll ist
                 if getplayer(config["roundfile"]) < mplayer:
-                    #Aktuelle Spielerzahl um 1 erhöhen sowie spielername + PID + spielernummer eintragen
+                    # Aktuelle Spielerzahl um 1 erhöhen sowie spielername + PID + spielernummer eintragen
                     playernumber = incplayer(config["roundfile"], config["playername"])
                     print("Ich bin Spieler Nummer: " + str(playernumber))
-                    #Beitritt für Spieler 3+
+                    # Beitritt für Spieler 3+
                     if playernumber != 2:
-                        player_start(False, playernumber, config["roundfile"], mplayer, getyachse(config["roundfile"]), getxachse(config["roundfile"]), getwordfile(config["roundfile"]))
-                    #Beitritt für Spieler 2
+                        player_start(False, playernumber, config["roundfile"], mplayer, getyachse(config["roundfile"]),
+                                     getxachse(config["roundfile"]), getwordfile(config["roundfile"]))
+                    # Beitritt für Spieler 2
                     else:
-                        player_start(True, playernumber, config["roundfile"], mplayer, getxachse(config["roundfile"]), getyachse(config["roundfile"]), getwordfile(config["roundfile"]))
-                #Meldung wenn Spiel voll:
+                        player_start(True, playernumber, config["roundfile"], mplayer, getxachse(config["roundfile"]),
+                                     getyachse(config["roundfile"]), getwordfile(config["roundfile"]))
+                # Meldung wenn Spiel voll:
                 else:
                     print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
-            #Meldung wenn roundfile nicht existent
+            # Meldung wenn roundfile nicht existent
             else:
                 print("Beitritt nicht möglich! Die angegebene Rundendatei existiert nicht")
-        #Meldung wenn Argumente fehlen
+        # Meldung wenn Argumente fehlen
         else:
             print("Fehlende Argumente für -joinround -playername NAME ist erforderlich.")
     else:
