@@ -18,16 +18,17 @@ def log_event(filename, event):
     with open(filename, 'a') as file:
         file.write(f"{timestamp} {event}\n")
 
-def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
+def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname, words):
     # HOST Methode, erstellt erstmalig die MQ und wartet auf Spieler 2
 
     # Erstellen der Message Queue
     mq_name = "/my_message_queue"
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
-    words = load_words(wordfile, roundfile)
-    if len(words) < int(xaxis) * int(yaxis):
-        raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
+    #Aufrufen der load_words Methode (enthält Exception und Option Standardwörter zu verwenden
+    #words = load_words(wordfile, roundfile)
+    #if len(words) < int(xaxis) * int(yaxis):
+    #    raise ValueError("Nicht genügend Wörter in der Datei, um die Bingo-Karte zu füllen.")
 
     print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
@@ -170,7 +171,7 @@ def getmaxplayer(rundendatei):
         return None
 
 def getwordfile(rundendatei):
-    # Methode gibt den maxplayer Wert aus der roundfile zurück
+    # Methode gibt den wordfile Wert aus der roundfile zurück
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -554,6 +555,17 @@ def check_wordfile_not_zero(filename):
                     return True
     return False  # Falls keine 'wordfile:' Zeile gefunden wurde
 
+
+def change_wordfile(filename, new_value):
+    lines = []
+    with open(filename, 'r') as file:
+        for line in file:
+            if line.startswith('wordfile:'):
+                line = f'wordfile: {new_value}\n'
+            lines.append(line)
+
+    with open(filename, 'w') as file:
+        file.writelines(lines)
 def get_default_words():
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
@@ -572,40 +584,48 @@ def get_default_words():
     return random.sample(default_words, len(default_words))
 
 # Datei wird im Lesemodus geöffnet und jede Zeile ist ein Index im Array
-def load_words(file_path, roundfile):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            return [line.strip() for line in file]
-    except FileNotFoundError:
-        print(f"Fehler: Datei '{file_path}' nicht gefunden.")
-        while True:
-            user_choice = input(
-                "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)?")
+def load_words(file_path, roundfile, xaxis, yaxis):
+    def read_words_from_file(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as file:
+                return [line.strip() for line in file]
+        except FileNotFoundError:
+            return None
 
-            if user_choice == '1':
-                print("Standardwörter werden verwendet.")
-                set_wordfile_to_zero(roundfile)
-                return get_default_words()
-            elif user_choice == '2':
-                file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
-                try:
-                    with open(file_path, 'r', encoding='utf-8') as file:
-                        return [line.strip() for line in file]
-                except FileNotFoundError:
-                    print(f"Fehler: Datei '{file_path}' nicht gefunden. Bitte versuchen Sie es erneut.")
-            else:
-                print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
+    while True:
+        words = read_words_from_file(file_path)
+        if words is not None and len(words) > int(xaxis) * int(yaxis):
+            print("Länge:")
+            print(len(words))
+            return words
+
+        print(f"Fehler: Datei '{file_path}' nicht gefunden oder zu wenige Wörter vorhanden.")
+        user_choice = input(
+            "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ")
+
+        if user_choice == '1':
+            print("Standardwörter werden verwendet.")
+            set_wordfile_to_zero(roundfile)
+            return get_default_words()
+        elif user_choice == '2':
+            file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
+        else:
+            print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
 
 def parse_args(args):
+    #Methode zur Festlegung von Standardwerten
     config = {
         "xaxis": 5,
         "yaxis": 5,
         "roundfile": "rundendatei.txt",
         "maxplayers": 10,
+        #Werte dürfen nicht null sein:
         "wordfile": None,
         "playername": None,
     }
 
+    #durchlaufen aller Argumente (Shell)
+    #Falls Argument vorhanden, wird der -Wert- (i+1) überschrieben
     i = 2
     while i < len(args):
         if args[i] == "-roundfile":
@@ -616,6 +636,7 @@ def parse_args(args):
                 config["xaxis"] = int(args[i + 1])
             i += 2
         elif args[i] == "-yaxis":
+            #Werte werden nur überschrieben wenn Datentyp zulässig
             if is_integer(args[i + 1]):
                 config["yaxis"] = int(args[i + 1])
             i += 2
@@ -623,6 +644,7 @@ def parse_args(args):
             config["wordfile"] = args[i + 1]
             i += 2
         elif args[i] == "-maxplayers":
+            # Werte werden nur überschrieben wenn Datentyp zulässig
             if is_integer(args[i + 1]):
                 config["maxplayers"] = int(args[i + 1])
             i += 2
@@ -631,51 +653,74 @@ def parse_args(args):
             i += 2
         else:
             i += 1
-
+    #Gibt die aktualisierte Config zurück
     return config
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: meinskript.py -newround | -joinround")
+    #Fehlerhafte Argumenteingaben behandeln:
+    if len(sys.argv) < 3 or len(sys.argv) > 14:
+        print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+        print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -spielername NAME")
+        print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
         sys.exit(1)
-
+    #Spiel erstellen
     if sys.argv[1] == "-newround":
+        #Alle Argumente durchgehen und die Standardwerte austauschen
         config = parse_args(sys.argv)
+        #Wenn die Pflichtangaben vorhanden sind erstelle roundfile und initialisiere Start
         if config["wordfile"] and config["playername"]:
-            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"], config["playername"], config["wordfile"])
-            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],config["playername"])
-        else:
-            print("Fehlende Argumente für -newround! -wordfile und -playername sind erforderlich.")
+            #config lädt die Werte der config (Pflichtangaben + optional überschriebene Standardwerte)
+            words = load_words(config["wordfile"], config["roundfile"], config["xaxis"], config["yaxis"])
 
+
+            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"], config["playername"], config["wordfile"])
+            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],config["playername"], words)
+        else:
+            #Falls wordfile und playername (Pflichtfelder) ausgelassen wurden:
+            print("Fehlende Argumente für -newround -wordfile und -playername sind erforderlich.")
+    #Spiel beitreten
     elif sys.argv[1] == "-joinround":
+        #Standardwert für roundfile, playername Pflichtangabe
         config = {
             "roundfile": "rundendatei.txt",
             "playername": None,
         }
-
+        #Wenn vorhanden: extrahiere den roundfile Pfad
         if len(sys.argv) >= 4 and sys.argv[2] == "-roundfile":
+            #Standardwert überschreiben
             config["roundfile"] = sys.argv[3]
+            #Falls roundfile mit angegeben, extrahiere playername String
             if len(sys.argv) == 6 and sys.argv[4] == "-playername":
                 config["playername"] = sys.argv[5]
+        #Falls roundfile Standardwert extrahiere playername String
         elif len(sys.argv) == 4 and sys.argv[2] == "-playername":
             config["playername"] = sys.argv[3]
-
+        #Falls playername not null
         if config["playername"]:
+            #überprüfe ob roundfile existiert
             if os.path.exists(config["roundfile"]):
+                #extrahiere den vom Host gesetzten Wert für maxplayer
                 mplayer = getmaxplayer(config["roundfile"])
+                #Überprüfung ob das Spiel voll ist
                 if getplayer(config["roundfile"]) < mplayer:
+                    #Aktuelle Spielerzahl um 1 erhöhen sowie spielername + PID + spielernummer eintragen
                     playernumber = incplayer(config["roundfile"], config["playername"])
                     print("Ich bin Spieler Nummer: " + str(playernumber))
+                    #Beitritt für Spieler 3+
                     if playernumber != 2:
                         player_start(False, playernumber, config["roundfile"], mplayer, getyachse(config["roundfile"]), getxachse(config["roundfile"]), getwordfile(config["roundfile"]))
+                    #Beitritt für Spieler 2
                     else:
                         player_start(True, playernumber, config["roundfile"], mplayer, getxachse(config["roundfile"]), getyachse(config["roundfile"]), getwordfile(config["roundfile"]))
+                #Meldung wenn Spiel voll:
                 else:
                     print("Maximale Spieleranzahl erreicht. Beitritt abgebrochen")
+            #Meldung wenn roundfile nicht existent
             else:
                 print("Beitritt nicht möglich! Die angegebene Rundendatei existiert nicht")
+        #Meldung wenn Argumente fehlen
         else:
-            print("Fehlende Argumente für -joinround! -playername ist erforderlich.")
+            print("Fehlende Argumente für -joinround -playername NAME ist erforderlich.")
     else:
         print("Unbekannter Befehl")
         sys.exit(1)
