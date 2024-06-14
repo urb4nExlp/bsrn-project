@@ -29,7 +29,10 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
     # Aufrufen der load_words Methode (enthält Exception und Option Standardwörter zu verwenden
-    words = load_words(wordfile, roundfile, xaxis, yaxis)
+    if wordfile != 0:
+        words = load_words(wordfile, roundfile, xaxis, yaxis)
+    else:
+        words = get_default_words()
 
     print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
@@ -643,7 +646,7 @@ def parse_args(args):
         "roundfile": "rundendatei.txt",
         "maxplayers": 10,
         # Werte dürfen nicht null sein:
-        "wordfile": None,
+        "wordfile": 0,
         "playername": None,
     }
 
@@ -693,7 +696,7 @@ if __name__ == "__main__":
         # Alle Argumente durchgehen und die Standardwerte austauschen
         config = parse_args(sys.argv)
         # Wenn die Pflichtangaben vorhanden sind erstelle roundfile und initialisiere Start
-        if config["wordfile"] and config["playername"]:
+        if config["playername"]:
             # config lädt die Werte der config (Pflichtangaben + optional überschriebene Standardwerte)
 
             create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
