@@ -1,7 +1,7 @@
 maxplayer: 3
-wordfile: 0
+wordfile: wordfile.txt
 height: 5
 width: 5
 players: 2
-playername1: marvin: 25988
-playername2: bene: 26012
+playername1: marvin: 29556
+playername2: bene: 29575
