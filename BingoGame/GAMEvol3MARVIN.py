@@ -8,6 +8,7 @@ from curses import textpad
 import argparse
 import datetime
 
+
 def create_log_file(player_name):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     filename = f"{timestamp}-bingo-{player_name}.txt"
@@ -369,6 +370,21 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
     max_y, max_x = stdscr.getmaxyx()  # Maximale Größe des Fensters
     card_height = len(card) * (field_height + 1)
     card_width = len(card[0]) * (field_width + 1)
+    button_height = 2  # Höhe des Buttons
+
+    # Überprüfen, ob das Fenster groß genug ist, um die Karte und den Button anzuzeigen
+    if max_y < card_height + button_height + 10:
+        stdscr.clear()
+        stdscr.addstr(0, (max_x - len("Fenster ist zu klein, bitte vertikal vergrößern.")) // 2,
+                      "Fenster ist zu klein, bitte vertikal vergrößern.", curses.A_BOLD | curses.color_pair(2))
+        stdscr.refresh()
+        return None, None, None, None
+    elif max_x < card_width + 5:
+        stdscr.clear()
+        stdscr.addstr(0, (max_x - len("Fenster ist zu klein, bitte horizontal vergrößern.")) // 2,
+                      "Fenster ist zu klein, bitte horizontal vergrößern.", curses.A_BOLD | curses.color_pair(2))
+        stdscr.refresh()
+        return None, None, None, None
 
     for i, row in enumerate(card):
         for j, word in enumerate(row):
@@ -394,7 +410,6 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
     # Button mittig unter der Karte hinzufügen
     button_text = "Klicke hier um Gewinn zu bestätigen"
     button_width = len(button_text) + 6  # Platz für Polsterung
-    button_height = 3
     card_x_center = (max_x - card_width) // 2
     card_y_bottom = offset_y + card_height + 2
     button_x = card_x_center + (card_width - button_width) // 2
@@ -420,6 +435,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
 
     stdscr.refresh()
     return button_x, button_y, button_width, button_height
+
 
 
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, log_filename):
@@ -519,6 +535,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
             stdscr.addstr(button_y_bottom, 2,
                           gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
             stdscr.refresh()
+
 
 def get_words(file_path):
     try:
