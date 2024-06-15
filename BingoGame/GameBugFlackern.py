@@ -498,8 +498,6 @@ def check_wordfile_not_zero(filename):
                     return False
                 else:
                     return True
-<<<<<<< Updated upstream:BingoGame/GameBugFlackern.py
-    return False
 
 
 def change_wordfile(filename, new_value):
@@ -514,11 +512,9 @@ def change_wordfile(filename, new_value):
         file.writelines(lines)
 
 
-def get_default_words():
-=======
-    return False  # Falls keine 'wordfile:' Zeile gefunden wurde
+
 def get_default_words(): #Array mit ersatzwörtern wird erstellt
->>>>>>> Stashed changes:BingoGame/Gamevol2TIME.py
+
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
         "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
