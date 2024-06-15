@@ -131,23 +131,23 @@ def getyachse(rundendatei):
 
 def getmaxplayer(rundendatei):
     try:
-        with open(rundendatei, 'r') as f:
+        with open(rundendatei, 'r') as f: #Datei wird geöffnet
             for line in f:
                 if line.startswith("maxplayer:"):
-                    return int(line.split(":")[1].strip())
+                    return int(line.split(":")[1].strip()) # nach dem ":" wird der maxplayer-Wert zurück gegeben
     except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}")
+        print(f"Error reading max players from {rundendatei}: {e}") #Ausnahmebehandlung
         return None
 
 
 def getwordfile(rundendatei):
     try:
-        with open(rundendatei, 'r') as f:
+        with open(rundendatei, 'r') as f: #rundendatei wird gelsesen
             for line in f:
                 if line.startswith("wordfile:"):
-                    return line.split(":")[1].strip()
+                    return line.split(":")[1].strip() #nach dem ":" wird der Dateiname stehen
     except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}")
+        print(f"Error reading max players from {rundendatei}: {e}") #Ausnahmebehandlung
         return None
 
 
@@ -498,6 +498,7 @@ def check_wordfile_not_zero(filename):
                     return False
                 else:
                     return True
+<<<<<<< Updated upstream:BingoGame/GameBugFlackern.py
     return False
 
 
@@ -514,6 +515,10 @@ def change_wordfile(filename, new_value):
 
 
 def get_default_words():
+=======
+    return False  # Falls keine 'wordfile:' Zeile gefunden wurde
+def get_default_words(): #Array mit ersatzwörtern wird erstellt
+>>>>>>> Stashed changes:BingoGame/Gamevol2TIME.py
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
         "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
@@ -524,7 +529,7 @@ def get_default_words():
         "Transparent", "Open Innovation", "Out-of-the-box", "Dissemination", "Blockchain", "Skills", "Gap",
         "Follower", "Win-Win", "Kernkomp"
     ]
-    return random.sample(default_words, len(default_words))
+    return random.sample(default_words, len(default_words)) #zufällige anordnung der Wörter
 
 
 def load_words(file_path, roundfile, xaxis, yaxis):
