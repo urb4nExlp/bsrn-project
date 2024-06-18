@@ -1,0 +1,7 @@
+maxplayer: 10
+wordfile: 0
+height: 5
+width: 5
+players: 2
+playername1: marvin: 3279
+playername2: bene: 3280

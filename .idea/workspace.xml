@@ -4,7 +4,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update standardwerte argumente" />
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update standardwerte argumente">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/BSRNproject.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/BSRNproject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/BingoCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/BingoCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GewinnÜberprüfung.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/GewinnÜberprüfung.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/GroupInfos.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/HostClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/HostClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/bingodesign.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/bingodesign.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/buzzwoeter.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/testdatei.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivDAT/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/GAMEBACKUP110624.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/GAMEBACKUP110624.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/GameBugWindowtoosmall.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/GameBugWindowtoosmall.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/PythonTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/bingogameTEST.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/bingogameTEST.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/pycharm_install.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivPY/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ArchivPY/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/BingoCardJR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/WithCurses.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/WithCurses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/finalCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/finalCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/newladedesign.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/newladedesign.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoCard/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoCard/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/BingoGameFinal.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/BingoGameFinal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/roundfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/roundfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesAttributes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesBlinking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesColor.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesColor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesPads.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesPads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesPlayground.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesPlayground.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesStart.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesStart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesTextbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesTextbox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesUserInput.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesUserInput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/CursesWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/CursesWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/binTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/binTyper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/bintextual.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/bintextual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/cardAnklicken.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoVisual/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoVisual/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/LogFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/RoundFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/dateien.py" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/dateien.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dateizugriffe/wordfile.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/MQBasicsFINISHED.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/bingogame.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/bingogame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/MessageQueues/test_message_queue.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,24 +93,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.BingoCard2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.finalCard.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Beni/Documents/GitHub/spielplatz/ArchivPY&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.BingoCard2.executor": "Run",
+    "Python.finalCard.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "goennermarvin",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Beni/Documents/GitHub/spielplatz/ArchivPY",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\BingoGame" />
@@ -71,6 +121,14 @@
       <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\ArchivDAT" />
       <recent name="C:\Users\Beni\Documents\GitHub\spielplatz\Dateizugriffe" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.17011.127" />
+        <option value="bundled-python-sdk-48aec45f0201-7e9c3bbb6e34-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.17011.127" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -108,6 +166,7 @@
       <workItem from="1718282185266" duration="713000" />
       <workItem from="1718284827632" duration="36000" />
       <workItem from="1718727073928" duration="35000" />
+      <workItem from="1718727426087" duration="1344000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
