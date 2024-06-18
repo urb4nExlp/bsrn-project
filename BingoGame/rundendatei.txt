@@ -1,0 +1,7 @@
+maxplayer: 4
+wordfile: 0
+height: 5
+width: 5
+players: 2
+playername1: Bilal: 1149
+playername2: Bilal: 1407
