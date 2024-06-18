@@ -131,23 +131,23 @@ def getyachse(rundendatei):
 
 def getmaxplayer(rundendatei):
     try:
-        with open(rundendatei, 'r') as f: #Datei wird geöffnet
+        with open(rundendatei, 'r') as f:
             for line in f:
                 if line.startswith("maxplayer:"):
-                    return int(line.split(":")[1].strip()) # nach dem ":" wird der maxplayer-Wert zurück gegeben
+                    return int(line.split(":")[1].strip())
     except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}") #Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
 
 def getwordfile(rundendatei):
     try:
-        with open(rundendatei, 'r') as f: #rundendatei wird gelsesen
+        with open(rundendatei, 'r') as f:
             for line in f:
                 if line.startswith("wordfile:"):
-                    return line.split(":")[1].strip() #nach dem ":" wird der Dateiname stehen
+                    return line.split(":")[1].strip()
     except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}") #Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
 
@@ -301,14 +301,14 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected=False):
-    stdscr.clear()
+def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+              button_selected=False):
     max_y, max_x = stdscr.getmaxyx()
     card_height = len(card) * (field_height + 1)
     card_width = len(card[0]) * (field_width + 1)
     button_height = 2
 
-    if max_y < card_height + button_height + getmaxplayer(roundfile) + 10:
+    if max_y < card_height + button_height + 12:
         stdscr.clear()
         stdscr.addstr(0, 2, "Fenster ist zu klein, bitte vertikal vergrößern.", curses.A_BOLD | curses.color_pair(2))
         stdscr.refresh()
@@ -328,7 +328,8 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
             try:
                 textpad.rectangle(stdscr, y1, x1, y2, x2)
                 if (i, j) in marked:
-                    stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | green_black)
+                    stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),
+                                  curses.A_REVERSE | green_black)
                 else:
                     stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), green_black)
             except curses.error:
@@ -360,7 +361,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
     except curses.error:
         pass
 
-    stdscr.noutrefresh()
+    stdscr.refresh()
     return button_x, button_y, button_width, button_height
 
 
@@ -395,23 +396,15 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     draw_players_info(stdscr, players_data, green_black)
 
     button_selected = False
-    result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-    if result is None:
-        while True:
-            key = stdscr.getch()
-            if key == ord('x'):
-                return
-            stdscr.noutrefresh()
-            curses.doupdate()
-            continue  # If window is too small, keep checking for 'x' key to exit
-
-    button_x, button_y, button_width, button_height = result
+    button_x, button_y, button_width, button_height = draw_card(stdscr, card, marked, field_width, field_height,
+                                                                green_black, red_white, blue_yellow, offset_y, button_selected)
 
     nichtverloren = True
     gewonnen_nachricht = None
 
     stdscr.timeout(100)
-    last_screen_update = None
+
+    last_screen = []
 
     while True:
         message = check_for_message(mq)
@@ -433,10 +426,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 if button_x <= mx <= button_x + button_width and button_y <= my <= button_y + button_height:
                     button_selected = not button_selected
                     bingo_card.button_selected = button_selected
-                    result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-                    if result is None:
-                        continue  # Wenn Fenster zu klein ist, überspringen
-                    button_x, button_y, button_width, button_height = result
+                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+                              button_selected)
                     if button_selected and bingo_card.bingo_finish:
                         gewinner = getplayername(roundfile, playernumber)
                         for i in range(int(maxplayer)):
@@ -454,10 +445,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-                if result is None:
-                    continue  # Wenn Fenster zu klein ist, überspringen
-                button_x, button_y, button_width, button_height = result
+                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+                          button_selected)
                 if bingo_card.check_bingo():
                     if button_selected:
                         gewinner = getplayername(roundfile, playernumber)
@@ -466,22 +455,28 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                         gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
 
-        # Bildschirm nur aktualisieren, wenn sich die Fenstergröße ändert
-        current_screen_size = stdscr.getmaxyx()
-        if current_screen_size != last_screen_update:
-            stdscr.clear()
-            draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-            draw_players_info(stdscr, players_data, green_black)
-            last_screen_update = current_screen_size
-
-        # Nur die Gewinnnachricht aktualisieren
         if gewonnen_nachricht:
             button_y_bottom = button_y + button_height + 2
             stdscr.addstr(button_y_bottom, 2, gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
-            stdscr.noutrefresh()
-            curses.doupdate()
+            stdscr.refresh()
 
-        stdscr.timeout(100)  # Zeitüberschreitung zurücksetzen
+        last_screen = get_screen_content(stdscr)
+
+
+def get_screen_content(stdscr):
+    max_y, max_x = stdscr.getmaxyx()
+    content = []
+    for y in range(max_y):
+        line = []
+        for x in range(max_x):
+            try:
+                char = stdscr.inch(y, x)
+                line.append(char)
+            except curses.error:
+                line.append(None)
+        content.append(line)
+    return content
+
 
 def get_words(file_path):
     try:
@@ -517,6 +512,7 @@ def check_wordfile_not_zero(filename):
                     return False
                 else:
                     return True
+    return False
 
 
 def change_wordfile(filename, new_value):
@@ -531,9 +527,7 @@ def change_wordfile(filename, new_value):
         file.writelines(lines)
 
 
-
-def get_default_words(): #Array mit ersatzwörtern wird erstellt
-
+def get_default_words():
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
         "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
@@ -544,7 +538,7 @@ def get_default_words(): #Array mit ersatzwörtern wird erstellt
         "Transparent", "Open Innovation", "Out-of-the-box", "Dissemination", "Blockchain", "Skills", "Gap",
         "Follower", "Win-Win", "Kernkomp"
     ]
-    return random.sample(default_words, len(default_words)) #zufällige anordnung der Wörter
+    return random.sample(default_words, len(default_words))
 
 
 def load_words(file_path, roundfile, xaxis, yaxis):
