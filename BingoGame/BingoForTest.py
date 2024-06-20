@@ -2,7 +2,9 @@ import sys
 import posix_ipc
 import time
 import os
+import signal
 import random
+from functools import partial
 import curses
 from curses import textpad
 import argparse
@@ -23,6 +25,7 @@ def log_event(filename, event):
 
 def clear_and_close_message_queue(mq_name):
     try:
+
         # Öffne die Message-Queue
         mq = posix_ipc.MessageQueue(mq_name)
 
@@ -49,14 +52,21 @@ def clear_and_close_message_queue(mq_name):
 
 def end_round(roundfile, mq_name):
     if decrease_players(roundfile):
+        print(mq_name)
         clear_and_close_message_queue(mq_name)
+def handle_sigint(roundfile, mq_name, sig, frame):
+    end_round(roundfile, mq_name)
+    print("\nSIGINT empfangen. Das Programm wird beendet...")
 
+
+    exit(0)  # Beende das Programm
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     # Erzeuge den Namen der Message-Queue
     mq_name = f"/{hostname}_{maxplayer}_{os.getpid()}"
 
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
+    signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
 
     if wordfile != 0:
         words = load_words(wordfile, roundfile, xaxis, yaxis)
@@ -69,9 +79,11 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     print(f": {message.decode()}")
 
     if message:
+
         try:
             log_filename = create_log_file(hostname)
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
+
             end_round(roundfile, mq_name)
             print("Host beendet")
 
@@ -86,6 +98,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
 def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile):
     mq_name = f"/{getplayername(roundfile, 1)}_{maxplayer}_{get_pid_host(roundfile)}"
     mq = posix_ipc.MessageQueue(mq_name)
+    signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
 
     if second:
         playername = getplayername(roundfile, playernumber)
@@ -100,7 +113,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_filename = create_log_file(playername)
             log_event(log_filename, "Spieler 2 beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
-            end_round(roundfile, mq_name)
+
             print("Spieler2 beendet")
         except FileNotFoundError as e:
             print(e)
@@ -119,7 +132,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_filename = create_log_file(playername)
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
-            end_round(roundfile, mq_name)
+
             print("Spieler{playernumber} beendet")
         except FileNotFoundError as e:
             print(e)
@@ -127,7 +140,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
         except ValueError as e:
             print(e)
             exit(1)
-
+    end_round(roundfile, mq_name)
 
 def check_for_message(mq):
     try:
