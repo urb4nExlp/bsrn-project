@@ -21,8 +21,41 @@ def log_event(filename, event):
         file.write(f"{timestamp} {event}\n")
 
 
+def clear_and_close_message_queue(mq_name):
+    try:
+        # Öffne die Message-Queue
+        mq = posix_ipc.MessageQueue(mq_name)
+
+        # Leere die Message-Queue
+        while True:
+            try:
+                mq.receive(timeout=1)  # timeout in seconds
+            except posix_ipc.BusyError:
+                # Keine weiteren Nachrichten vorhanden
+                break
+
+        # Schließe die Message-Queue
+        mq.close()
+
+        # Lösche die Message-Queue
+        posix_ipc.unlink_message_queue(mq_name)
+
+        print(f"Message-Queue {mq_name} wurde erfolgreich geleert und gelöscht.")
+
+    except posix_ipc.Error as e:
+        print(f"Fehler beim Umgang mit der Message-Queue: {e}")
+        sys.exit(1)
+
+
+def end_round(roundfile, mq_name):
+    if decrease_players(roundfile):
+        clear_and_close_message_queue(mq_name)
+
+
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
-    mq_name = "/my_message_queue"
+    # Erzeuge den Namen der Message-Queue
+    mq_name = f"/{hostname}_{maxplayer}_{os.getpid()}"
+
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
 
     if wordfile != 0:
@@ -39,6 +72,9 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
         try:
             log_filename = create_log_file(hostname)
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
+            end_round(roundfile, mq_name)
+            print("Host beendet")
+
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -46,16 +82,14 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
             print(e)
             exit(1)
 
-    mq.close()
-
 
 def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile):
-    mq_name = "/my_message_queue"
+    mq_name = f"/{getplayername(roundfile, 1)}_{maxplayer}_{get_pid_host(roundfile)}"
     mq = posix_ipc.MessageQueue(mq_name)
 
     if second:
         playername = getplayername(roundfile, playernumber)
-        message = "Spieler2 ist beigetreten: " + playername
+        message = "Spieler 2 ist beigetreten: " + playername
         mq.send(message.encode())
         try:
             if check_wordfile_not_zero(roundfile):
@@ -66,7 +100,8 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_filename = create_log_file(playername)
             log_event(log_filename, "Spieler 2 beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
-
+            end_round(roundfile, mq_name)
+            print("Spieler2 beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -84,6 +119,8 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_filename = create_log_file(playername)
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
+            end_round(roundfile, mq_name)
+            print("Spieler{playernumber} beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -130,25 +167,40 @@ def getyachse(rundendatei):
         return None
 
 
+def get_pid_host(rundendatei):
+    try:
+        with open(rundendatei, 'r') as f:
+            for line in f:
+                # Überprüfen, ob die Zeile mit "playername1:" beginnt
+                if line.startswith("playername1:"):
+                    # Die PID extrahieren und als Integer zurückgeben
+                    parts = line.split(":")
+                    if len(parts) == 3:
+                        return int(parts[2].strip())
+    except Exception as e:
+        print(f"Error reading PID from {rundendatei}: {e}")
+        return None
+
+
 def getmaxplayer(rundendatei):
     try:
-        with open(rundendatei, 'r') as f: #Datei wird geöffnet
+        with open(rundendatei, 'r') as f:
             for line in f:
                 if line.startswith("maxplayer:"):
-                    return int(line.split(":")[1].strip()) # nach dem ":" wird der maxplayer-Wert zurück gegeben
+                    return int(line.split(":")[1].strip())
     except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}") #Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
 
 def getwordfile(rundendatei):
     try:
-        with open(rundendatei, 'r') as f: #rundendatei wird gelsesen
+        with open(rundendatei, 'r') as f:
             for line in f:
                 if line.startswith("wordfile:"):
-                    return line.split(":")[1].strip() #nach dem ":" wird der Dateiname stehen
+                    return line.split(":")[1].strip()
     except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}") #Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}")
         return None
 
 
@@ -173,6 +225,62 @@ def getplayer(rundendatei):
     except Exception as e:
         print(f"Error reading players from {rundendatei}: {e}")
         return None
+
+
+def decrease_players(rundendatei):
+    try:
+        with open(rundendatei, 'r') as f:
+            lines = f.readlines()
+
+        with open(rundendatei, 'w') as f:
+            for line in lines:
+                if line.startswith("players:"):
+                    current_players = int(line.split(":")[1].strip())
+                    if current_players > 1:
+                        new_players = current_players - 1
+                        f.write(f"players: {new_players}\n")
+                        continue  # Skip writing the original line
+                    else:
+                        f.write(line)  # Write the original line
+                        return True
+                else:
+                    f.write(line)  # Write the original line
+
+        return False
+
+    except Exception as e:
+        print(f"Error processing file {rundendatei}: {e}")
+        return False
+
+
+def check_gameover(rundendatei):
+    try:
+        with open(rundendatei, 'r') as f:
+            for line in f:
+                if line.startswith("gameover:"):
+                    return int(line.split(":")[1].strip()) == 1
+    except Exception as e:
+        print(f"Error reading gameover from {rundendatei}: {e}")
+        return False
+
+
+def set_gameover(rundendatei):
+    try:
+        lines = []
+        with open(rundendatei, 'r') as f:
+            lines = f.readlines()
+
+        with open(rundendatei, 'w') as f:
+            for line in lines:
+                if line.startswith("gameover:"):
+                    f.write("gameover: 1\n")
+                else:
+                    f.write(line)
+
+        return True
+    except Exception as e:
+        print(f"Error setting gameover in {rundendatei}: {e}")
+        return False
 
 
 def incplayer(rundendatei, spielername):
@@ -201,6 +309,7 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
     try:
         with open(rundendatei, 'w') as f:
             f.write(f"maxplayer: {maxspieler}\n")
+            f.write(f"gameover: {0}\n")
             f.write(f"wordfile: {wordfile}\n")
             f.write(f"height: {yachse}\n")
             f.write(f"width: {xachse}\n")
@@ -302,14 +411,14 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected=False):
-    stdscr.clear()
+def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile,
+              button_selected=False):
     max_y, max_x = stdscr.getmaxyx()
     card_height = len(card) * (field_height + 1)
     card_width = len(card[0]) * (field_width + 1)
     button_height = 2
 
-    if max_y < card_height + button_height + getmaxplayer(roundfile) + 10:
+    if max_y < card_height + button_height + getmaxplayer(roundfile) + 8:
         stdscr.clear()
         stdscr.addstr(0, 2, "Fenster ist zu klein, bitte vertikal vergrößern.", curses.A_BOLD | curses.color_pair(2))
         stdscr.refresh()
@@ -329,7 +438,8 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
             try:
                 textpad.rectangle(stdscr, y1, x1, y2, x2)
                 if (i, j) in marked:
-                    stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | green_black)
+                    stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),
+                                  curses.A_REVERSE | green_black)
                 else:
                     stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), green_black)
             except curses.error:
@@ -361,7 +471,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
     except curses.error:
         pass
 
-    stdscr.noutrefresh()
+    stdscr.refresh()
     return button_x, button_y, button_width, button_height
 
 
@@ -393,35 +503,49 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
 
     players_data = read_roundfile(roundfile)
     offset_y = getmaxplayer(roundfile) + 1
-    draw_players_info(stdscr, players_data, green_black)
 
-    button_selected = False
-    result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-    if result is None:
-        while True:
-            key = stdscr.getch()
-            if key == ord('x'):
-                return
-            stdscr.noutrefresh()
-            curses.doupdate()
-            continue  # If window is too small, keep checking for 'x' key to exit
+    stdscr.timeout(100)
 
-    button_x, button_y, button_width, button_height = result
-
+    last_screen = []
+    prev_max_y, prev_max_x = stdscr.getmaxyx()
     nichtverloren = True
     gewonnen_nachricht = None
 
-    stdscr.timeout(100)
-    last_screen_update = None
+    # Initial draw
+    stdscr.clear()
+    draw_players_info(stdscr, players_data, green_black)
+    button_selected = False
+    button_x, button_y, button_width, button_height = draw_card(
+        stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile,
+        button_selected
+    )
+    prev_max_y, prev_max_x = stdscr.getmaxyx()
+
+    # Initialize button dimensions in case draw_card returns None
+    if button_x is None or button_y is None or button_width is None or button_height is None:
+        button_x, button_y, button_width, button_height = 2, 2, 20, 2  # default values
 
     while True:
+        max_y, max_x = stdscr.getmaxyx()
+        if max_y != prev_max_y or max_x != prev_max_x:
+            stdscr.clear()
+            draw_players_info(stdscr, players_data, green_black)
+            button_x, button_y, button_width, button_height = draw_card(
+                stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+                roundfile, button_selected
+            )
+            prev_max_y, prev_max_x = max_y, max_x
+
+            if button_x is None or button_y is None or button_width is None or button_height is None:
+                button_x, button_y, button_width, button_height = 2, 2, 20, 2  # default values
+
         message = check_for_message(mq)
         if message:
             if message == getplayername(roundfile, playernumber):
-                gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                gewonnen_nachricht = "TEST3BINGO! Du hast gewonnen! Drücke X zum Beenden."
             else:
                 gewonnen_nachricht = f"{message} hat gewonnen! Du hast verloren! Drücke X zum Beenden."
-            nichtverloren = False
+                nichtverloren = False
 
         key = stdscr.getch()
 
@@ -434,15 +558,14 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 if button_x <= mx <= button_x + button_width and button_y <= my <= button_y + button_height:
                     button_selected = not button_selected
                     bingo_card.button_selected = button_selected
-                    result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-                    if result is None:
-                        continue  # Wenn Fenster zu klein ist, überspringen
-                    button_x, button_y, button_width, button_height = result
+                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
+                              offset_y, roundfile, button_selected)
                     if button_selected and bingo_card.bingo_finish:
                         gewinner = getplayername(roundfile, playernumber)
+                        set_gameover(roundfile)
                         for i in range(int(maxplayer)):
                             mq.send(gewinner.encode())
-                        gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                        # gewonnen_nachricht = "TEST1BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
                     continue
 
@@ -455,34 +578,42 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-                if result is None:
-                    continue  # Wenn Fenster zu klein ist, überspringen
-                button_x, button_y, button_width, button_height = result
+                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
+                          offset_y, roundfile, button_selected)
                 if bingo_card.check_bingo():
                     if button_selected:
                         gewinner = getplayername(roundfile, playernumber)
+                        set_gameover(roundfile)
                         for i in range(int(maxplayer)):
                             mq.send(gewinner.encode())
-                        gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                        # gewonnen_nachricht = "TEST2BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
 
-        # Bildschirm nur aktualisieren, wenn sich die Fenstergröße ändert
-        current_screen_size = stdscr.getmaxyx()
-        if current_screen_size != last_screen_update:
-            stdscr.clear()
-            draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-            draw_players_info(stdscr, players_data, green_black)
-            last_screen_update = current_screen_size
-
-        # Nur die Gewinnnachricht aktualisieren
         if gewonnen_nachricht:
-            button_y_bottom = button_y + button_height + 2
-            stdscr.addstr(button_y_bottom, 2, gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
-            stdscr.noutrefresh()
-            curses.doupdate()
+            try:
+                button_y_bottom = button_y + button_height + 2
+                stdscr.addstr(button_y_bottom, 2, gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
+            except curses.error:
+                stdscr.addstr(0, 2, gewonnen_nachricht, blue_yellow)
+            stdscr.refresh()
 
-        stdscr.timeout(100)  # Zeitüberschreitung zurücksetzen
+        last_screen = get_screen_content(stdscr)
+
+
+def get_screen_content(stdscr):
+    max_y, max_x = stdscr.getmaxyx()
+    content = []
+    for y in range(max_y):
+        line = []
+        for x in range(max_x):
+            try:
+                char = stdscr.inch(y, x)
+                line.append(char)
+            except curses.error:
+                line.append(None)
+        content.append(line)
+    return content
+
 
 def get_words(file_path):
     try:
@@ -518,6 +649,7 @@ def check_wordfile_not_zero(filename):
                     return False
                 else:
                     return True
+    return False
 
 
 def change_wordfile(filename, new_value):
@@ -532,9 +664,7 @@ def change_wordfile(filename, new_value):
         file.writelines(lines)
 
 
-
-def get_default_words(): #Array mit ersatzwörtern wird erstellt
-
+def get_default_words():
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
         "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
@@ -545,7 +675,7 @@ def get_default_words(): #Array mit ersatzwörtern wird erstellt
         "Transparent", "Open Innovation", "Out-of-the-box", "Dissemination", "Blockchain", "Skills", "Gap",
         "Follower", "Win-Win", "Kernkomp"
     ]
-    return random.sample(default_words, len(default_words)) #zufällige anordnung der Wörter
+    return random.sample(default_words, len(default_words))
 
 
 def load_words(file_path, roundfile, xaxis, yaxis):
@@ -564,7 +694,8 @@ def load_words(file_path, roundfile, xaxis, yaxis):
             return words
 
         print(f"Fehler: Datei '{file_path}' nicht gefunden oder zu wenige Wörter vorhanden.")
-        user_choice = input("Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ")
+        user_choice = input(
+            "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ")
 
         if user_choice == '1':
             print("Standardwörter werden verwendet.")
@@ -581,7 +712,7 @@ def parse_args(args):
         "xaxis": 5,
         "yaxis": 5,
         "roundfile": "rundendatei.txt",
-        "maxplayers": 10,
+        "maxplayers": 5,
         "wordfile": 0,
         "playername": None,
     }
@@ -616,7 +747,8 @@ def parse_args(args):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3 or len(sys.argv) > 14:
-        print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+        print(
+            "Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
         print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -spielername NAME")
         print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
         sys.exit(1)
@@ -642,6 +774,11 @@ if __name__ == "__main__":
             config["playername"] = sys.argv[3]
         if config["playername"]:
             if os.path.exists(config["roundfile"]):
+
+                if check_gameover(config["roundfile"]):
+                    print("Beitritt abgebrochen! Das Spiel ist bereits vorbei.")
+                    exit(1)
+
                 mplayer = getmaxplayer(config["roundfile"])
                 if getplayer(config["roundfile"]) < mplayer:
                     playernumber = incplayer(config["roundfile"], config["playername"])
