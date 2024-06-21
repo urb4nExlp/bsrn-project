@@ -1,7 +1,9 @@
-maxplayer: 10
+maxplayer: 5
+gameover: 1
 wordfile: 0
 height: 5
 width: 5
-players: 2
-playername1: marvin: 3279
-playername2: bene: 3280
+players: 3
+playername1: marvin: 12840
+playername2: odi: 12853
+playername3: bene: 12974
