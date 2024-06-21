@@ -54,12 +54,14 @@ def end_round(roundfile, mq_name):
     if decrease_players(roundfile):
         print(mq_name)
         clear_and_close_message_queue(mq_name)
+
+
 def handle_sigint(roundfile, mq_name, sig, frame):
     end_round(roundfile, mq_name)
     print("\nSIGINT empfangen. Das Programm wird beendet...")
 
-
     exit(0)  # Beende das Programm
+
 
 def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     # Erzeuge den Namen der Message-Queue
@@ -141,6 +143,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             print(e)
             exit(1)
     end_round(roundfile, mq_name)
+
 
 def check_for_message(mq):
     try:
