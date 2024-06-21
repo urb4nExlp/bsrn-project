@@ -775,7 +775,6 @@ if __name__ == "__main__":
     # Verarbeite den Befehl "-newround"
     if sys.argv[1] == "-newround":
         config = parse_args(sys.argv)
-        # Keine zusätzliche Überprüfung von "playername" notwendig, da bereits in parse_args überprüft
         create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
                          config["playername"], config["wordfile"])
         host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
