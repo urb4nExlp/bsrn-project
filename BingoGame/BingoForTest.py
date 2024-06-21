@@ -724,77 +724,90 @@ def load_words(file_path, roundfile, xaxis, yaxis):
 
 
 def parse_args(args):
-    config = {
-        "xaxis": 5,
-        "yaxis": 5,
-        "roundfile": "rundendatei.txt",
-        "maxplayers": 5,
-        "wordfile": 0,
-        "playername": None,
-    }
+    # Initialisiere die Konfigurationsparameter mit Standardwerten
+    config = { "xaxis": 5, "yaxis": 5, "roundfile": "rundendatei.txt", "maxplayers": 5, "wordfile": 0, "playername": None }
 
+    # Starte die Argumentverarbeitung ab dem dritten Argument (Index 2)
     i = 2
     while i < len(args):
-        if args[i] == "-roundfile":
-            config["roundfile"] = args[i + 1]
-            i += 2
+        # Verarbeite das Argument "-roundfile"
+        if args[i] == "-roundfile": config["roundfile"] = args[i + 1]; i += 2
+        # Verarbeite das Argument "-xaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-xaxis":
-            if is_integer(args[i + 1]):
-                config["xaxis"] = int(args[i + 1])
+            if is_integer(args[i + 1]): config["xaxis"] = int(args[i + 1])
             i += 2
+        # Verarbeite das Argument "-yaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-yaxis":
-            if is_integer(args[i + 1]):
-                config["yaxis"] = int(args[i + 1])
+            if is_integer(args[i + 1]): config["yaxis"] = int(args[i + 1])
             i += 2
-        elif args[i] == "-wordfile":
-            config["wordfile"] = args[i + 1]
-            i += 2
+        # Verarbeite das Argument "-wordfile"
+        elif args[i] == "-wordfile": config["wordfile"] = args[i + 1]; i += 2
+        # Verarbeite das Argument "-maxplayers" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-maxplayers":
-            if is_integer(args[i + 1]):
-                config["maxplayers"] = int(args[i + 1])
+            if is_integer(args[i + 1]): config["maxplayers"] = int(args[i + 1])
             i += 2
+        # Verarbeite das Argument "-playername" und prüfe, ob ein Wert folgt
         elif args[i] == "-playername":
-            config["playername"] = args[i + 1]
-            i += 2
-        else:
-            i += 1
+            if i + 1 < len(args): config["playername"] = args[i + 1]; i += 2
+            else: print("Fehlendes Argument für -playername."); print_usage(); sys.exit(1)
+        else: i += 1
     return config
 
+# Funktion zur Ausgabe der Nutzungshinweise
+def print_usage():
+    print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+    print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -playername NAME")
+    print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3 or len(sys.argv) > 14:
-        print(
-            "Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
-        print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -spielername NAME")
-        print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
+    # Prüfe, ob die Anzahl der Argumente in einem sinnvollen Bereich liegt
+    if len(sys.argv) < 4 or len(sys.argv) > 14:
+        print_usage()
         sys.exit(1)
+
+    # Verarbeite den Befehl "-newround"
     if sys.argv[1] == "-newround":
         config = parse_args(sys.argv)
-        if config["playername"]:
-            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
-                             config["playername"], config["wordfile"])
-            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
-                       config["playername"])
-        else:
-            print("Fehlende Argumente für -newround -wordfile und -playername sind erforderlich.")
+        # Keine zusätzliche Überprüfung von "playername" notwendig, da bereits in parse_args überprüft
+        create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
+                         config["playername"], config["wordfile"])
+        host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
+                   config["playername"])
+
+    # Verarbeite den Befehl "-joinround"
     elif sys.argv[1] == "-joinround":
+        # Initialisiere Konfiguration für den Beitritt
         config = {
             "roundfile": "rundendatei.txt",
             "playername": None,
         }
+        # Verarbeite die Argumente, wenn "-roundfile" angegeben ist
         if len(sys.argv) >= 4 and sys.argv[2] == "-roundfile":
             config["roundfile"] = sys.argv[3]
             if len(sys.argv) == 6 and sys.argv[4] == "-playername":
                 config["playername"] = sys.argv[5]
+            elif len(sys.argv) == 5 and sys.argv[4] == "-playername":
+                print("Fehlendes Argument für -playername.")
+                print_usage()
+                sys.exit(1)
+        # Verarbeite die Argumente, wenn "-playername" direkt angegeben ist
         elif len(sys.argv) == 4 and sys.argv[2] == "-playername":
             config["playername"] = sys.argv[3]
-        if config["playername"]:
-            if os.path.exists(config["roundfile"]):
+        elif len(sys.argv) == 3 and sys.argv[2] == "-playername":
+            print("Fehlendes Argument für -playername.")
+            print_usage()
+            sys.exit(1)
 
+        # Prüfe, ob der Spielername angegeben wurde
+        if config["playername"]:
+            # Prüfe, ob die Rundendatei existiert
+            if os.path.exists(config["roundfile"]):
+                # Prüfe, ob das Spiel bereits vorbei ist
                 if check_gameover(config["roundfile"]):
                     print("Beitritt abgebrochen! Das Spiel ist bereits vorbei.")
                     exit(1)
 
+                # Prüfe, ob die maximale Spieleranzahl erreicht ist
                 mplayer = getmaxplayer(config["roundfile"])
                 if getplayer(config["roundfile"]) < mplayer:
                     playernumber = incplayer(config["roundfile"], config["playername"])
@@ -811,6 +824,9 @@ if __name__ == "__main__":
                 print("Beitritt nicht möglich! Die angegebene Rundendatei existiert nicht")
         else:
             print("Fehlende Argumente für -joinround -playername NAME ist erforderlich.")
+            print_usage()
     else:
         print("Unbekannter Befehl")
+        print_usage()
         sys.exit(1)
+
