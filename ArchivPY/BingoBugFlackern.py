@@ -301,8 +301,7 @@ class BingoCard:
         return card_str
 
 
-def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile,
-              button_selected=False, ):
+def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected=False):
     stdscr.clear()
     max_y, max_x = stdscr.getmaxyx()
     card_height = len(card) * (field_height + 1)
@@ -329,8 +328,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
             try:
                 textpad.rectangle(stdscr, y1, x1, y2, x2)
                 if (i, j) in marked:
-                    stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),
-                                  curses.A_REVERSE | green_black)
+                    stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1), curses.A_REVERSE | green_black)
                 else:
                     stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), green_black)
             except curses.error:
@@ -362,9 +360,8 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
     except curses.error:
         pass
 
-    stdscr.refresh()
+    stdscr.noutrefresh()
     return button_x, button_y, button_width, button_height
-
 
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, log_filename):
     curses.start_color()
@@ -397,9 +394,17 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     draw_players_info(stdscr, players_data, green_black)
 
     button_selected = False
-    button_x, button_y, button_width, button_height = draw_card(stdscr, card, marked, field_width, field_height,
-                                                                green_black, red_white, blue_yellow, offset_y, roundfile,
-                                                                button_selected)
+    result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
+    if result is None:
+        while True:
+            key = stdscr.getch()
+            if key == ord('x'):
+                return
+            stdscr.noutrefresh()
+            curses.doupdate()
+            continue  # If window is too small, keep checking for 'x' key to exit
+
+    button_x, button_y, button_width, button_height = result
 
     nichtverloren = True
     gewonnen_nachricht = None
@@ -426,8 +431,10 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 if button_x <= mx <= button_x + button_width and button_y <= my <= button_y + button_height:
                     button_selected = not button_selected
                     bingo_card.button_selected = button_selected
-                    draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
-                              offset_y, roundfile, button_selected)
+                    result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
+                    if result is None:
+                        continue  # Wenn Fenster zu klein ist, überspringen
+                    button_x, button_y, button_width, button_height = result
                     if button_selected and bingo_card.bingo_finish:
                         gewinner = getplayername(roundfile, playernumber)
                         for i in range(int(maxplayer)):
@@ -445,8 +452,10 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                 else:
                     marked.add((row, col))
                     bingo_card.mark(row, col)
-                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
-                          offset_y, roundfile, button_selected)
+                result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
+                if result is None:
+                    continue  # Wenn Fenster zu klein ist, überspringen
+                button_x, button_y, button_width, button_height = result
                 if bingo_card.check_bingo():
                     if button_selected:
                         gewinner = getplayername(roundfile, playernumber)
@@ -455,8 +464,17 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                         gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
 
-        # Hier wird der Bildschirm nur dann aktualisiert, wenn es Änderungen gibt
-        draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
+        result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
+        if result is None:
+            while True:
+                key = stdscr.getch()
+                if key == ord('x'):
+                    return
+                stdscr.noutrefresh()
+                curses.doupdate()
+                continue  # If window is too small, keep checking for 'x' key to exit
+
+        button_x, button_y, button_width, button_height = result
         players_data = read_roundfile(roundfile)
         draw_players_info(stdscr, players_data, green_black)
 
@@ -464,10 +482,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
             button_y_bottom = button_y + button_height + 2
             stdscr.addstr(button_y_bottom, 2, gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
 
-        # Nur einmal am Ende der Schleife aktualisieren
         stdscr.noutrefresh()
         curses.doupdate()
-
 
 def get_words(file_path):
     try:
