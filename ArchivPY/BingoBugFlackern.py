@@ -66,6 +66,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_filename = create_log_file(playername)
             log_event(log_filename, "Spieler 2 beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
+
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -363,6 +364,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
     stdscr.noutrefresh()
     return button_x, button_y, button_width, button_height
 
+
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, log_filename):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -410,6 +412,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     gewonnen_nachricht = None
 
     stdscr.timeout(100)
+    last_screen_update = None
 
     while True:
         message = check_for_message(mq)
@@ -464,26 +467,22 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                         gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
 
-        result = draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
-        if result is None:
-            while True:
-                key = stdscr.getch()
-                if key == ord('x'):
-                    return
-                stdscr.noutrefresh()
-                curses.doupdate()
-                continue  # If window is too small, keep checking for 'x' key to exit
+        # Bildschirm nur aktualisieren, wenn sich die Fenstergröße ändert
+        current_screen_size = stdscr.getmaxyx()
+        if current_screen_size != last_screen_update:
+            stdscr.clear()
+            draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile, button_selected)
+            draw_players_info(stdscr, players_data, green_black)
+            last_screen_update = current_screen_size
 
-        button_x, button_y, button_width, button_height = result
-        players_data = read_roundfile(roundfile)
-        draw_players_info(stdscr, players_data, green_black)
-
+        # Nur die Gewinnnachricht aktualisieren
         if gewonnen_nachricht:
             button_y_bottom = button_y + button_height + 2
             stdscr.addstr(button_y_bottom, 2, gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
+            stdscr.noutrefresh()
+            curses.doupdate()
 
-        stdscr.noutrefresh()
-        curses.doupdate()
+        stdscr.timeout(100)  # Zeitüberschreitung zurücksetzen
 
 def get_words(file_path):
     try:
