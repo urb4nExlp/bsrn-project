@@ -731,7 +731,14 @@ def parse_args(args):
     i = 2
     while i < len(args):
         # Verarbeite das Argument "-roundfile"
-        if args[i] == "-roundfile": config["roundfile"] = args[i + 1]; i += 2
+        if args[i] == "-roundfile":
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["roundfile"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -roundfile.")
+                print_usage()
+                sys.exit(1)
         # Verarbeite das Argument "-xaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-xaxis":
             if is_integer(args[i + 1]): config["xaxis"] = int(args[i + 1])
