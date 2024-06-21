@@ -131,9 +131,13 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             playername = getplayername(roundfile, playernumber)
             log_filename = create_log_file(playername)
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
+
+            # Sende eine Nachricht an alle Spieler über den neuen Spieler
+            mq.send(f"Neuer Spieler beigetreten: {playername}".encode())
+
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
-            print("Spieler{playernumber} beendet")
+            print(f"Spieler {playernumber} beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -141,6 +145,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             print(e)
             exit(1)
     end_round(roundfile, mq_name)
+
 
 def check_for_message(mq):
     try:
@@ -555,10 +560,16 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         message = check_for_message(mq)
         if message:
             if message == getplayername(roundfile, playernumber):
-                gewonnen_nachricht = "TEST3BINGO! Du hast gewonnen! Drücke X zum Beenden."
-            else:
+                gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
+            elif "hat gewonnen" in message:
                 gewonnen_nachricht = f"{message} hat gewonnen! Du hast verloren! Drücke X zum Beenden."
                 nichtverloren = False
+            elif "Neuer Spieler beigetreten" in message:
+                players_data = read_roundfile(roundfile)
+                stdscr.clear()
+                draw_players_info(stdscr, players_data, green_black)
+                draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
+                          offset_y, roundfile, button_selected)
 
         key = stdscr.getch()
 
@@ -573,12 +584,11 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                     bingo_card.button_selected = button_selected
                     draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
                               offset_y, roundfile, button_selected)
-                    if button_selected and bingo_card.bingo_finish:
+                    if button_selected and bingo_card.check_bingo():
                         gewinner = getplayername(roundfile, playernumber)
                         set_gameover(roundfile)
                         for i in range(int(maxplayer)):
-                            mq.send(gewinner.encode())
-                        # gewonnen_nachricht = "TEST1BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                            mq.send(f"{gewinner} hat gewonnen".encode())
                         nichtverloren = False
                     continue
 
@@ -598,8 +608,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                         gewinner = getplayername(roundfile, playernumber)
                         set_gameover(roundfile)
                         for i in range(int(maxplayer)):
-                            mq.send(gewinner.encode())
-                        # gewonnen_nachricht = "TEST2BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                            mq.send(f"{gewinner} hat gewonnen".encode())
                         nichtverloren = False
 
         if gewonnen_nachricht:
