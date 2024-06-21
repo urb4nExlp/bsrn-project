@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update MessageQueues, multi games, gameover detection">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoGame/BingoForTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/BingoForTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +123,7 @@
       <workItem from="1718727426087" duration="1344000" />
       <workItem from="1718873614894" duration="2748000" />
       <workItem from="1718967860079" duration="1179000" />
-      <workItem from="1718989251624" duration="164000" />
+      <workItem from="1718989251624" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -308,7 +309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718968202521</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="update MessageQueues, multi games, gameover detection">
+      <option name="closed" value="true" />
+      <created>1718989420514</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1718989420514</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
