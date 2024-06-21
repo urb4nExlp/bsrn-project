@@ -301,24 +301,43 @@ def set_gameover(rundendatei):
 
 def incplayer(rundendatei, spielername):
     try:
+        player_count = None  # Initialisiere player_count mit None
+
+        # Öffne die Datei im Lesemodus und lies alle Zeilen
         with open(rundendatei, 'r') as f:
             lines = f.readlines()
 
+        # Durchlaufe die Zeilen und finde die Zeile mit 'players:'
         for i, line in enumerate(lines):
             if line.startswith("players:"):
+                # Extrahiere die aktuelle Anzahl von Spielern und erhöhe sie um 1
                 player_count = int(line.split(":")[1].strip())
                 player_count += 1
-                lines[i] = f"players: {player_count}\n"
-                break
+                lines[i] = f"players: {player_count}\n"  # Aktualisiere die Zeile mit der neuen Spieleranzahl
+                break  # Beende die Schleife, da wir die Zeile gefunden und aktualisiert haben
 
+        # Falls keine Zeile mit 'players:' gefunden wurde, wird eine ValueError ausgelöst
+        if player_count is None:
+            raise ValueError("No 'players:' line found in the file.")
+
+        # Erzeuge den neuen Spielerstring
         playerstring = "playername" + str(player_count)
-        lines.append(f"{playerstring}: {spielername}: {os.getpid()}\n")
+        new_line = f"{playerstring}: {spielername}: {os.getpid()}\n"
 
+        # Füge den neuen Spielerstring eine Zeile vor der aktualisierten 'players:'-Zeile ein
+        lines.insert(i, new_line)
+
+        # Öffne die Datei im Schreibmodus und schreibe die aktualisierten Zeilen zurück
         with open(rundendatei, 'w') as f:
             f.writelines(lines)
+
+        # Gib die aktuelle Anzahl von Spielern zurück
         return player_count
+
     except Exception as e:
+        # Falls ein Fehler auftritt, gebe eine Fehlermeldung aus und gib None zurück
         print(f"Error updating players in {rundendatei}: {e}")
+        return None
 
 
 def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile):
@@ -329,8 +348,9 @@ def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile
             f.write(f"wordfile: {wordfile}\n")
             f.write(f"height: {yachse}\n")
             f.write(f"width: {xachse}\n")
-            f.write(f"players: {1}\n")
             f.write(f"playername1: {hostname}: {os.getpid()}\n")
+            f.write(f"players: {1}\n")
+
         print("Roundfile created, initializing game start...")
     except Exception as e:
         print("Error creating round file:", e)
