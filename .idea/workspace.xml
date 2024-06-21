@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update MessageQueues, multi games, gameover detection">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update MessageQueues, multi games, gameover detection" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,7 +120,7 @@
       <workItem from="1718727426087" duration="1344000" />
       <workItem from="1718737595039" duration="1226000" />
       <workItem from="1718889915851" duration="4164000" />
-      <workItem from="1718996875097" duration="3850000" />
+      <workItem from="1718996875097" duration="4240000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
