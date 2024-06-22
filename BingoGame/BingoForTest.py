@@ -547,6 +547,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     nichtverloren = True
     gewonnen_nachricht = None
 
+    last_player_count = len(players_data)
+
     # Initial draw
     stdscr.clear()
     draw_players_info(stdscr, players_data, green_black)
@@ -625,6 +627,17 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                         # gewonnen_nachricht = "TEST2BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
 
+        new_players_data = read_roundfile(roundfile)
+        if len(new_players_data) != last_player_count:
+            players_data = new_players_data
+            stdscr.clear()
+            draw_players_info(stdscr, players_data, green_black)
+            button_x, button_y, button_width, button_height = draw_card(
+                stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+                roundfile, button_selected
+            )
+            last_player_count = len(players_data)
+
         if gewonnen_nachricht:
             try:
                 button_y_bottom = button_y + button_height + 2
@@ -634,7 +647,6 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
             stdscr.refresh()
 
         last_screen = get_screen_content(stdscr)
-
 
 def get_screen_content(stdscr):
     max_y, max_x = stdscr.getmaxyx()
