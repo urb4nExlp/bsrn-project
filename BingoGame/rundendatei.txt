@@ -1,0 +1,9 @@
+maxplayer: 5
+gameover: 1
+wordfile: 0
+height: 5
+width: 5
+playername1: marvin: 4210
+playername2: bene: 4225
+playername3: robin: 4248
+players: 1
