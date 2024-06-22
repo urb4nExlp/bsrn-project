@@ -116,7 +116,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_event(log_filename, "Spieler 2 beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
-            print("Spieler2 beendet")
+            print("Spieler 2 beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -135,7 +135,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
-            print("Spieler{playernumber} beendet")
+            print(f"Spieler{playernumber} beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -648,6 +648,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
 
         last_screen = get_screen_content(stdscr)
 
+
 def get_screen_content(stdscr):
     max_y, max_x = stdscr.getmaxyx()
     content = []
@@ -822,6 +823,7 @@ def parse_args_host(args):
             i += 1
     return config
 
+
 def parse_args_player(args):
     # Initialisiere Konfiguration für den Beitritt
     config = {
@@ -846,11 +848,14 @@ def parse_args_player(args):
         sys.exit(1)
     return config
 
+
 # Funktion zur Ausgabe der Nutzungshinweise
 def print_usage():
-    print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+    print(
+        "Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
     print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -playername NAME")
     print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
+
 
 if __name__ == "__main__":
     # Prüfe, ob die Anzahl der Argumente in einem sinnvollen Bereich liegt
@@ -896,4 +901,3 @@ if __name__ == "__main__":
         print("Unbekannter Befehl")
         print_usage()
         sys.exit(1)
-
