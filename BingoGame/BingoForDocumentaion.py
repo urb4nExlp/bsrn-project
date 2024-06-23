@@ -872,10 +872,15 @@ if __name__ == "__main__":
     # Verarbeite den Befehl "-newround"
     if sys.argv[1] == "-newround":
         config = parse_args_host(sys.argv)
-        create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
-                         config["playername"], config["wordfile"])
-        host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
-                   config["playername"])
+        if config["playername"] is None:
+            print("Fehlendes Argument für -playername.")
+            print_usage()
+            sys.exit(1)
+        else:
+            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
+                             config["playername"], config["wordfile"])
+            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
+                       config["playername"])
 
     # Verarbeite den Befehl "-joinround"
     elif sys.argv[1] == "-joinround":

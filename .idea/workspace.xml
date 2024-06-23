@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update MessageQueues, multi games, gameover detection">
+    <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="comments, bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BingoGame/BingoForDocumentaion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/BingoForDocumentaion.py" afterDir="false" />
     </list>
@@ -124,7 +124,7 @@
       <workItem from="1718737595039" duration="1226000" />
       <workItem from="1718889915851" duration="4164000" />
       <workItem from="1718996875097" duration="4240000" />
-      <workItem from="1719142874932" duration="1643000" />
+      <workItem from="1719142874932" duration="2613000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -342,7 +342,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719144269625</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="comments, bug fixes">
+      <option name="closed" value="true" />
+      <created>1719144777876</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1719144777876</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,7 +377,8 @@
     <MESSAGE value="update" />
     <MESSAGE value="update standardwerte argumente" />
     <MESSAGE value="update MessageQueues, multi games, gameover detection" />
-    <option name="LAST_COMMIT_MESSAGE" value="update MessageQueues, multi games, gameover detection" />
+    <MESSAGE value="comments, bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="comments, bug fixes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GAMEvol3MARVIN_py$BingoGameFinal.coverage" NAME="BingoGameFinal Coverage Results" MODIFIED="1718738032300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BingoGame" />
