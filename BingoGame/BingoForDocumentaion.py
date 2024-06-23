@@ -836,22 +836,34 @@ def parse_args_player(args):
         "roundfile": "rundendatei.txt",
         "playername": None,
     }
-    # Verarbeite die Argumente, wenn "-roundfile" angegeben ist
-    if len(args) >= 4 and args[2] == "-roundfile":
-        config["roundfile"] = args[3]
-        if len(args) == 6 and args[4] == "-playername":
-            config["playername"] = args[5]
-        elif len(args) == 5 and args[4] == "-playername":
-            print("Fehlendes Argument für -playername.")
+
+    i = 2
+    while i < len(args):
+        # Verarbeite das Argument "-roundfile"
+        if args[i] == "-roundfile":
+            # Überprüfe, ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["roundfile"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -roundfile.")
+                print_usage()
+                sys.exit(1)
+        # Verarbeite das Argument "-playername"
+        elif args[i] == "-playername":
+            # Überprüfe, ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["playername"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -playername oder ungültiges Format.")
+                print_usage()
+                sys.exit(1)
+        else:
+            print(f"Unbekanntes Argument {args[i]}")
             print_usage()
             sys.exit(1)
-    # Verarbeite die Argumente, wenn "-playername" direkt angegeben ist
-    elif len(args) == 4 and args[2] == "-playername":
-        config["playername"] = args[3]
-    elif len(args) == 3 and args[2] == "-playername":
-        print("Fehlendes Argument für -playername.")
-        print_usage()
-        sys.exit(1)
+
     return config
 
 
@@ -872,10 +884,17 @@ if __name__ == "__main__":
     # Verarbeite den Befehl "-newround"
     if sys.argv[1] == "-newround":
         config = parse_args_host(sys.argv)
-        create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
-                         config["playername"], config["wordfile"])
-        host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
-                   config["playername"])
+        # Überprüfe ob der Spielername fehlt
+        if config["playername"] is None:
+            print("Fehlendes Argument für -playername.")
+            print_usage()
+            sys.exit(1)
+        # Wenn Spielername korrekt angegeben erstelle Roundfile und starte host_start()
+        else:
+            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
+                             config["playername"], config["wordfile"])
+            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
+                       config["playername"])
 
     # Verarbeite den Befehl "-joinround"
     elif sys.argv[1] == "-joinround":
