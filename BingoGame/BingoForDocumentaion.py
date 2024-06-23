@@ -67,31 +67,41 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     # Erzeuge den Namen der Message-Queue
     mq_name = f"/{hostname}_{maxplayer}_{os.getpid()}"
 
+    # Erstellt MessageQueue falls nicht bereits vorhanden
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
+    # behandelt Spielabbruch durch STRG+C
     signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
 
+    # Prüfen ob ein  Wordfile Pfad existiert
+    # Wenn ja, lade load_words (Überprüft auch auf Gültigkeit!)
     if wordfile != 0:
         words = load_words(wordfile, roundfile, xaxis, yaxis)
+    # Wenn nicht, lade Standardwörter
     else:
         words = get_default_words()
 
+    # Starte blockierendes Ereignis mq.receive und warte auf Spieler 2
     print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
     message, _ = mq.receive()
     print(f": {message.decode()}")
 
+    # Wenn eine Nachricht vorhanden
     if message:
 
         try:
+            # Initialisiere Log für Host
             log_filename = create_log_file(hostname)
+            # Starte die Curses Umgebung (startet das gesamte Bingospiel für den Host)
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
 
             end_round(roundfile, mq_name)
             print("Host beendet")
-
+        # Behandle FileNotFound Error
         except FileNotFoundError as e:
             print(e)
             exit(1)
+        # Behandle Value Error
         except ValueError as e:
             print(e)
             exit(1)
