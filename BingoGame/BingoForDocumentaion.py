@@ -781,20 +781,20 @@ def parse_args_host(args):
                 sys.exit(1)
         # Verarbeite das Argument "-xaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-xaxis":
-            if is_integer(args[i + 1]):
+            if is_integer(args[i + 1]) and int(args[i + 1]) < 8:
                 config["xaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -xaxis.")
+                print("Fehlendes Argument für -xaxis. Maximale Größe ist 7")
                 print_usage()
                 sys.exit(1)
         # Verarbeite das Argument "-yaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-yaxis":
-            if is_integer(args[i + 1]):
+            if is_integer(args[i + 1]) and int(args[i + 1]) < 8:
                 config["yaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -yaxis.")
+                print("Fehlendes Argument für -yaxis. Maximale Größe ist 7")
                 print_usage()
                 sys.exit(1)
         # Verarbeite das Argument "-wordfile"
