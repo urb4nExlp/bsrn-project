@@ -764,7 +764,9 @@ def parse_args_host(args):
 
     i = 2
     while i < len(args):
+        # Verarbeite das Argument "-roundfile"
         if args[i] == "-roundfile":
+            # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
             if i + 1 < len(args) and not args[i + 1].startswith('-'):
                 config["roundfile"] = args[i + 1]
                 i += 2
@@ -772,23 +774,29 @@ def parse_args_host(args):
                 print("Fehlendes Argument für -roundfile.")
                 print_usage()
                 sys.exit(1)
+        # Verarbeite das Argument "-xaxis"
         elif args[i] == "-xaxis":
+            # Überprüfen ob ein Argument danach ein Integer ist und ob dieses kleiner als 8 und größer als 2 ist
             if i + 1 < len(args) and is_integer(args[i + 1]) and int(args[i + 1]) < 8 and int(args[i + 1]) > 2:
                 config["xaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -xaxis. Min: 3 / Max: 7")
+                print("Falsches Argument für -xaxis. Min: 3 / Max: 7")
                 print_usage()
                 sys.exit(1)
+        # Verarbeite das Argument "-yaxis"
         elif args[i] == "-yaxis":
+            # Überprüfen ob ein Argument danach ein Integer ist und ob dieses kleiner als 8 und größer als 2 ist
             if i + 1 < len(args) and is_integer(args[i + 1]) and int(args[i + 1]) < 8 and int(args[i + 1]) > 2:
                 config["yaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -yaxis. Min: 3 / Max: 7")
+                print("Falsches Argument für -yaxis. Min: 3 / Max: 7")
                 print_usage()
                 sys.exit(1)
+        # Verarbeite das Argument "-wordfile"
         elif args[i] == "-wordfile":
+            # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
             if i + 1 < len(args) and not args[i + 1].startswith('-'):
                 config["wordfile"] = args[i + 1]
                 i += 2
@@ -796,7 +804,9 @@ def parse_args_host(args):
                 print("Fehlendes Argument für -wordfile.")
                 print_usage()
                 sys.exit(1)
+        # Verarbeite das Argument "-maxplayers"
         elif args[i] == "-maxplayers":
+            # Überprüfen ob ein Argument folgt welches ein Integer ist
             if i + 1 < len(args) and is_integer(args[i + 1]):
                 config["maxplayers"] = int(args[i + 1])
                 i += 2
@@ -804,8 +814,11 @@ def parse_args_host(args):
                 print("Fehlendes Argument für -maxplayers.")
                 print_usage()
                 sys.exit(1)
+        # Verarbeite das Argument "-playername"
         elif args[i] == "-playername":
+            # Überprüfen ob ein Argument danach folgt
             if i + 1 < len(args):
+                # Übernehme das Argument
                 config["playername"] = args[i + 1]
                 i += 2
             else:
