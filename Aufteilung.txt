@@ -1,0 +1,48 @@
+Bilal:
+def create_log_file
+def log_event
+def getxachse
+def getyachse
+def get_pid_host
+def decrease_players
+def check_gameover
+def set_gameover
+def incplayer
+def create_roundfile
+def read_roundfile
+
+
+Bene:
+def clear_and_close_message_queue
+def end_round
+def handle_sigint
+def host_start
+def player_start
+def check_for_message
+def is_integer
+parse_args_host
+parse_args_player
+if __name__ == "__main__"
+
+
+Robin:
+def getmaxplayer
+def draw_players_info
+def getwordfile
+def get_words
+def set_wordfile_to_zero
+def check_wordfile_not_zero
+def change_wordfile
+def getplayername
+def getplayer
+
+
+Jamie:
+class BingoCard
+def get_default_words
+def load_words
+
+Marvin:
+def draw_card
+def main
+def get_screen_content
