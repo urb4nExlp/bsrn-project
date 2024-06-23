@@ -816,13 +816,13 @@ def parse_args_host(args):
                 sys.exit(1)
         # Verarbeite das Argument "-playername"
         elif args[i] == "-playername":
-            # Überprüfen ob ein Argument danach folgt
-            if i + 1 < len(args):
+            # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
                 # Übernehme das Argument
                 config["playername"] = args[i + 1]
                 i += 2
             else:
-                print("Fehlendes Argument für -playername.")
+                print("Fehlendes oder ungültiges Argument für -playername.")
                 print_usage()
                 sys.exit(1)
         else:
