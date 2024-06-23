@@ -777,7 +777,7 @@ def parse_args_host(args):
         # Verarbeite das Argument "-xaxis"
         elif args[i] == "-xaxis":
             # Überprüfen ob ein Argument danach ein Integer ist und ob dieses kleiner als 8 und größer als 2 ist
-            if i + 1 < len(args) and is_integer(args[i + 1]) and int(args[i + 1]) < 8 and int(args[i + 1]) > 2:
+            if i + 1 < len(args) and is_integer(args[i + 1]) and 2 < int(args[i + 1]) < 8:
                 config["xaxis"] = int(args[i + 1])
                 i += 2
             else:
@@ -787,7 +787,7 @@ def parse_args_host(args):
         # Verarbeite das Argument "-yaxis"
         elif args[i] == "-yaxis":
             # Überprüfen ob ein Argument danach ein Integer ist und ob dieses kleiner als 8 und größer als 2 ist
-            if i + 1 < len(args) and is_integer(args[i + 1]) and int(args[i + 1]) < 8 and int(args[i + 1]) > 2:
+            if i + 1 < len(args) and is_integer(args[i + 1]) and 2 < int(args[i + 1]) < 8:
                 config["yaxis"] = int(args[i + 1])
                 i += 2
             else:
@@ -818,7 +818,6 @@ def parse_args_host(args):
         elif args[i] == "-playername":
             # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
             if i + 1 < len(args) and not args[i + 1].startswith('-'):
-                # Übernehme das Argument
                 config["playername"] = args[i + 1]
                 i += 2
             else:
@@ -826,7 +825,10 @@ def parse_args_host(args):
                 print_usage()
                 sys.exit(1)
         else:
-            i += 1
+            print(f"Unbekanntes Argument {args[i]}")
+            print_usage()
+            sys.exit(1)
+
     return config
 
 
