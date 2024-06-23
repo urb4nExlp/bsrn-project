@@ -116,7 +116,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_event(log_filename, "Spieler 2 beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
-            print("Spieler2 beendet")
+            print("Spieler 2 beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -135,7 +135,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
-            print("Spieler{playernumber} beendet")
+            print(f"Spieler{playernumber} beendet")
         except FileNotFoundError as e:
             print(e)
             exit(1)
@@ -547,6 +547,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     nichtverloren = True
     gewonnen_nachricht = None
 
+    last_player_count = len(players_data)
+
     # Initial draw
     stdscr.clear()
     draw_players_info(stdscr, players_data, green_black)
@@ -624,6 +626,17 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
                             mq.send(gewinner.encode())
                         # gewonnen_nachricht = "TEST2BINGO! Du hast gewonnen! Drücke X zum Beenden."
                         nichtverloren = False
+
+        new_players_data = read_roundfile(roundfile)
+        if len(new_players_data) != last_player_count:
+            players_data = new_players_data
+            stdscr.clear()
+            draw_players_info(stdscr, players_data, green_black)
+            button_x, button_y, button_width, button_height = draw_card(
+                stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
+                roundfile, button_selected
+            )
+            last_player_count = len(players_data)
 
         if gewonnen_nachricht:
             try:
@@ -810,6 +823,7 @@ def parse_args_host(args):
             i += 1
     return config
 
+
 def parse_args_player(args):
     # Initialisiere Konfiguration für den Beitritt
     config = {
@@ -834,11 +848,14 @@ def parse_args_player(args):
         sys.exit(1)
     return config
 
+
 # Funktion zur Ausgabe der Nutzungshinweise
 def print_usage():
-    print("Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
+    print(
+        "Spiel erstellen: meinskript.py -newround [-roundfile rundendatei.txt -xaxis INT -yaxis INT -maxplayers INT] -wordfile wordfile.txt -playername NAME")
     print("Spiel beitreten: meinskript.py -joinround [-roundfile rundendatei.txt] -playername NAME")
     print("Hinweis: Die Argumente in Klammern sind optional und müssen nicht angegeben werden!")
+
 
 if __name__ == "__main__":
     # Prüfe, ob die Anzahl der Argumente in einem sinnvollen Bereich liegt
@@ -884,4 +901,3 @@ if __name__ == "__main__":
         print("Unbekannter Befehl")
         print_usage()
         sys.exit(1)
-
