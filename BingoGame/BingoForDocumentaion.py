@@ -757,20 +757,13 @@ def load_words(file_path, roundfile, xaxis, yaxis):
 
 
 def parse_args_host(args):
-    # Initialisiere die Konfigurationsparameter mit Standardwerten
     config = {
-        "xaxis": 5,
-        "yaxis": 5,
-        "roundfile": "rundendatei.txt",
-        "maxplayers": 5,
-        "wordfile": 0,
-        "playername": None
+        "xaxis": 5, "yaxis": 5, "roundfile": "rundendatei.txt",
+        "maxplayers": 5, "wordfile": 0, "playername": None
     }
 
-    # Starte die Argumentverarbeitung ab dem dritten Argument (Index 2)
     i = 2
     while i < len(args):
-        # Verarbeite das Argument "-roundfile"
         if args[i] == "-roundfile":
             if i + 1 < len(args) and not args[i + 1].startswith('-'):
                 config["roundfile"] = args[i + 1]
@@ -779,38 +772,38 @@ def parse_args_host(args):
                 print("Fehlendes Argument für -roundfile.")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-xaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-xaxis":
-            if is_integer(args[i + 1]) and int(args[i + 1]) < 8:
+            if i + 1 < len(args) and is_integer(args[i + 1]) and int(args[i + 1]) < 8 and int(args[i + 1]) > 2:
                 config["xaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -xaxis. Maximale Größe ist 7")
+                print("Fehlendes Argument für -xaxis. Min: 3 / Max: 7")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-yaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
         elif args[i] == "-yaxis":
-            if is_integer(args[i + 1]) and int(args[i + 1]) < 8:
+            if i + 1 < len(args) and is_integer(args[i + 1]) and int(args[i + 1]) < 8 and int(args[i + 1]) > 2:
                 config["yaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -yaxis. Maximale Größe ist 7")
+                print("Fehlendes Argument für -yaxis. Min: 3 / Max: 7")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-wordfile"
         elif args[i] == "-wordfile":
-            config["wordfile"] = args[i + 1]
-            i += 2
-        # Verarbeite das Argument "-maxplayers" und prüfe, ob der nächste Wert eine Ganzzahl ist
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["wordfile"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -wordfile.")
+                print_usage()
+                sys.exit(1)
         elif args[i] == "-maxplayers":
-            if is_integer(args[i + 1]):
+            if i + 1 < len(args) and is_integer(args[i + 1]):
                 config["maxplayers"] = int(args[i + 1])
                 i += 2
             else:
                 print("Fehlendes Argument für -maxplayers.")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-playername" und prüfe, ob ein Wert folgt
         elif args[i] == "-playername":
             if i + 1 < len(args):
                 config["playername"] = args[i + 1]
