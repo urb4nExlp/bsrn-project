@@ -3,5 +3,5 @@ wordfile: 0
 height: 5
 width: 5
 players: 2
-playername1: marvin: 25988
-playername2: bene: 26012
+playername1: marvin: 80374
+playername2: bene: 80398
