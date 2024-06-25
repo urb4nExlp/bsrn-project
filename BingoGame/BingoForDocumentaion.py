@@ -198,48 +198,48 @@ def get_pid_host(rundendatei):
         return None
 
 
-def getmaxplayer(rundendatei):
+def getmaxplayer(rundendatei): #Attribute werden übernommen
     try:
-        with open(rundendatei, 'r') as f:
-            for line in f:
-                if line.startswith("maxplayer:"):
-                    return int(line.split(":")[1].strip())
-    except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}")
+        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
+            for line in f: #rundendatei wird durchlaufen
+                if line.startswith("maxplayer:"): #wenn ein zeile mit "maxplayer" beginnt
+                    return int(line.split(":")[1].strip()) #wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e: #Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}") #Fehlermeldung
         return None
 
 
-def getwordfile(rundendatei):
+def getwordfile(rundendatei): #Attribute werden übernommen
     try:
-        with open(rundendatei, 'r') as f:
-            for line in f:
-                if line.startswith("wordfile:"):
-                    return line.split(":")[1].strip()
-    except Exception as e:
-        print(f"Error reading max players from {rundendatei}: {e}")
+        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
+            for line in f: #rundendatei wird durchlaufen
+                if line.startswith("wordfile:"): #wenn ein zeile mit "wordfile" beginnt
+                    return line.split(":")[1].strip() #wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e: #Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}") #Fehlermeldung
         return None
 
 
-def getplayername(rundendatei, player_count):
+def getplayername(rundendatei, player_count): #Attribute werden übernommen
     try:
-        with open(rundendatei, 'r') as f:
-            playerstring = "playername" + str(player_count)
-            for line in f:
-                if line.startswith(playerstring):
-                    return str(line.split(":")[1].strip())
-    except Exception as e:
-        print(f"Error reading playername from {rundendatei}: {e}")
+        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
+            playerstring = "playername" + str(player_count) #suchbegriff "(playerstring)" wird erstellt
+            for line in f: #rundendatei wird durchlaufen
+                if line.startswith(playerstring): #wenn ein zeile mit "(playerstring)" beginnt
+                    return str(line.split(":")[1].strip()) #wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e: #Ausnahmebehandlung
+        print(f"Error reading playername from {rundendatei}: {e}") #Fehlermeldung
         return None
 
 
-def getplayer(rundendatei):
+def getplayer(rundendatei): #Attribute werden übernommen
     try:
-        with open(rundendatei, 'r') as f:
-            for line in f:
-                if line.startswith("players:"):
-                    return int(line.split(":")[1].strip())
-    except Exception as e:
-        print(f"Error reading players from {rundendatei}: {e}")
+        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
+            for line in f: #rundendatei wird durchlaufen
+                if line.startswith("players:"): #wenn ein zeile mit "player" beginnt
+                    return int(line.split(":")[1].strip()) #wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e: #Ausnahmebehandlung
+        print(f"Error reading players from {rundendatei}: {e}") #Fehlermeldung
         return None
 
 
@@ -368,15 +368,15 @@ def read_roundfile(roundfile):
     return players_data
 
 
-def draw_players_info(stdscr, players_data, color_pair):
-    max_y, max_x = stdscr.getmaxyx()
-    y_position = 1
-    stdscr.addstr(y_position, 2, "TEILNEHMER:", color_pair)
-    y_position += 1
-    for player_info in players_data:
-        stdscr.addstr(y_position, 2, player_info, color_pair)
-        y_position += 1
-    stdscr.refresh()
+def draw_players_info(stdscr, players_data, color_pair): #Attribute werden übernommen
+    max_y, max_x = stdscr.getmaxyx() #größe des Fensters wird ermittelt
+    y_position = 1 #startposition der zu zeichnend Informationen
+    stdscr.addstr(y_position, 2, "TEILNEHMER:", color_pair) #"TEILNEHMER" wird an Position (1,2) geschrieben in passender Farbe
+    y_position += 1 #vertikale Position wird um eins erhöht, um die nächste Zeile vorzubereiten
+    for player_info in players_data: #Schleife geht durch jede Spielerinformation in der Liste players_data
+        stdscr.addstr(y_position, 2, player_info, color_pair) #Spielerinformation wird an aktueller Stelle ausgegeben
+        y_position += 1 #Y-Position wird nach jedem Eintrag um eins erhöht, um die nächste Zeile vorzubereiten
+    stdscr.refresh() #Ausgaben werden angezeigt und aktuallisiert
 
 
 class BingoCard:
@@ -664,41 +664,41 @@ def get_screen_content(stdscr):
     return content
 
 
-def get_words(file_path):
+def get_words(file_path): #Attribut wird übernommen
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            return [line.strip() for line in file]
-    except FileNotFoundError:
-        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")
-        return []
-    except Exception as e:
-        print(f"Ein Fehler ist aufgetreten: {e}")
-        return []
+        with open(file_path, 'r', encoding='utf-8') as file: #Öffung und Decodierung des Dateiinhalts
+            return [line.strip() for line in file] #Zeilen werden durchgegangen und getrennt
+    except FileNotFoundError: #Ausnahmebehandlung
+        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.") #Fehlermeldung
+        return [] #leere Liste wird zurückgegeben
+    except Exception as e: #Ausnahmebehandlung
+        print(f"Ein Fehler ist aufgetreten: {e}") #Fehlermeldung
+        return []  #leere Liste wird zurückgegeben
 
 
-def set_wordfile_to_zero(filename):
-    lines = []
-    with open(filename, 'r') as file:
-        lines = file.readlines()
+def set_wordfile_to_zero(filename): #Attribut wird übernommen
+    lines = [] #erstellen einer leeren Liste
+    with open(filename, 'r') as file: #Datei wird gelesen
+        lines = file.readlines() #Datei wird in "Lines" gespeichert
 
-    with open(filename, 'w') as file:
-        for line in lines:
-            if line.startswith('wordfile:'):
-                file.write('wordfile: 0\n')
+    with open(filename, 'w') as file: #Datei wird im schreibmodus geöffnet
+        for line in lines: #jede Zeile der Datei wird durchgegangen
+            if line.startswith('wordfile:'): #wenn eine Zeile mit "wordfile": beginnt
+                file.write('wordfile: 0\n') # wird die "wordfile" auf 0 gesetzt
             else:
-                file.write(line)
+                file.write(line) #andernfalls wird die ursprüngliche Zeile in die Datei geschrieben
 
 
-def check_wordfile_not_zero(filename):
-    with open(filename, 'r') as file:
-        for line in file:
-            if line.startswith('wordfile:'):
-                value = line.split(':')[1].strip()
-                if value == '0':
-                    return False
+def check_wordfile_not_zero(filename): #Attribut wird übernommen
+    with open(filename, 'r') as file: #Datei wird gelesen
+        for line in file: #jede Zeile der Datei wird durchgegangen
+            if line.startswith('wordfile:'): #wenn eine Zeile mit "wordfile": beginnt
+                value = line.split(':')[1].strip() #Zeile wird aufgeteilt, leerzeichen entfernt
+                if value == '0': #wenn der Wert nach "wordfile" = 0
+                    return False #wird false zurückgegeben
                 else:
-                    return True
-    return False
+                    return True #ansonsten True
+    return False #wenn keine Zeile mit wordfile: gefunden wurde, gibt die Funktion False zurück
 
 
 def change_wordfile(filename, new_value):
