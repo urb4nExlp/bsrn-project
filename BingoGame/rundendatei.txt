@@ -1,8 +1,8 @@
-maxplayer: 10
+maxplayer: 5
 gameover: 1
 wordfile: 0
 height: 5
 width: 5
-playername1: Bilal: 32708
-playername2: Dilara: 33470
-players: 2
+playername1: marvin: 26302
+playername2: bene: 26311
+players: 1
