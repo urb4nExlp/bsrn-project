@@ -11,6 +11,7 @@ import argparse
 import datetime
 
 
+# BILAL
 def create_log_file(player_name):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     filename = f"{timestamp}-bingo-{player_name}.txt"
@@ -21,154 +22,6 @@ def log_event(filename, event):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     with open(filename, 'a') as file:
         file.write(f"{timestamp} {event}\n")
-
-
-def clear_and_close_message_queue(mq_name):
-    try:
-
-        # Öffne die Message-Queue
-        mq = posix_ipc.MessageQueue(mq_name)
-
-        # Leere die Message-Queue
-        while True:
-            try:
-                mq.receive(timeout=1)  # timeout in seconds
-            except posix_ipc.BusyError:
-                # Keine weiteren Nachrichten vorhanden
-                break
-
-        # Schließe die Message-Queue
-        mq.close()
-
-        # Lösche die Message-Queue
-        posix_ipc.unlink_message_queue(mq_name)
-
-        print(f"Message-Queue {mq_name} wurde erfolgreich geleert und gelöscht.")
-
-    except posix_ipc.Error as e:
-        print(f"Fehler beim Umgang mit der Message-Queue: {e}")
-        sys.exit(1)
-
-
-def end_round(roundfile, mq_name):
-    if decrease_players(roundfile):
-        print(mq_name)
-        clear_and_close_message_queue(mq_name)
-
-
-def handle_sigint(roundfile, mq_name, sig, frame):
-    end_round(roundfile, mq_name)
-    print("\nSIGINT empfangen. Das Programm wird beendet...")
-
-    exit(0)  # Beende das Programm
-
-
-def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
-    # Erzeuge den Namen der Message-Queue
-    mq_name = f"/{hostname}_{maxplayer}_{os.getpid()}"
-
-    # Erstellt MessageQueue falls nicht bereits vorhanden
-    mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
-    # behandelt Spielabbruch durch STRG+C
-    signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
-
-    # Prüfen ob ein  Wordfile Pfad existiert
-    # Wenn ja, lade load_words (Überprüft auch auf Gültigkeit!)
-    if wordfile != 0:
-        words = load_words(wordfile, roundfile, xaxis, yaxis)
-    # Wenn nicht, lade Standardwörter
-    else:
-        words = get_default_words()
-
-    # Starte blockierendes Ereignis mq.receive und warte auf Spieler 2
-    print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
-
-    message, _ = mq.receive()
-    print(f": {message.decode()}")
-
-    # Wenn eine Nachricht vorhanden
-    if message:
-
-        try:
-            # Initialisiere Log für Host
-            log_filename = create_log_file(hostname)
-            # Starte die Curses Umgebung (startet das gesamte Bingospiel für den Host)
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
-
-            end_round(roundfile, mq_name)
-            print("Host beendet")
-        # Behandle FileNotFound Error
-        except FileNotFoundError as e:
-            print(e)
-            exit(1)
-        # Behandle Value Error
-        except ValueError as e:
-            print(e)
-            exit(1)
-
-
-def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile):
-    mq_name = f"/{getplayername(roundfile, 1)}_{maxplayer}_{get_pid_host(roundfile)}"
-    mq = posix_ipc.MessageQueue(mq_name)
-    signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
-
-    if second:
-        playername = getplayername(roundfile, playernumber)
-        message = "Spieler 2 ist beigetreten: " + playername
-        mq.send(message.encode())
-        try:
-            if check_wordfile_not_zero(roundfile):
-                words = get_words(wordfile)
-            else:
-                words = get_default_words()
-
-            log_filename = create_log_file(playername)
-            log_event(log_filename, "Spieler 2 beigetreten")
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
-
-            print("Spieler 2 beendet")
-        except FileNotFoundError as e:
-            print(e)
-            exit(1)
-        except ValueError as e:
-            print(e)
-            exit(1)
-    else:
-        try:
-            if check_wordfile_not_zero(roundfile):
-                words = get_words(wordfile)
-            else:
-                words = get_default_words()
-
-            playername = getplayername(roundfile, playernumber)
-            log_filename = create_log_file(playername)
-            log_event(log_filename, f"Spieler {playernumber} beigetreten")
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
-
-            print(f"Spieler{playernumber} beendet")
-        except FileNotFoundError as e:
-            print(e)
-            exit(1)
-        except ValueError as e:
-            print(e)
-            exit(1)
-    end_round(roundfile, mq_name)
-
-
-def check_for_message(mq):
-    try:
-        message, _ = mq.receive(timeout=0)
-        return message.decode()
-    except posix_ipc.BusyError:
-        return None
-
-
-def is_integer(value):
-    try:
-        int(value)
-        return True
-    except ValueError:
-        return False
 
 
 def getxachse(rundendatei):
@@ -208,48 +61,44 @@ def get_pid_host(rundendatei):
         return None
 
 
-def getmaxplayer(rundendatei): #Attribute werden übernommen
+def incplayer(rundendatei, spielername):
     try:
-        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
-            for line in f: #rundendatei wird durchlaufen
-                if line.startswith("maxplayer:"): #wenn ein zeile mit "maxplayer" beginnt
-                    return int(line.split(":")[1].strip()) #wird der Wert danach extrahiert und zurückgegeben
-    except Exception as e: #Ausnahmebehandlung
-        print(f"Error reading max players from {rundendatei}: {e}") #Fehlermeldung
-        return None
+        player_count = None  # Initialisiere player_count mit None
 
+        # Öffne die Datei im Lesemodus und lies alle Zeilen
+        with open(rundendatei, 'r') as f:
+            lines = f.readlines()
 
-def getwordfile(rundendatei): #Attribute werden übernommen
-    try:
-        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
-            for line in f: #rundendatei wird durchlaufen
-                if line.startswith("wordfile:"): #wenn ein zeile mit "wordfile" beginnt
-                    return line.split(":")[1].strip() #wird der Wert danach extrahiert und zurückgegeben
-    except Exception as e: #Ausnahmebehandlung
-        print(f"Error reading max players from {rundendatei}: {e}") #Fehlermeldung
-        return None
+        # Durchlaufe die Zeilen und finde die Zeile mit 'players:'
+        for i, line in enumerate(lines):
+            if line.startswith("players:"):
+                # Extrahiere die aktuelle Anzahl von Spielern und erhöhe sie um 1
+                player_count = int(line.split(":")[1].strip())
+                player_count += 1
+                lines[i] = f"players: {player_count}\n"  # Aktualisiere die Zeile mit der neuen Spieleranzahl
+                break  # Beende die Schleife, da wir die Zeile gefunden und aktualisiert haben
 
+        # Falls keine Zeile mit 'players:' gefunden wurde, wird eine ValueError ausgelöst
+        if player_count is None:
+            raise ValueError("No 'players:' line found in the file.")
 
-def getplayername(rundendatei, player_count): #Attribute werden übernommen
-    try:
-        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
-            playerstring = "playername" + str(player_count) #suchbegriff "(playerstring)" wird erstellt
-            for line in f: #rundendatei wird durchlaufen
-                if line.startswith(playerstring): #wenn ein zeile mit "(playerstring)" beginnt
-                    return str(line.split(":")[1].strip()) #wird der Wert danach extrahiert und zurückgegeben
-    except Exception as e: #Ausnahmebehandlung
-        print(f"Error reading playername from {rundendatei}: {e}") #Fehlermeldung
-        return None
+        # Erzeuge den neuen Spielerstring
+        playerstring = "playername" + str(player_count)
+        new_line = f"{playerstring}: {spielername}: {os.getpid()}\n"
 
+        # Füge den neuen Spielerstring eine Zeile vor der aktualisierten 'players:'-Zeile ein
+        lines.insert(i, new_line)
 
-def getplayer(rundendatei): #Attribute werden übernommen
-    try:
-        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
-            for line in f: #rundendatei wird durchlaufen
-                if line.startswith("players:"): #wenn ein zeile mit "player" beginnt
-                    return int(line.split(":")[1].strip()) #wird der Wert danach extrahiert und zurückgegeben
-    except Exception as e: #Ausnahmebehandlung
-        print(f"Error reading players from {rundendatei}: {e}") #Fehlermeldung
+        # Öffne die Datei im Schreibmodus und schreibe die aktualisierten Zeilen zurück
+        with open(rundendatei, 'w') as f:
+            f.writelines(lines)
+
+        # Gib die aktuelle Anzahl von Spielern zurück
+        return player_count
+
+    except Exception as e:
+        # Falls ein Fehler auftritt, gebe eine Fehlermeldung aus und gib None zurück
+        print(f"Error updating players in {rundendatei}: {e}")
         return None
 
 
@@ -309,47 +158,6 @@ def set_gameover(rundendatei):
         return False
 
 
-def incplayer(rundendatei, spielername):
-    try:
-        player_count = None  # Initialisiere player_count mit None
-
-        # Öffne die Datei im Lesemodus und lies alle Zeilen
-        with open(rundendatei, 'r') as f:
-            lines = f.readlines()
-
-        # Durchlaufe die Zeilen und finde die Zeile mit 'players:'
-        for i, line in enumerate(lines):
-            if line.startswith("players:"):
-                # Extrahiere die aktuelle Anzahl von Spielern und erhöhe sie um 1
-                player_count = int(line.split(":")[1].strip())
-                player_count += 1
-                lines[i] = f"players: {player_count}\n"  # Aktualisiere die Zeile mit der neuen Spieleranzahl
-                break  # Beende die Schleife, da wir die Zeile gefunden und aktualisiert haben
-
-        # Falls keine Zeile mit 'players:' gefunden wurde, wird eine ValueError ausgelöst
-        if player_count is None:
-            raise ValueError("No 'players:' line found in the file.")
-
-        # Erzeuge den neuen Spielerstring
-        playerstring = "playername" + str(player_count)
-        new_line = f"{playerstring}: {spielername}: {os.getpid()}\n"
-
-        # Füge den neuen Spielerstring eine Zeile vor der aktualisierten 'players:'-Zeile ein
-        lines.insert(i, new_line)
-
-        # Öffne die Datei im Schreibmodus und schreibe die aktualisierten Zeilen zurück
-        with open(rundendatei, 'w') as f:
-            f.writelines(lines)
-
-        # Gib die aktuelle Anzahl von Spielern zurück
-        return player_count
-
-    except Exception as e:
-        # Falls ein Fehler auftritt, gebe eine Fehlermeldung aus und gib None zurück
-        print(f"Error updating players in {rundendatei}: {e}")
-        return None
-
-
 def create_roundfile(rundendatei, xachse, yachse, maxspieler, hostname, wordfile):
     try:
         with open(rundendatei, 'w') as f:
@@ -378,17 +186,19 @@ def read_roundfile(roundfile):
     return players_data
 
 
-def draw_players_info(stdscr, players_data, color_pair): #Attribute werden übernommen
-    max_y, max_x = stdscr.getmaxyx() #größe des Fensters wird ermittelt
-    y_position = 1 #startposition der zu zeichnend Informationen
-    stdscr.addstr(y_position, 2, "TEILNEHMER:", color_pair) #"TEILNEHMER" wird an Position (1,2) geschrieben in passender Farbe
-    y_position += 1 #vertikale Position wird um eins erhöht, um die nächste Zeile vorzubereiten
-    for player_info in players_data: #Schleife geht durch jede Spielerinformation in der Liste players_data
-        stdscr.addstr(y_position, 2, player_info, color_pair) #Spielerinformation wird an aktueller Stelle ausgegeben
-        y_position += 1 #Y-Position wird nach jedem Eintrag um eins erhöht, um die nächste Zeile vorzubereiten
-    stdscr.refresh() #Ausgaben werden angezeigt und aktuallisiert
+def draw_players_info(stdscr, players_data, color_pair):  # Attribute werden übernommen
+    max_y, max_x = stdscr.getmaxyx()  # größe des Fensters wird ermittelt
+    y_position = 1  # startposition der zu zeichnend Informationen
+    stdscr.addstr(y_position, 2, "TEILNEHMER:",
+                  color_pair)  # "TEILNEHMER" wird an Position (1,2) geschrieben in passender Farbe
+    y_position += 1  # vertikale Position wird um eins erhöht, um die nächste Zeile vorzubereiten
+    for player_info in players_data:  # Schleife geht durch jede Spielerinformation in der Liste players_data
+        stdscr.addstr(y_position, 2, player_info, color_pair)  # Spielerinformation wird an aktueller Stelle ausgegeben
+        y_position += 1  # Y-Position wird nach jedem Eintrag um eins erhöht, um die nächste Zeile vorzubereiten
+    stdscr.refresh()  # Ausgaben werden angezeigt und aktuallisiert
 
 
+# JAMIE
 class BingoCard:
     def __init__(self, rows, cols, words, log_filename):
         self.rows = rows
@@ -457,6 +267,52 @@ class BingoCard:
         return card_str
 
 
+def get_default_words():
+    default_words = [
+        "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
+        "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
+        "Corporate Identitiy", "Fokussieren", "Impact", "Target", "Benchmark", "Herausforderung(en)/Challenges",
+        "Gadget", "Value", "Smart", "Web 2.0 oder 3.0", "Qualität", "Big Picture", "Revolution", "Pro-aktiv",
+        "Game-changing", "Blog", "Community", "Social Media", "SOA", "Skalierbar", "Return on Invest (ROI)",
+        "Wissenstransfer", "Best Practice", "Positionierung/Positionieren", "Committen", "Geforwarded",
+        "Transparent", "Open Innovation", "Out-of-the-box", "Dissemination", "Blockchain", "Skills", "Gap",
+        "Follower", "Win-Win", "Kernkomp"
+    ]
+    return random.sample(default_words, len(default_words))
+
+
+def load_words(file_path, roundfile, xaxis, yaxis):
+    def read_words_from_file(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as file:
+                return [line.strip() for line in file]
+        except FileNotFoundError:
+            return None
+
+    while True:
+        words = read_words_from_file(file_path)
+        if words is not None and len(words) > int(xaxis) * int(yaxis):
+            print("Länge:")
+            print(len(words))
+            return words
+
+        print(f"Fehler: Datei '{file_path}' nicht gefunden oder zu wenige Wörter vorhanden.")
+        user_choice = input(
+            "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ")
+
+        if user_choice == '1':
+            print("Standardwörter werden verwendet.")
+            set_wordfile_to_zero(roundfile)
+            return get_default_words()
+        elif user_choice == '2':
+            file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
+        else:
+            print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
+
+
+# JAMIE END
+
+# MARVIN
 def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile,
               button_selected=False):
     max_y, max_x = stdscr.getmaxyx()
@@ -674,41 +530,44 @@ def get_screen_content(stdscr):
     return content
 
 
-def get_words(file_path): #Attribut wird übernommen
+# MARVIN END
+
+# ROBIN
+def get_words(file_path):  # Attribut wird übernommen
     try:
-        with open(file_path, 'r', encoding='utf-8') as file: #Öffung und Decodierung des Dateiinhalts
-            return [line.strip() for line in file] #Zeilen werden durchgegangen und getrennt
-    except FileNotFoundError: #Ausnahmebehandlung
-        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.") #Fehlermeldung
-        return [] #leere Liste wird zurückgegeben
-    except Exception as e: #Ausnahmebehandlung
-        print(f"Ein Fehler ist aufgetreten: {e}") #Fehlermeldung
-        return []  #leere Liste wird zurückgegeben
+        with open(file_path, 'r', encoding='utf-8') as file:  # Öffung und Decodierung des Dateiinhalts
+            return [line.strip() for line in file]  # Zeilen werden durchgegangen und getrennt
+    except FileNotFoundError:  # Ausnahmebehandlung
+        print(f"Die Datei unter dem Pfad {file_path} wurde nicht gefunden.")  # Fehlermeldung
+        return []  # leere Liste wird zurückgegeben
+    except Exception as e:  # Ausnahmebehandlung
+        print(f"Ein Fehler ist aufgetreten: {e}")  # Fehlermeldung
+        return []  # leere Liste wird zurückgegeben
 
 
-def set_wordfile_to_zero(filename): #Attribut wird übernommen
-    lines = [] #erstellen einer leeren Liste
-    with open(filename, 'r') as file: #Datei wird gelesen
-        lines = file.readlines() #Datei wird in "Lines" gespeichert
+def set_wordfile_to_zero(filename):  # Attribut wird übernommen
+    lines = []  # erstellen einer leeren Liste
+    with open(filename, 'r') as file:  # Datei wird gelesen
+        lines = file.readlines()  # Datei wird in "Lines" gespeichert
 
-    with open(filename, 'w') as file: #Datei wird im schreibmodus geöffnet
-        for line in lines: #jede Zeile der Datei wird durchgegangen
-            if line.startswith('wordfile:'): #wenn eine Zeile mit "wordfile": beginnt
-                file.write('wordfile: 0\n') # wird die "wordfile" auf 0 gesetzt
+    with open(filename, 'w') as file:  # Datei wird im schreibmodus geöffnet
+        for line in lines:  # jede Zeile der Datei wird durchgegangen
+            if line.startswith('wordfile:'):  # wenn eine Zeile mit "wordfile": beginnt
+                file.write('wordfile: 0\n')  # wird die "wordfile" auf 0 gesetzt
             else:
-                file.write(line) #andernfalls wird die ursprüngliche Zeile in die Datei geschrieben
+                file.write(line)  # andernfalls wird die ursprüngliche Zeile in die Datei geschrieben
 
 
-def check_wordfile_not_zero(filename): #Attribut wird übernommen
-    with open(filename, 'r') as file: #Datei wird gelesen
-        for line in file: #jede Zeile der Datei wird durchgegangen
-            if line.startswith('wordfile:'): #wenn eine Zeile mit "wordfile": beginnt
-                value = line.split(':')[1].strip() #Zeile wird aufgeteilt, leerzeichen entfernt
-                if value == '0': #wenn der Wert nach "wordfile" = 0
-                    return False #wird false zurückgegeben
+def check_wordfile_not_zero(filename):  # Attribut wird übernommen
+    with open(filename, 'r') as file:  # Datei wird gelesen
+        for line in file:  # jede Zeile der Datei wird durchgegangen
+            if line.startswith('wordfile:'):  # wenn eine Zeile mit "wordfile": beginnt
+                value = line.split(':')[1].strip()  # Zeile wird aufgeteilt, leerzeichen entfernt
+                if value == '0':  # wenn der Wert nach "wordfile" = 0
+                    return False  # wird false zurückgegeben
                 else:
-                    return True #ansonsten True
-    return False #wenn keine Zeile mit wordfile: gefunden wurde, gibt die Funktion False zurück
+                    return True  # ansonsten True
+    return False  # wenn keine Zeile mit wordfile: gefunden wurde, gibt die Funktion False zurück
 
 
 def change_wordfile(filename, new_value):
@@ -723,47 +582,198 @@ def change_wordfile(filename, new_value):
         file.writelines(lines)
 
 
-def get_default_words():
-    default_words = [
-        "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
-        "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
-        "Corporate Identitiy", "Fokussieren", "Impact", "Target", "Benchmark", "Herausforderung(en)/Challenges",
-        "Gadget", "Value", "Smart", "Web 2.0 oder 3.0", "Qualität", "Big Picture", "Revolution", "Pro-aktiv",
-        "Game-changing", "Blog", "Community", "Social Media", "SOA", "Skalierbar", "Return on Invest (ROI)",
-        "Wissenstransfer", "Best Practice", "Positionierung/Positionieren", "Committen", "Geforwarded",
-        "Transparent", "Open Innovation", "Out-of-the-box", "Dissemination", "Blockchain", "Skills", "Gap",
-        "Follower", "Win-Win", "Kernkomp"
-    ]
-    return random.sample(default_words, len(default_words))
+def getmaxplayer(rundendatei):  # Attribute werden übernommen
+    try:
+        with open(rundendatei, 'r') as f:  # rundendatei wird im Lesemodus geöffnet
+            for line in f:  # rundendatei wird durchlaufen
+                if line.startswith("maxplayer:"):  # wenn ein zeile mit "maxplayer" beginnt
+                    return int(line.split(":")[1].strip())  # wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e:  # Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}")  # Fehlermeldung
+        return None
 
 
-def load_words(file_path, roundfile, xaxis, yaxis):
-    def read_words_from_file(path):
+def getwordfile(rundendatei):  # Attribute werden übernommen
+    try:
+        with open(rundendatei, 'r') as f:  # rundendatei wird im Lesemodus geöffnet
+            for line in f:  # rundendatei wird durchlaufen
+                if line.startswith("wordfile:"):  # wenn ein zeile mit "wordfile" beginnt
+                    return line.split(":")[1].strip()  # wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e:  # Ausnahmebehandlung
+        print(f"Error reading max players from {rundendatei}: {e}")  # Fehlermeldung
+        return None
+
+
+def getplayername(rundendatei, player_count):  # Attribute werden übernommen
+    try:
+        with open(rundendatei, 'r') as f:  # rundendatei wird im Lesemodus geöffnet
+            playerstring = "playername" + str(player_count)  # suchbegriff "(playerstring)" wird erstellt
+            for line in f:  # rundendatei wird durchlaufen
+                if line.startswith(playerstring):  # wenn ein zeile mit "(playerstring)" beginnt
+                    return str(line.split(":")[1].strip())  # wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e:  # Ausnahmebehandlung
+        print(f"Error reading playername from {rundendatei}: {e}")  # Fehlermeldung
+        return None
+
+
+def getplayer(rundendatei):  # Attribute werden übernommen
+    try:
+        with open(rundendatei, 'r') as f:  # rundendatei wird im Lesemodus geöffnet
+            for line in f:  # rundendatei wird durchlaufen
+                if line.startswith("players:"):  # wenn ein zeile mit "player" beginnt
+                    return int(line.split(":")[1].strip())  # wird der Wert danach extrahiert und zurückgegeben
+    except Exception as e:  # Ausnahmebehandlung
+        print(f"Error reading players from {rundendatei}: {e}")  # Fehlermeldung
+        return None
+
+
+# BENEDIKT
+def clear_and_close_message_queue(mq_name):
+    try:
+
+        # Öffne die Message-Queue
+        mq = posix_ipc.MessageQueue(mq_name)
+
+        # Leere die Message-Queue
+        while True:
+            try:
+                mq.receive(timeout=1)  # timeout in seconds
+            except posix_ipc.BusyError:
+                # Keine weiteren Nachrichten vorhanden
+                break
+
+        # Schließe die Message-Queue
+        mq.close()
+
+        # Lösche die Message-Queue
+        posix_ipc.unlink_message_queue(mq_name)
+
+        print(f"Message-Queue {mq_name} wurde erfolgreich geleert und gelöscht.")
+
+    except posix_ipc.Error as e:
+        print(f"Fehler beim Umgang mit der Message-Queue: {e}")
+        sys.exit(1)
+
+
+def end_round(roundfile, mq_name):
+    if decrease_players(roundfile):
+        print(mq_name)
+        clear_and_close_message_queue(mq_name)
+
+
+def handle_sigint(roundfile, mq_name, sig, frame):
+    end_round(roundfile, mq_name)
+    print("\nSIGINT empfangen. Das Programm wird beendet...")
+
+    exit(0)  # Beende das Programm
+
+
+def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
+    # Erzeuge den Namen der Message-Queue
+    mq_name = f"/{hostname}_{maxplayer}_{os.getpid()}"
+
+    # Erstellt MessageQueue falls nicht bereits vorhanden
+    mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
+    # behandelt Spielabbruch durch STRG+C
+    signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
+
+    # Prüfen ob ein  Wordfile Pfad existiert
+    # Wenn ja, lade load_words (Überprüft auch auf Gültigkeit!)
+    if wordfile != 0:
+        words = load_words(wordfile, roundfile, xaxis, yaxis)
+    # Wenn nicht, lade Standardwörter
+    else:
+        words = get_default_words()
+
+    # Starte blockierendes Ereignis mq.receive und warte auf Spieler 2
+    print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
+
+    message, _ = mq.receive()
+    print(f": {message.decode()}")
+
+    # Wenn eine Nachricht vorhanden
+    if message:
+
         try:
-            with open(path, 'r', encoding='utf-8') as file:
-                return [line.strip() for line in file]
-        except FileNotFoundError:
-            return None
+            # Initialisiere Log für Host
+            log_filename = create_log_file(hostname)
+            # Starte die Curses Umgebung (startet das gesamte Bingospiel für den Host)
+            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
 
-    while True:
-        words = read_words_from_file(file_path)
-        if words is not None and len(words) > int(xaxis) * int(yaxis):
-            print("Länge:")
-            print(len(words))
-            return words
+            end_round(roundfile, mq_name)
+            print("Host beendet")
+        # Behandle FileNotFound Error
+        except FileNotFoundError as e:
+            print(e)
+            exit(1)
+        # Behandle Value Error
+        except ValueError as e:
+            print(e)
+            exit(1)
 
-        print(f"Fehler: Datei '{file_path}' nicht gefunden oder zu wenige Wörter vorhanden.")
-        user_choice = input(
-            "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ")
 
-        if user_choice == '1':
-            print("Standardwörter werden verwendet.")
-            set_wordfile_to_zero(roundfile)
-            return get_default_words()
-        elif user_choice == '2':
-            file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
-        else:
-            print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
+def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordfile):
+    mq_name = f"/{getplayername(roundfile, 1)}_{maxplayer}_{get_pid_host(roundfile)}"
+    mq = posix_ipc.MessageQueue(mq_name)
+    signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
+
+    if second:
+        playername = getplayername(roundfile, playernumber)
+        message = "Spieler 2 ist beigetreten: " + playername
+        mq.send(message.encode())
+        try:
+            if check_wordfile_not_zero(roundfile):
+                words = get_words(wordfile)
+            else:
+                words = get_default_words()
+
+            log_filename = create_log_file(playername)
+            log_event(log_filename, "Spieler 2 beigetreten")
+            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
+
+            print("Spieler 2 beendet")
+        except FileNotFoundError as e:
+            print(e)
+            exit(1)
+        except ValueError as e:
+            print(e)
+            exit(1)
+    else:
+        try:
+            if check_wordfile_not_zero(roundfile):
+                words = get_words(wordfile)
+            else:
+                words = get_default_words()
+
+            playername = getplayername(roundfile, playernumber)
+            log_filename = create_log_file(playername)
+            log_event(log_filename, f"Spieler {playernumber} beigetreten")
+            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
+
+            print(f"Spieler{playernumber} beendet")
+        except FileNotFoundError as e:
+            print(e)
+            exit(1)
+        except ValueError as e:
+            print(e)
+            exit(1)
+    end_round(roundfile, mq_name)
+
+
+def check_for_message(mq):
+    try:
+        message, _ = mq.receive(timeout=0)
+        return message.decode()
+    except posix_ipc.BusyError:
+        return None
+
+
+def is_integer(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
 
 
 def parse_args_host(args):
