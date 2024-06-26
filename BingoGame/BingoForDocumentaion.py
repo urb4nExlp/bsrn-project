@@ -46,18 +46,16 @@ def getyachse(rundendatei):
         return None
 
 
-def get_pid_host(rundendatei):
+def get_pid_host(rundendatei): #Attribute werden übernommen
     try:
-        with open(rundendatei, 'r') as f:
-            for line in f:
-                # Überprüfen, ob die Zeile mit "playername1:" beginnt
-                if line.startswith("playername1:"):
-                    # Die PID extrahieren und als Integer zurückgeben
-                    parts = line.split(":")
+        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
+            for line in f: #rundendatei wird durchlaufen
+                if line.startswith("playername1:"): # Überprüfen, ob die Zeile mit "playername1:" beginnt
+                    parts = line.split(":") 
                     if len(parts) == 3:
-                        return int(parts[2].strip())
-    except Exception as e:
-        print(f"Error reading PID from {rundendatei}: {e}")
+                        return int(parts[2].strip()) # Die PID extrahieren und als Integer zurückgeben
+    except Exception as e: #Ausnahmebehandlung
+        print(f"Error reading PID from {rundendatei}: {e}") #Fehlermeldung
         return None
 
 
