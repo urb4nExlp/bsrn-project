@@ -67,31 +67,41 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
     # Erzeuge den Namen der Message-Queue
     mq_name = f"/{hostname}_{maxplayer}_{os.getpid()}"
 
+    # Erstellt MessageQueue falls nicht bereits vorhanden
     mq = posix_ipc.MessageQueue(mq_name, posix_ipc.O_CREAT)
+    # behandelt Spielabbruch durch STRG+C
     signal.signal(signal.SIGINT, partial(handle_sigint, roundfile, mq_name))
 
+    # Prüfen ob ein  Wordfile Pfad existiert
+    # Wenn ja, lade load_words (Überprüft auch auf Gültigkeit!)
     if wordfile != 0:
         words = load_words(wordfile, roundfile, xaxis, yaxis)
+    # Wenn nicht, lade Standardwörter
     else:
         words = get_default_words()
 
+    # Starte blockierendes Ereignis mq.receive und warte auf Spieler 2
     print("\nBingo wird gestartet. Warte auf mind. einen Mitspieler...")
 
     message, _ = mq.receive()
     print(f": {message.decode()}")
 
+    # Wenn eine Nachricht vorhanden
     if message:
 
         try:
+            # Initialisiere Log für Host
             log_filename = create_log_file(hostname)
+            # Starte die Curses Umgebung (startet das gesamte Bingospiel für den Host)
             curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
 
             end_round(roundfile, mq_name)
             print("Host beendet")
-
+        # Behandle FileNotFound Error
         except FileNotFoundError as e:
             print(e)
             exit(1)
+        # Behandle Value Error
         except ValueError as e:
             print(e)
             exit(1)
@@ -757,21 +767,16 @@ def load_words(file_path, roundfile, xaxis, yaxis):
 
 
 def parse_args_host(args):
-    # Initialisiere die Konfigurationsparameter mit Standardwerten
     config = {
-        "xaxis": 5,
-        "yaxis": 5,
-        "roundfile": "rundendatei.txt",
-        "maxplayers": 5,
-        "wordfile": 0,
-        "playername": None
+        "xaxis": 5, "yaxis": 5, "roundfile": "rundendatei.txt",
+        "maxplayers": 5, "wordfile": 0, "playername": None
     }
 
-    # Starte die Argumentverarbeitung ab dem dritten Argument (Index 2)
     i = 2
     while i < len(args):
         # Verarbeite das Argument "-roundfile"
         if args[i] == "-roundfile":
+            # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
             if i + 1 < len(args) and not args[i + 1].startswith('-'):
                 config["roundfile"] = args[i + 1]
                 i += 2
@@ -779,48 +784,61 @@ def parse_args_host(args):
                 print("Fehlendes Argument für -roundfile.")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-xaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
+        # Verarbeite das Argument "-xaxis"
         elif args[i] == "-xaxis":
-            if is_integer(args[i + 1]) and int(args[i + 1]) < 8:
+            # Überprüfen ob ein Argument danach ein Integer ist und ob dieses kleiner als 8 und größer als 2 ist
+            if i + 1 < len(args) and is_integer(args[i + 1]) and 2 < int(args[i + 1]) < 8:
                 config["xaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -xaxis. Maximale Größe ist 7")
+                print("Falsches Argument für -xaxis. Min: 3 / Max: 7")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-yaxis" und prüfe, ob der nächste Wert eine Ganzzahl ist
+        # Verarbeite das Argument "-yaxis"
         elif args[i] == "-yaxis":
-            if is_integer(args[i + 1]) and int(args[i + 1]) < 8:
+            # Überprüfen ob ein Argument danach ein Integer ist und ob dieses kleiner als 8 und größer als 2 ist
+            if i + 1 < len(args) and is_integer(args[i + 1]) and 2 < int(args[i + 1]) < 8:
                 config["yaxis"] = int(args[i + 1])
                 i += 2
             else:
-                print("Fehlendes Argument für -yaxis. Maximale Größe ist 7")
+                print("Falsches Argument für -yaxis. Min: 3 / Max: 7")
                 print_usage()
                 sys.exit(1)
         # Verarbeite das Argument "-wordfile"
         elif args[i] == "-wordfile":
-            config["wordfile"] = args[i + 1]
-            i += 2
-        # Verarbeite das Argument "-maxplayers" und prüfe, ob der nächste Wert eine Ganzzahl ist
+            # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["wordfile"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -wordfile.")
+                print_usage()
+                sys.exit(1)
+        # Verarbeite das Argument "-maxplayers"
         elif args[i] == "-maxplayers":
-            if is_integer(args[i + 1]):
+            # Überprüfen ob ein Argument folgt welches ein Integer ist
+            if i + 1 < len(args) and is_integer(args[i + 1]):
                 config["maxplayers"] = int(args[i + 1])
                 i += 2
             else:
                 print("Fehlendes Argument für -maxplayers.")
                 print_usage()
                 sys.exit(1)
-        # Verarbeite das Argument "-playername" und prüfe, ob ein Wert folgt
+        # Verarbeite das Argument "-playername"
         elif args[i] == "-playername":
-            if i + 1 < len(args):
+            # Überprüfen ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
                 config["playername"] = args[i + 1]
                 i += 2
             else:
-                print("Fehlendes Argument für -playername.")
+                print("Fehlendes oder ungültiges Argument für -playername.")
                 print_usage()
                 sys.exit(1)
         else:
-            i += 1
+            print(f"Unbekanntes Argument {args[i]}")
+            print_usage()
+            sys.exit(1)
+
     return config
 
 
@@ -830,22 +848,34 @@ def parse_args_player(args):
         "roundfile": "rundendatei.txt",
         "playername": None,
     }
-    # Verarbeite die Argumente, wenn "-roundfile" angegeben ist
-    if len(args) >= 4 and args[2] == "-roundfile":
-        config["roundfile"] = args[3]
-        if len(args) == 6 and args[4] == "-playername":
-            config["playername"] = args[5]
-        elif len(args) == 5 and args[4] == "-playername":
-            print("Fehlendes Argument für -playername.")
+
+    i = 2
+    while i < len(args):
+        # Verarbeite das Argument "-roundfile"
+        if args[i] == "-roundfile":
+            # Überprüfe, ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["roundfile"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -roundfile.")
+                print_usage()
+                sys.exit(1)
+        # Verarbeite das Argument "-playername"
+        elif args[i] == "-playername":
+            # Überprüfe, ob ein Argument danach folgt und ob dieses nicht mit - beginnt
+            if i + 1 < len(args) and not args[i + 1].startswith('-'):
+                config["playername"] = args[i + 1]
+                i += 2
+            else:
+                print("Fehlendes Argument für -playername oder ungültiges Format.")
+                print_usage()
+                sys.exit(1)
+        else:
+            print(f"Unbekanntes Argument {args[i]}")
             print_usage()
             sys.exit(1)
-    # Verarbeite die Argumente, wenn "-playername" direkt angegeben ist
-    elif len(args) == 4 and args[2] == "-playername":
-        config["playername"] = args[3]
-    elif len(args) == 3 and args[2] == "-playername":
-        print("Fehlendes Argument für -playername.")
-        print_usage()
-        sys.exit(1)
+
     return config
 
 
@@ -866,10 +896,17 @@ if __name__ == "__main__":
     # Verarbeite den Befehl "-newround"
     if sys.argv[1] == "-newround":
         config = parse_args_host(sys.argv)
-        create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
-                         config["playername"], config["wordfile"])
-        host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
-                   config["playername"])
+        # Überprüfe ob der Spielername fehlt
+        if config["playername"] is None:
+            print("Fehlendes Argument für -playername.")
+            print_usage()
+            sys.exit(1)
+        # Wenn Spielername korrekt angegeben erstelle Roundfile und starte host_start()
+        else:
+            create_roundfile(config["roundfile"], config["xaxis"], config["yaxis"], config["maxplayers"],
+                             config["playername"], config["wordfile"])
+            host_start(config["maxplayers"], config["roundfile"], config["xaxis"], config["yaxis"], config["wordfile"],
+                       config["playername"])
 
     # Verarbeite den Befehl "-joinround"
     elif sys.argv[1] == "-joinround":
