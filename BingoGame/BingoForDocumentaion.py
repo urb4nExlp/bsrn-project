@@ -483,7 +483,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         message = check_for_message(mq) #Überprüfen von Nachrichten in der message queue
         if message: #wenn inhalt der message darauf hindeutet, dass man selbst gewonnen hat, erscheint dies, ansonsten erscheint eine Nachricht, welcher Spieler sonst gewonnen hat
             if message == getplayername(roundfile, playernumber):
-                gewonnen_nachricht = "TEST3BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
             else:
                 gewonnen_nachricht = f"{message} hat gewonnen! Du hast verloren! Drücke X zum Beenden."
                 nichtverloren = False

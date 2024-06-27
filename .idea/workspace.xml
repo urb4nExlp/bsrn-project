@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="comments, bug fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/rundendatei.txt" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/rundendatei.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BingoGame/BingoForDocumentaion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/BingoForDocumentaion.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
