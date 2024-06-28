@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc517264-9d1c-4583-bb6b-5cf791cc8d7b" name="Changes" comment="update MessageQueues, multi games, gameover detection">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BingoGame/BingoForDocumentaion.py" beforeDir="false" afterPath="$PROJECT_DIR$/BingoGame/BingoForDocumentaion.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +128,7 @@
       <workItem from="1719410740801" duration="84000" />
       <workItem from="1719410841163" duration="2724000" />
       <workItem from="1719574095798" duration="1811000" />
-      <workItem from="1719584806143" duration="700000" />
+      <workItem from="1719584806143" duration="1067000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
