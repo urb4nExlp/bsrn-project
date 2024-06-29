@@ -221,13 +221,12 @@ class BingoCard:
                     word = random.choice(words)
                     while word in used_words:
                         word = random.choice(words)
-                    row.append(self.split_word(word))
+                    row.append(word)
                     used_words.add(word)
             card.append(row)
         return card
 
-    def split_word(self, word):
-        return word
+
 
     def check_bingo(self):
         for row in self.card:
