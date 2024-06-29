@@ -3,7 +3,6 @@ gameover: 1
 wordfile: 0
 height: 5
 width: 5
-players: 3
-playername1: marvin: 12840
-playername2: odi: 12853
-playername3: bene: 12974
+playername1: marvin: 26302
+playername2: bene: 26311
+players: 1
