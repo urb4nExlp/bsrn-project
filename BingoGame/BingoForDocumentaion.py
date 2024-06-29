@@ -11,20 +11,20 @@ import argparse
 import datetime
 
 
-# BILAL
+#Erstellt einen Log-Dateinamen basierend auf dem aktuellen Zeitstempel und dem Spielernamen.
 def create_log_file(player_name):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     filename = f"{timestamp}-bingo-{player_name}.txt"
     return filename
 
-
+#Loggt ein Ereignis mit einem Zeitstempel in die angegebene Datei.
 def log_event(filename, event):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     with open(filename, 'a') as file:
         file.write(f"{timestamp} {event}\n")
 
 
-def getxachse(rundendatei):
+def getxachse(rundendatei):#Liest die X-Achsenbreite aus der  Roundfile, die mit 'width:' beginnt. Rückgabewert = INT
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -35,7 +35,7 @@ def getxachse(rundendatei):
         return None
 
 
-def getyachse(rundendatei):
+def getyachse(rundendatei):#Liest die Y-Achsenbreite aus der Roundfile, die mit 'width:' beginnt. Rückgabewert = INT
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -483,7 +483,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         message = check_for_message(mq) #Überprüfen von Nachrichten in der message queue
         if message: #wenn inhalt der message darauf hindeutet, dass man selbst gewonnen hat, erscheint dies, ansonsten erscheint eine Nachricht, welcher Spieler sonst gewonnen hat
             if message == getplayername(roundfile, playernumber):
-                gewonnen_nachricht = "TEST3BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
             else:
                 gewonnen_nachricht = f"{message} hat gewonnen! Du hast verloren! Drücke X zum Beenden."
                 nichtverloren = False
