@@ -11,20 +11,21 @@ import argparse
 import datetime
 
 
-#Erstellt einen Log-Dateinamen basierend auf dem aktuellen Zeitstempel und dem Spielernamen.
+# Erstellt einen Log-Dateinamen basierend auf dem aktuellen Zeitstempel und dem Spielernamen.
 def create_log_file(player_name):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     filename = f"{timestamp}-bingo-{player_name}.txt"
     return filename
 
-#Loggt ein Ereignis mit einem Zeitstempel in die angegebene Datei.
+
+# Loggt ein Ereignis mit einem Zeitstempel in die angegebene Datei.
 def log_event(filename, event):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     with open(filename, 'a') as file:
         file.write(f"{timestamp} {event}\n")
 
 
-def getxachse(rundendatei):#Liest die X-Achsenbreite aus der  Roundfile, die mit 'width:' beginnt. Rückgabewert = INT
+def getxachse(rundendatei):  # Liest die X-Achsenbreite aus der  Roundfile, die mit 'width:' beginnt. Rückgabewert = INT
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -35,7 +36,7 @@ def getxachse(rundendatei):#Liest die X-Achsenbreite aus der  Roundfile, die mit
         return None
 
 
-def getyachse(rundendatei):#Liest die Y-Achsenbreite aus der Roundfile, die mit 'width:' beginnt. Rückgabewert = INT
+def getyachse(rundendatei):  # Liest die Y-Achsenbreite aus der Roundfile, die mit 'width:' beginnt. Rückgabewert = INT
     try:
         with open(rundendatei, 'r') as f:
             for line in f:
@@ -46,16 +47,16 @@ def getyachse(rundendatei):#Liest die Y-Achsenbreite aus der Roundfile, die mit 
         return None
 
 
-def get_pid_host(rundendatei): #Attribute werden übernommen
+def get_pid_host(rundendatei):  # Attribute werden übernommen
     try:
-        with open(rundendatei, 'r') as f: #rundendatei wird im Lesemodus geöffnet
-            for line in f: #rundendatei wird durchlaufen
-                if line.startswith("playername1:"): # Überprüfen, ob die Zeile mit "playername1:" beginnt
-                    parts = line.split(":") 
+        with open(rundendatei, 'r') as f:  # rundendatei wird im Lesemodus geöffnet
+            for line in f:  # rundendatei wird durchlaufen
+                if line.startswith("playername1:"):  # Überprüfen, ob die Zeile mit "playername1:" beginnt
+                    parts = line.split(":")
                     if len(parts) == 3:
-                        return int(parts[2].strip()) # Die PID extrahieren und als Integer zurückgeben
-    except Exception as e: #Ausnahmebehandlung
-        print(f"Error reading PID from {rundendatei}: {e}") #Fehlermeldung
+                        return int(parts[2].strip())  # Die PID extrahieren und als Integer zurückgeben
+    except Exception as e:  # Ausnahmebehandlung
+        print(f"Error reading PID from {rundendatei}: {e}")  # Fehlermeldung
         return None
 
 
@@ -312,103 +313,109 @@ def load_words(file_path, roundfile, xaxis, yaxis):
 
 # MARVIN
 
-#Hauptfensterobjekt stdscr von curses als Übergabeparameter
+# Hauptfensterobjekt stdscr von curses als Übergabeparameter
 def get_screen_content(stdscr):
-    max_y, max_x = stdscr.getmaxyx() #Fenstergröße der Shell ermitteln
-    content = [] #leere liste content wird initialisiert
-    for y in range(max_y): #Schleife, die durch jede zeile iteriert, y ist zeilenindex
-        line = [] #leere liste der zeile
-        for x in range(max_x): #x ist Spaltenindex, liest den Zeileninhalt und speichert ihn in line
+    max_y, max_x = stdscr.getmaxyx()  # Fenstergröße der Shell ermitteln
+    content = []  # leere liste content wird initialisiert
+    for y in range(max_y):  # Schleife, die durch jede zeile iteriert, y ist zeilenindex
+        line = []  # leere liste der zeile
+        for x in range(max_x):  # x ist Spaltenindex, liest den Zeileninhalt und speichert ihn in line
             try:
                 char = stdscr.inch(y, x)
                 line.append(char)
             except curses.error:
                 line.append(None)
-        content.append(line) #content ist liste mit allen zeilen, die jeweils wiederum eine liste der information der jeweiligen Zeile ist
+        content.append(
+            line)  # content ist liste mit allen zeilen, die jeweils wiederum eine liste der information der jeweiligen Zeile ist
     return content
 
 
-
-#folgende Methode zeichnet die Bingo-Karte und den Gewinnbutton in die Shell
-#Übergabeparameter: stdscr: Hauptfensterobjekt von der Curses Bibliothek -> für Text und Grafiken im Terminal
-#card ist eine zweidimensionale liste, jedes Element ist ein Wort oder MArkierung der Bingo-Karte
-#marked enthält markierten Felder der Bingokarte, ist ein set von tupeln
-#field_width, field_height: Größe des Feldes in Zeichen (int)
-#green_black, red_white, blue_yellow Farbpaare
-#Offset als Platzhalter für die draw_players_info
-#roundfile für Spielerinformationen
-#boolean, ob button selected ist (initial auf false)
+# folgende Methode zeichnet die Bingo-Karte und den Gewinnbutton in die Shell
+# Übergabeparameter: stdscr: Hauptfensterobjekt von der Curses Bibliothek -> für Text und Grafiken im Terminal
+# card ist eine zweidimensionale liste, jedes Element ist ein Wort oder MArkierung der Bingo-Karte
+# marked enthält markierten Felder der Bingokarte, ist ein set von tupeln
+# field_width, field_height: Größe des Feldes in Zeichen (int)
+# green_black, red_white, blue_yellow Farbpaare
+# Offset als Platzhalter für die draw_players_info
+# roundfile für Spielerinformationen
+# boolean, ob button selected ist (initial auf false)
 def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile,
               button_selected=False):
-    max_y, max_x = stdscr.getmaxyx() #Höhe und Breite der geöffneten Shell
-    card_height = len(card) * (field_height + 1) #aus der höhe für ein Bingofeld wird die Höhe der karte ermittelt, 1 Zeichen Abstand
-    card_width = len(card[0]) * (field_width + 1) #das gleiche für die Breite
-    button_height = 2 #Höhe des Buttons auf 2
+    max_y, max_x = stdscr.getmaxyx()  # Höhe und Breite der geöffneten Shell
+    card_height = len(card) * (
+                field_height + 1)  # aus der höhe für ein Bingofeld wird die Höhe der karte ermittelt, 1 Zeichen Abstand
+    card_width = len(card[0]) * (field_width + 1)  # das gleiche für die Breite
+    button_height = 2  # Höhe des Buttons auf 2
 
-    if max_y < card_height + button_height + getmaxplayer(roundfile) + 8: #Check, ob die Shell zu klein vertikal ist, getmaxplayer steht für den Platz der players_info; außerdem +8 für Platz der Gewinnnachricht
+    if max_y < card_height + button_height + getmaxplayer(
+            roundfile) + 8:  # Check, ob die Shell zu klein vertikal ist, getmaxplayer steht für den Platz der players_info; außerdem +8 für Platz der Gewinnnachricht
         stdscr.clear()
         stdscr.addstr(0, 2, "Fenster ist zu klein, bitte vertikal vergrößern.", curses.A_BOLD | curses.color_pair(2))
         stdscr.refresh()
         return None, None, None, None
-    elif max_x < card_width + 5: #das gleiche Prinzip für die Breite, hier ist nur die Breite der BingoKarte relevant
+    elif max_x < card_width + 5:  # das gleiche Prinzip für die Breite, hier ist nur die Breite der BingoKarte relevant
         stdscr.clear()
         stdscr.addstr(0, 2, "Fenster ist zu klein, bitte horizontal vergrößern.", curses.A_BOLD | curses.color_pair(2))
         stdscr.refresh()
         return None, None, None, None
 
-    for i, row in enumerate(card): #Iteration durch jede row(zeile) der Karte
-        for j, word in enumerate(row): #Iteration durch jedes Element der Zeile
-            x1, y1 = 2 + j * (field_width + 1), offset_y + 2 + i * (field_height + 1) #Koordinatenberechnung der linken oberen Ecke, x ist horizontal, y ist vertikal
-            x2, y2 = x1 + field_width, y1 + field_height #Koordinatenberechnung der rechten unteren Ecke, x ist horizontal, y ist vertikal
-            if y2 >= max_y or x2 >= max_x: #Überprüfen ob Feld innerhalb der Fenstergrenzen liegt
+    for i, row in enumerate(card):  # Iteration durch jede row(zeile) der Karte
+        for j, word in enumerate(row):  # Iteration durch jedes Element der Zeile
+            x1, y1 = 2 + j * (field_width + 1), offset_y + 2 + i * (
+                        field_height + 1)  # Koordinatenberechnung der linken oberen Ecke, x ist horizontal, y ist vertikal
+            x2, y2 = x1 + field_width, y1 + field_height  # Koordinatenberechnung der rechten unteren Ecke, x ist horizontal, y ist vertikal
+            if y2 >= max_y or x2 >= max_x:  # Überprüfen ob Feld innerhalb der Fenstergrenzen liegt
                 continue
-            try: #Abfangen einer Exception: Beispielsweise wenn Werte in marked nicht richtig sind
-                textpad.rectangle(stdscr, y1, x1, y2, x2) #Rechteck um jedes Feld anhand ermittelten Koordinaten
-                if (i, j) in marked: # Befüllt Feld mit X mittig, falls markiertes Feld
+            try:  # Abfangen einer Exception: Beispielsweise wenn Werte in marked nicht richtig sind
+                textpad.rectangle(stdscr, y1, x1, y2, x2)  # Rechteck um jedes Feld anhand ermittelten Koordinaten
+                if (i, j) in marked:  # Befüllt Feld mit X mittig, falls markiertes Feld
                     stdscr.addstr(y1 + (field_height // 2), x1 + 1, "X".center(field_width - 1),
                                   curses.A_REVERSE | green_black)
-                else: #ansonsten wird das Feld mit dem Wort befüllt
+                else:  # ansonsten wird das Feld mit dem Wort befüllt
                     stdscr.addstr(y1 + (field_height // 2), x1 + 1, word.center(field_width - 1), green_black)
             except curses.error:
                 pass
 
-    stdscr.addstr(0, 2, "Drücke 'X' zum Beenden", curses.A_BOLD | red_white) #Schrift ganz oben als Hinweis zum beenden
+    stdscr.addstr(0, 2, "Drücke 'X' zum Beenden",
+                  curses.A_BOLD | red_white)  # Schrift ganz oben als Hinweis zum beenden
 
-    button_text = "Klicke hier um Gewinn zu bestätigen" #Buttontext wird initialisiert
-    button_width = len(button_text) + 6 #Buttonbreite ist Text + Puffer
+    button_text = "Klicke hier um Gewinn zu bestätigen"  # Buttontext wird initialisiert
+    button_width = len(button_text) + 6  # Buttonbreite ist Text + Puffer
 
-    button_y = offset_y + card_height + 2 #Berechnet Position des Buttons unter der Karte
-    button_x = 2 #Button 2 Zeichen entfernt vom Rand
-    #buttonhöhe wurde am Anfang der Methode auf 2 initialisiert
+    button_y = offset_y + card_height + 2  # Berechnet Position des Buttons unter der Karte
+    button_x = 2  # Button 2 Zeichen entfernt vom Rand
+    # buttonhöhe wurde am Anfang der Methode auf 2 initialisiert
 
     try:
-        textpad.rectangle(stdscr, button_y, button_x, button_y + button_height, button_x + button_width) #Umranden des Buttons nach ermittelten Koordinaten
+        textpad.rectangle(stdscr, button_y, button_x, button_y + button_height,
+                          button_x + button_width)  # Umranden des Buttons nach ermittelten Koordinaten
     except curses.error:
         pass
 
-    if button_selected: #falls true, dann ändert sich Text auf "Gewinn bestätigt"
+    if button_selected:  # falls true, dann ändert sich Text auf "Gewinn bestätigt"
         button_text = "Gewinn bestätigt"
         stdscr.attron(red_white | curses.A_REVERSE)
     else:
         stdscr.attron(red_white)
 
-    try: #fügt den Text in den Button ein und stellt sicher, dass Textattribute nach dem Schreiben des Textes zurückgesetzt werden.
+    try:  # fügt den Text in den Button ein und stellt sicher, dass Textattribute nach dem Schreiben des Textes zurückgesetzt werden.
         stdscr.addstr(button_y + 1, button_x + 2, f" {button_text} ".center(button_width - 4))
         stdscr.attroff(red_white | curses.A_REVERSE)
     except curses.error:
         pass
 
     stdscr.refresh()
-    return button_x, button_y, button_width, button_height #Button wird für die Gewinnbestätigung verwendet, Programm muss wissen, wo sich dieser befindet
+    return button_x, button_y, button_width, button_height  # Button wird für die Gewinnbestätigung verwendet, Programm muss wissen, wo sich dieser befindet
 
-#Übergabeparameter: stdscr als haupt-curses-Fenster
-#xaxis und yaxis sind Anzahl der Bingo-Zeilen und Spalten
-#list words sind die für die Bingokarte relevanten Wörter
-#mg beschreibt relevante messagequere
-#maxplayer sind maximale Spieleranzahl, playernumber ist nummer des aktuellen spielers
-#roundfile für Daten zum Spiel, log_filename um in das log zu schreiben
+
+# Übergabeparameter: stdscr als haupt-curses-Fenster
+# xaxis und yaxis sind Anzahl der Bingo-Zeilen und Spalten
+# list words sind die für die Bingokarte relevanten Wörter
+# mg beschreibt relevante messagequere
+# maxplayer sind maximale Spieleranzahl, playernumber ist nummer des aktuellen spielers
+# roundfile für Daten zum Spiel, log_filename um in das log zu schreiben
 def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, log_filename):
-    #Bestimmen von color-paaren für die visualisierung
+    # Bestimmen von color-paaren für die visualisierung
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_RED)
@@ -417,31 +424,32 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
     red_white = curses.color_pair(2)
     blue_yellow = curses.color_pair(3)
 
-    #Start und Größe des Feldes werden geloggt
+    # Start und Größe des Feldes werden geloggt
     log_event(log_filename, "Start des Spiels")
     log_event(log_filename, f"Größe des Spielfelds: {xaxis}/{yaxis}")
 
+    bingo_card = BingoCard(xaxis, yaxis, words, log_filename)  # Instanzierung des Objekts BingoKarte
+    card = bingo_card.card  # Speichern der Karte in der Variable card
+    marked = set()  # initialiseren eines sets für markierte Felder
 
-    bingo_card = BingoCard(xaxis, yaxis, words, log_filename) #Instanzierung des Objekts BingoKarte
-    card = bingo_card.card #Speichern der Karte in der Variable card
-    marked = set() #initialiseren eines sets für markierte Felder
-
-    if xaxis == yaxis and xaxis % 2 == 1: #Markieren des mittleren Feldes, wenn Karte ungerade Anzahl an Zeilen und Spalten hat
+    if xaxis == yaxis and xaxis % 2 == 1:  # Markieren des mittleren Feldes, wenn Karte ungerade Anzahl an Zeilen und Spalten hat
         middle = xaxis // 2
         marked.add((middle, middle))
 
-    longest_word_length = max(len(word) for word in words) #Feldbreite soll auf der Breite des längsten Wortes basieren
+    longest_word_length = max(
+        len(word) for word in words)  # Feldbreite soll auf der Breite des längsten Wortes basieren
     field_width = longest_word_length + 2
     field_height = 4
 
-    curses.mousemask(curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION) #Aktivieren: Erfassung der Mausereignisse und Mausposition
+    curses.mousemask(
+        curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION)  # Aktivieren: Erfassung der Mausereignisse und Mausposition
 
-    players_data = read_roundfile(roundfile) #Spielerinformationen aus Rundendatei einlesen
-    offset_y = getmaxplayer(roundfile) + 1 #Platz für players_info anhand der maximalen Spieleranzahl
+    players_data = read_roundfile(roundfile)  # Spielerinformationen aus Rundendatei einlesen
+    offset_y = getmaxplayer(roundfile) + 1  # Platz für players_info anhand der maximalen Spieleranzahl
 
-    stdscr.timeout(100) #Timeout Eingabeabfrage auf 100ms
+    stdscr.timeout(100)  # Timeout Eingabeabfrage auf 100ms
 
-    #Initialisierung von Variablen zur Überwachung des Fensters, Fenstergröße, status und Anzahl der Spieler
+    # Initialisierung von Variablen zur Überwachung des Fensters, Fenstergröße, status und Anzahl der Spieler
     last_screen = get_screen_content(stdscr)
     prev_max_y, prev_max_x = stdscr.getmaxyx()
     nichtverloren = True
@@ -456,7 +464,7 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y, roundfile,
         button_selected
     )
-    prev_max_y, prev_max_x = stdscr.getmaxyx() #aktuelle Größe des Fensters wird gespeichert
+    prev_max_y, prev_max_x = stdscr.getmaxyx()  # aktuelle Größe des Fensters wird gespeichert
     stdscr.refresh()  # Initiale Aktualisierung des Bildschirms
 
     # Initialisieren der Button-Dimensionen bei Fehlern
@@ -464,8 +472,8 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         button_x, button_y, button_width, button_height = 2, 2, 20, 2  # default Werte
 
     while True:
-        max_y, max_x = stdscr.getmaxyx() #Fenstergrößé
-        if max_y != prev_max_y or max_x != prev_max_x: #Wenn Fenstergröße geändert wird Shell neu gezeichnet -> Bug Behebung
+        max_y, max_x = stdscr.getmaxyx()  # Fenstergrößé
+        if max_y != prev_max_y or max_x != prev_max_x:  # Wenn Fenstergröße geändert wird Shell neu gezeichnet -> Bug Behebung
             stdscr.clear()
             draw_players_info(stdscr, players_data, green_black)
             button_x, button_y, button_width, button_height = draw_card(
@@ -477,72 +485,74 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
             if button_x is None or button_y is None or button_width is None or button_height is None:
                 button_x, button_y, button_width, button_height = 2, 2, 20, 2  # default values
 
-            stdscr.refresh()  #Bildschirm aktualisieren bei Größenänderung
+            stdscr.refresh()  # Bildschirm aktualisieren bei Größenänderung
 
-        #Wenn ein Spieler gewinnt, wird dessen name als mq gesendet
-        message = check_for_message(mq) #Überprüfen von Nachrichten in der message queue
-        if message: #wenn inhalt der message darauf hindeutet, dass man selbst gewonnen hat, erscheint dies, ansonsten erscheint eine Nachricht, welcher Spieler sonst gewonnen hat
+        # Wenn ein Spieler gewinnt, wird dessen name als mq gesendet
+        message = check_for_message(mq)  # Überprüfen von Nachrichten in der message queue
+        if message:  # wenn inhalt der message darauf hindeutet, dass man selbst gewonnen hat, erscheint dies, ansonsten erscheint eine Nachricht, welcher Spieler sonst gewonnen hat
             if message == getplayername(roundfile, playernumber):
                 gewonnen_nachricht = "BINGO! Du hast gewonnen! Drücke X zum Beenden."
             else:
                 gewonnen_nachricht = f"{message} hat gewonnen! Du hast verloren! Drücke X zum Beenden."
                 nichtverloren = False
 
-        key = stdscr.getch() #Wartet auf Ereignis, außer timeout setzt ein
+        key = stdscr.getch()  # Wartet auf Ereignis, außer timeout setzt ein
 
-        if key == ord('x'): #bei x wird spiel beendet
+        if key == ord('x'):  # bei x wird spiel beendet
             break
 
-        if nichtverloren and key == curses.KEY_MOUSE: #überprüft ob spiel noch läuft und mausereignis aufgetreten ist
-            _, mx, my, _, _ = curses.getmouse() #mauskorrdinaten werden eingelesen und gespeichert
+        if nichtverloren and key == curses.KEY_MOUSE:  # überprüft ob spiel noch läuft und mausereignis aufgetreten ist
+            _, mx, my, _, _ = curses.getmouse()  # mauskorrdinaten werden eingelesen und gespeichert
             if button_x is not None and button_y is not None:
                 if button_x <= mx <= button_x + button_width and button_y <= my <= button_y + button_height:
-                    button_selected = not button_selected #boolean von Button wird geändert, wenn Mausereignis im Button ist
+                    button_selected = not button_selected  # boolean von Button wird geändert, wenn Mausereignis im Button ist
                     bingo_card.button_selected = button_selected
                     draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
-                              offset_y, roundfile, button_selected) #Karte wird neu gezeichnet um geänderten Zustand des Buttons darzustellen
-                    if button_selected and bingo_card.bingo_finish: #Doppelte Gewinnüberprüfung: Button und Bingo muss erfüllt sein
+                              offset_y, roundfile,
+                              button_selected)  # Karte wird neu gezeichnet um geänderten Zustand des Buttons darzustellen
+                    if button_selected and bingo_card.bingo_finish:  # Doppelte Gewinnüberprüfung: Button und Bingo muss erfüllt sein
                         gewinner = getplayername(roundfile, playernumber)
                         set_gameover(roundfile)
                         for i in range(int(maxplayer)):
-                            mq.send(gewinner.encode()) #Schreibe den Namen des Gewinners für anzahl an maxplayers in message queue
-                        # gewonnen_nachricht = "TEST1BINGO! Du hast gewonnen! Drücke X zum Beenden."
+                            mq.send(
+                                gewinner.encode())  # Schreibe den Namen des Gewinners für anzahl an maxplayers in message queue
+
                         nichtverloren = False
                     continue
 
-            #Verarbeitung von Klicks auf der Karte
-            col = (mx - 2) // (field_width + 1) #Berechnet Spalt des angeklickten Feldes
-            row = (my - offset_y - 2) // (field_height + 1) #Berechnet Zeile des angeklickten Feldes
-            if 0 <= row < xaxis and 0 <= col < yaxis: #WEnn Werte innerhalb Grenzen der KArte liegen
-                if (row, col) in marked: #wenn markiert
-                    marked.remove((row, col)) #dann nicht mehr markieren
+            # Verarbeitung von Klicks auf der Karte
+            col = (mx - 2) // (field_width + 1)  # Berechnet Spalt des angeklickten Feldes
+            row = (my - offset_y - 2) // (field_height + 1)  # Berechnet Zeile des angeklickten Feldes
+            if 0 <= row < xaxis and 0 <= col < yaxis:  # WEnn Werte innerhalb Grenzen der KArte liegen
+                if (row, col) in marked:  # wenn markiert
+                    marked.remove((row, col))  # dann nicht mehr markieren
                     bingo_card.unmark(row, col)
-                else: #ansonten markieren
+                else:  # ansonten markieren
                     marked.add((row, col))
                     bingo_card.mark(row, col)
                 draw_card(stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow,
-                          offset_y, roundfile, button_selected) #Karte in jedem Fall neu zeichnen
-                if bingo_card.check_bingo(): #Checken auf Bingo
-                    if button_selected: #wenn dann noch Button selected ist, wird nach dem Prinzip wie oben gewinnnachricht gesendet
+                          offset_y, roundfile, button_selected)  # Karte in jedem Fall neu zeichnen
+                if bingo_card.check_bingo():  # Checken auf Bingo
+                    if button_selected:  # wenn dann noch Button selected ist, wird nach dem Prinzip wie oben gewinnnachricht gesendet
                         gewinner = getplayername(roundfile, playernumber)
                         set_gameover(roundfile)
                         for i in range(int(maxplayer)):
                             mq.send(gewinner.encode())
-                        # gewonnen_nachricht = "TEST2BINGO! Du hast gewonnen! Drücke X zum Beenden."
+
                         nichtverloren = False
 
-        new_players_data = read_roundfile(roundfile) #aktuelle Spielerinformationen aus rundendatei
-        if len(new_players_data) != last_player_count: #WEnn Anzahl der Spieler geändert hat:
-            players_data = new_players_data #players_data wird geupdated und die ganze KArte + players_info neu gezeichnet
+        new_players_data = read_roundfile(roundfile)  # aktuelle Spielerinformationen aus rundendatei
+        if len(new_players_data) != last_player_count:  # WEnn Anzahl der Spieler geändert hat:
+            players_data = new_players_data  # players_data wird geupdated und die ganze KArte + players_info neu gezeichnet
             stdscr.clear()
             draw_players_info(stdscr, players_data, green_black)
             button_x, button_y, button_width, button_height = draw_card(
                 stdscr, card, marked, field_width, field_height, green_black, red_white, blue_yellow, offset_y,
                 roundfile, button_selected
             )
-            last_player_count = len(players_data) #updaten anzahl der Spieler
+            last_player_count = len(players_data)  # updaten anzahl der Spieler
 
-        if gewonnen_nachricht: #Wenn gewinnachticht vorhanden, wird diese unterhalb des Buttons angezeigt
+        if gewonnen_nachricht:  # Wenn gewinnachticht vorhanden, wird diese unterhalb des Buttons angezeigt
             try:
                 button_y_bottom = button_y + button_height + 2
                 stdscr.addstr(button_y_bottom, 2, gewonnen_nachricht.center((field_width + 1) * yaxis), blue_yellow)
@@ -554,9 +564,6 @@ def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, lo
         if current_screen != last_screen:  # Bildschirm nur aktualisieren, wenn sich der Inhalt geändert hat
             stdscr.refresh()
             last_screen = current_screen
-
-
-
 
 
 # MARVIN END
