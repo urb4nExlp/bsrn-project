@@ -3,6 +3,6 @@ gameover: 1
 wordfile: 0
 height: 5
 width: 5
-playername1: marvin: 26302
-playername2: bene: 26311
-players: 1
+playername1: Jamie: 7798
+playername2: weber: 8635
+players: 2
