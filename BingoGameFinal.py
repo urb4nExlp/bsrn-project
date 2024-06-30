@@ -199,7 +199,7 @@ def draw_players_info(stdscr, players_data, color_pair):  # Attribute werden üb
 
 # JAMIE
 class BingoCard:
-    def __init__(self, rows, cols, words, log_filename):
+    def __init__(self, rows, cols, words, log_filename):  #Konstruktur der Klasse BingoCard
         self.rows = rows
         self.cols = cols
         self.log_filename = log_filename
@@ -208,64 +208,64 @@ class BingoCard:
         self.button_selected = False
         self.bingo_finish = False
 
-    def create_card(self, words):
-        card = []
-        used_words = set()
+    def create_card(self, words):   #Erstellung der BingoCard
+        card = []                   #initialisert eine leere Liste wird welche später die Karte darstellen soll
+        used_words = set()          #Wird erstellt für die Überprüfung, dass kein Wort doppelt vorkommt
 
         for i in range(self.rows):
             row = []
             for j in range(self.cols):
-                if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2:
+                if self.rows % 2 != 0 and self.cols % 2 != 0 and i == self.rows // 2 and j == self.cols // 2: #Überprüfung ob man einen Joker für das mittlere Feld braucht
                     row.append('X')
                 else:
-                    word = random.choice(words)
-                    while word in used_words:
+                    word = random.choice(words)          #Random Wörter werden in die BingoCard eingetragen
+                    while word in used_words:            #überprüfung ob das Wort schon in used_Words ist
                         word = random.choice(words)
                     row.append(word)
-                    used_words.add(word)
+                    used_words.add(word)                 #Benutze Wort kommt in die Liste used-Words damit es nicht nochmal vorkommen kann
             card.append(row)
         return card
 
 
 
-    def check_bingo(self):
-        for row in self.card:
+    def check_bingo(self):                               #Methode zur Überprüfung ob ein Bingo vorhanden ist
+        for row in self.card:                            #Überprüfung der Reihen nach Bingo
             if all(cell == 'X' for cell in row):
                 self.bingo_finish = True
                 return True
 
-        for col in range(self.cols):
+        for col in range(self.cols):                     #Überprüfung der Spalten nach Bingo
             if all(self.card[row][col] == 'X' for row in range(self.rows)):
                 self.bingo_finish = True
                 return True
 
-        if all(self.card[i][i] == 'X' for i in range(min(self.rows, self.cols))):
+        if all(self.card[i][i] == 'X' for i in range(min(self.rows, self.cols))):  #Überprüfung Diagtonal von links oben nach rechts unten nach Bingo
             self.bingo_finish = True
             return True
 
-        if all(self.card[i][self.cols - i - 1] == 'X' for i in range(min(self.rows, self.cols))):
+        if all(self.card[i][self.cols - i - 1] == 'X' for i in range(min(self.rows, self.cols))):        #Überprüfung Diagtonal von rechts oben nach links unten nach Bingo
             self.bingo_finish = True
             return True
 
         return False
 
-    def mark(self, row, col):
+    def mark(self, row, col):      #Methode zum Markieren der Felder
         self.card[row][col] = 'X'
         log_event(self.log_filename, f"Marked {self.original_card[row][col]} ({row}/{col})")
 
-    def unmark(self, row, col):
+    def unmark(self, row, col):   #Methode um Markierungen rückgängig zu machen
         if self.card[row][col] == 'X':
             self.card[row][col] = self.original_card[row][col]
             log_event(self.log_filename, f"Unmarked {self.card[row][col]} ({row}/{col})")
 
-    def __str__(self):
+    def __str__(self):             # Methode zur Erstellung einer gut formatierten Zeichenkette um die Bingokarte besser darzustellen
         card_str = ""
         for row in self.card:
             card_str += " | ".join(f"{cell:15}" for cell in row) + "\n"
         return card_str
 
 
-def get_default_words():
+def get_default_words():        #eine Liste mit default Words die zur Option steht wenn keine korrekte Wordfile eingegeben wird
     default_words = [
         "Synergie", "Rating", "Wertschöpfend", "Benefits", "Ergebnisorientiert", "Nachhaltig",
         "Hut aufhaben", "Visionen", "Zielführend", "Global Player", "Rund sein", "Szenario", "Diversity",
@@ -279,7 +279,7 @@ def get_default_words():
     return random.sample(default_words, len(default_words))
 
 
-def load_words(file_path, roundfile, xaxis, yaxis):
+def load_words(file_path, roundfile, xaxis, yaxis):       #Einlesen der Wordfile und Fehlerbehandlung bei falscher Wordfile
     def read_words_from_file(path):
         try:
             with open(path, 'r', encoding='utf-8') as file:
@@ -296,16 +296,16 @@ def load_words(file_path, roundfile, xaxis, yaxis):
 
         print(f"Fehler: Datei '{file_path}' nicht gefunden oder zu wenige Wörter vorhanden.")
         user_choice = input(
-            "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ")
+            "Möchten Sie die Standardwörter verwenden (Option 1) oder einen anderen Dateipfad angeben (Option 2)? ") #Zwei Optionen für diese man sich entscheiden kann,wenn wordfile nicht gefunden
 
         if user_choice == '1':
-            print("Standardwörter werden verwendet.")
+            print("Standardwörter werden verwendet.")            # Wenn der User sich für 1 entscheidet werden Standardwörter benutzt
             set_wordfile_to_zero(roundfile)
             return get_default_words()
         elif user_choice == '2':
-            file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")
-        else:
-            print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")
+            file_path = input("Bitte geben Sie den Dateipfad zur Wortdatei ein: ")      #Wenn man sich für 2 entscheidet, kann der User einen neuen Pfad zur Wordfile eingeben
+        else:                                         #
+            print("Ungültige Eingabe. Bitte wählen Sie entweder Option 1 oder Option 2.")     #Wenn es eine falsche Eingabe gab kann er es erneut eingeben
 
 
 # JAMIE END
