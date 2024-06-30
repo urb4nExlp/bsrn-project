@@ -310,8 +310,8 @@ def load_words(file_path, roundfile, xaxis, yaxis):
 
 # JAMIE END
 
-# MARVIN
 
+# MARVIN
 # Hauptfensterobjekt stdscr von curses als Übergabeparameter
 def get_screen_content(stdscr):
     max_y, max_x = stdscr.getmaxyx()  # Fenstergröße der Shell ermitteln
@@ -413,7 +413,7 @@ def draw_card(stdscr, card, marked, field_width, field_height, green_black, red_
 # mg beschreibt relevante messagequere
 # maxplayer sind maximale Spieleranzahl, playernumber ist nummer des aktuellen spielers
 # roundfile für Daten zum Spiel, log_filename um in das log zu schreiben
-def main(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, log_filename):
+def main_game(stdscr, xaxis, yaxis, words, mq, maxplayer, playernumber, roundfile, log_filename):
     # Bestimmen von color-paaren für die visualisierung
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -661,8 +661,8 @@ def getplayer(rundendatei):  # Attribute werden übernommen
         print(f"Error reading players from {rundendatei}: {e}")  # Fehlermeldung
         return None
 
-
 # BENEDIKT
+
 def clear_and_close_message_queue(mq_name):
     try:
 
@@ -733,7 +733,7 @@ def host_start(maxplayer, roundfile, xaxis, yaxis, wordfile, hostname):
             # Initialisiere Log für Host
             log_filename = create_log_file(hostname)
             # Starte die Curses Umgebung (startet das gesamte Bingospiel für den Host)
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
+            curses.wrapper(main_game, int(xaxis), int(yaxis), words, mq, maxplayer, 1, roundfile, log_filename)
 
             end_round(roundfile, mq_name)
             print("Host beendet")
@@ -764,7 +764,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
 
             log_filename = create_log_file(playername)
             log_event(log_filename, "Spieler 2 beigetreten")
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
+            curses.wrapper(main_game, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
             print("Spieler 2 beendet")
         except FileNotFoundError as e:
@@ -783,7 +783,7 @@ def player_start(second, playernumber, roundfile, maxplayer, xaxis, yaxis, wordf
             playername = getplayername(roundfile, playernumber)
             log_filename = create_log_file(playername)
             log_event(log_filename, f"Spieler {playernumber} beigetreten")
-            curses.wrapper(main, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
+            curses.wrapper(game, int(xaxis), int(yaxis), words, mq, maxplayer, playernumber, roundfile, log_filename)
 
             print(f"Spieler{playernumber} beendet")
         except FileNotFoundError as e:
